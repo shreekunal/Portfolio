@@ -4,9 +4,9 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     "id": "getting-started-with-sap-build-process-automation",
     "slug": "getting-started-with-sap-build-process-automation",
-    "title": "Getting Started with SAP Build Process Automation: Complete 1:1 Mission Guide",
-    "subtitle": "An exhaustive, step-by-step masterclass with 1:1 matching screenshots, form field tables, and exact click instructions for all 5 tutorial groups.",
-    "excerpt": "Follow the complete SAP Developers mission with 1:1 precision: each numbered action step features its exact matching screenshot, field table, and click guidance directly beneath the instruction.",
+    "title": "Getting Started with SAP Build Process Automation: Complete  Mission Guide",
+    "subtitle": "An exhaustive, step-by-step masterclass with  matching screenshots, form field tables, and exact click instructions for all 5 tutorial groups.",
+    "excerpt": "Follow the complete SAP Developers mission with  precision: each numbered action step features its exact matching screenshot, field table, and click guidance directly beneath the instruction.",
     "date": "Nov 2026",
     "readTime": "45 min read",
     "category": "Process Automation",
@@ -65,7 +65,7 @@ export const BLOG_POSTS: BlogPost[] = [
             "heading": "Group 1: Subscribe to SAP Build Process Automation & Security Roles \u2014 Learning Objectives",
             "paragraphs": [
               "Activate the SAP Build Process Automation service",
-              "Follow the complete step-by-step 1:1 action workflow below with matching screenshots."
+              "Follow the complete step-by-step  action workflow below with matching screenshots."
             ],
             "keyPoints": [
               "How to activate SAP Build Process Automation in SAP BTP Free Trial or SAP BTP Free Tier account"
@@ -74,7 +74,7 @@ export const BLOG_POSTS: BlogPost[] = [
           {
             "heading": "Subscribe to SAP Build Process Automation",
             "paragraphs": [
-              "]\n\n> Complete [Get a Free Account on SAP BTP Trial](hcp-create-trial-account) tutorial and make sure to create an account in US East (VA) - AWS trial region"
+              "\n Make sure to create an account in US East (VA) - AWS trial region"
             ],
             "actionSteps": [
               {
@@ -239,7 +239,7 @@ export const BLOG_POSTS: BlogPost[] = [
             "heading": "Group 2: Create a Business Process Project in SAP Build Lobby \u2014 Learning Objectives",
             "paragraphs": [
               "Create a Business Project and Process to build and extend business processes",
-              "Follow the complete step-by-step 1:1 action workflow below with matching screenshots."
+              "Follow the complete step-by-step  action workflow below with matching screenshots."
             ],
             "keyPoints": [
               "How to create a SAP Build Process Automation project",
@@ -323,7 +323,7 @@ export const BLOG_POSTS: BlogPost[] = [
             "heading": "Group 3: Create and Configure Start, Approval & Notification Forms \u2014 Learning Objectives",
             "paragraphs": [
               "Add forms to start the business process, send tasks for approvals and notify business users",
-              "Follow the complete step-by-step 1:1 action workflow below with matching screenshots."
+              "Follow the complete step-by-step  action workflow below with matching screenshots."
             ],
             "keyPoints": [
               "How to add interactive forms to the process",
@@ -922,7 +922,7 @@ export const BLOG_POSTS: BlogPost[] = [
             "heading": "Group 4: Create Process Conditions & Branching Decision Rules \u2014 Learning Objectives",
             "paragraphs": [
               "Create a process condition to route the process based on business criteria",
-              "Follow the complete step-by-step 1:1 action workflow below with matching screenshots."
+              "Follow the complete step-by-step  action workflow below with matching screenshots."
             ],
             "keyPoints": [
               "How to create and configure a process condition",
@@ -1204,7 +1204,7 @@ export const BLOG_POSTS: BlogPost[] = [
             "heading": "Group 5: Release, Deploy, Execute & Monitor the Business Process \u2014 Learning Objectives",
             "paragraphs": [
               "Release, deploy and run the business process",
-              "Follow the complete step-by-step 1:1 action workflow below with matching screenshots."
+              "Follow the complete step-by-step  action workflow below with matching screenshots."
             ],
             "keyPoints": [
               "How to release and deploy the process",
@@ -1444,7 +1444,7 @@ export const BLOG_POSTS: BlogPost[] = [
         "heading": "Group 1: Subscribe to SAP Build Process Automation & Security Roles \u2014 Learning Objectives",
         "paragraphs": [
           "Activate the SAP Build Process Automation service",
-          "Follow the complete step-by-step 1:1 action workflow below with matching screenshots."
+          "Follow the complete step-by-step  action workflow below with matching screenshots."
         ],
         "keyPoints": [
           "How to activate SAP Build Process Automation in SAP BTP Free Trial or SAP BTP Free Tier account"
@@ -1453,7 +1453,7 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         "heading": "Subscribe to SAP Build Process Automation",
         "paragraphs": [
-          "]\n\n> Complete [Get a Free Account on SAP BTP Trial](hcp-create-trial-account) tutorial and make sure to create an account in US East (VA) - AWS trial region"
+          "Make sure to create an account in US East (VA) - AWS trial region"
         ],
         "actionSteps": [
           {
@@ -1610,7 +1610,7 @@ export const BLOG_POSTS: BlogPost[] = [
         "heading": "Group 2: Create a Business Process Project in SAP Build Lobby \u2014 Learning Objectives",
         "paragraphs": [
           "Create a Business Project and Process to build and extend business processes",
-          "Follow the complete step-by-step 1:1 action workflow below with matching screenshots."
+          "Follow the complete step-by-step  action workflow below with matching screenshots."
         ],
         "keyPoints": [
           "How to create a SAP Build Process Automation project",
@@ -1686,7 +1686,7 @@ export const BLOG_POSTS: BlogPost[] = [
         "heading": "Group 3: Create and Configure Start, Approval & Notification Forms \u2014 Learning Objectives",
         "paragraphs": [
           "Add forms to start the business process, send tasks for approvals and notify business users",
-          "Follow the complete step-by-step 1:1 action workflow below with matching screenshots."
+          "Follow the complete step-by-step  action workflow below with matching screenshots."
         ],
         "keyPoints": [
           "How to add interactive forms to the process",
@@ -2277,7 +2277,7 @@ export const BLOG_POSTS: BlogPost[] = [
         "heading": "Group 4: Create Process Conditions & Branching Decision Rules \u2014 Learning Objectives",
         "paragraphs": [
           "Create a process condition to route the process based on business criteria",
-          "Follow the complete step-by-step 1:1 action workflow below with matching screenshots."
+          "Follow the complete step-by-step  action workflow below with matching screenshots."
         ],
         "keyPoints": [
           "How to create and configure a process condition",
@@ -2551,7 +2551,7 @@ export const BLOG_POSTS: BlogPost[] = [
         "heading": "Group 5: Release, Deploy, Execute & Monitor the Business Process \u2014 Learning Objectives",
         "paragraphs": [
           "Release, deploy and run the business process",
-          "Follow the complete step-by-step 1:1 action workflow below with matching screenshots."
+          "Follow the complete step-by-step  action workflow below with matching screenshots."
         ],
         "keyPoints": [
           "How to release and deploy the process",
