@@ -63,11 +63,50 @@ export interface CertificationItem {
   skills: string[];
 }
 
+export interface BlogTableData {
+  headers: string[];
+  rows: string[][];
+  caption?: string;
+}
+
+export interface BlogImageFigure {
+  url: string;
+  caption: string;
+}
+
+export interface BlogActionStep {
+  stepNumber?: number;
+  instruction: string;
+  image?: string;
+  imageCaption?: string;
+  table?: BlogTableData;
+  note?: string;
+}
+
 export interface BlogArticleSection {
   heading: string;
   paragraphs: string[];
   code?: string;
   keyPoints?: string[];
+  tables?: BlogTableData[];
+  actionSteps?: BlogActionStep[];
+  image?: string;
+  imageCaption?: string;
+  figures?: BlogImageFigure[];
+}
+
+export interface BlogSectionGroup {
+  id: string;
+  title: string;
+  subtitle?: string;
+  badge?: string;
+  sections: BlogArticleSection[];
+}
+
+export interface BlogPostSource {
+  title: string;
+  url: string;
+  badge: string;
 }
 
 export interface BlogPost {
@@ -80,6 +119,8 @@ export interface BlogPost {
   readTime: string;
   category: string;
   tags: string[];
+  sources?: BlogPostSource[];
+  groups?: BlogSectionGroup[];
   sections: BlogArticleSection[];
 }
 
