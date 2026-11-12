@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Clock, Calendar, Tag, CheckCircle2, ArrowRight, Search, X, ExternalLink, BookOpen, ChevronDown, ChevronRight, Layers } from 'lucide-react';
+import { ArrowLeft, Clock, Calendar, Tag, CheckCircle2, ArrowRight, Search, X, ExternalLink, BookOpen, ChevronDown, ChevronRight, Layers, Copy, Check, FileCode, GraduationCap, Table, Filter, FileText, BarChart3, Boxes, SlidersHorizontal } from 'lucide-react';
 import { BLOG_POSTS, PERSONAL_INFO } from '../../data/portfolioData';
-import { BlogPost, BlogArticleSection, BlogSectionGroup } from '../../types';
+import { BlogPost, BlogArticleSection, BlogSectionGroup, BlogCodeBlock, BlogBuildingBlock } from '../../types';
 import { ThemeToggle } from '../ui/ThemeToggle';
 import { useSoundEffects } from '../../hooks/useSoundEffects';
 
@@ -28,6 +28,108 @@ const renderFormattedText = (text: string) => {
     }
     return part;
   });
+};
+
+const CodeBlockView: React.FC<BlogCodeBlock> = ({ code, filename, language }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const lines = code.split('\n');
+
+  const renderLine = (line: string) => {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('//') || trimmed.startsWith('/*') || trimmed.startsWith('*') || trimmed.startsWith('<!--')) {
+      return <span className="text-zinc-500 italic">{line}</span>;
+    }
+
+    const tokenRegex = /(\x27[^\x27]*\x27|"[^"]*"|@[\w\.\#]+|<!--.*?-->|<\/?[\w\.:]+|\b[\w\-]+=(?=["\x27])|\b(?:service|entity|projection|actions|action|returns|using|from|annotate|with|as|readonly|on)\b|\b(?:TypeName|TypeNamePlural|Title|Description|Value|Label|Criticality|ID|Target|Data|\$Type|Action|TargetProperties)\b|[()\[\]{},;:]|\w+|\s+|.)/g;
+    const tokens = line.match(tokenRegex) || [line];
+
+    return tokens.map((token, idx) => {
+      if (token.startsWith("'") || token.startsWith('"')) {
+        return <span key={idx} className="text-emerald-400">{token}</span>;
+      }
+      if (token.startsWith('@')) {
+        return <span key={idx} className="text-rose-400 font-semibold">{token}</span>;
+      }
+      if (/^(service|entity|projection|actions|action|returns|using|from|annotate|with|as|readonly|on)$/.test(token)) {
+        return <span key={idx} className="text-sky-400 font-bold">{token}</span>;
+      }
+      if (/^(TypeName|TypeNamePlural|Title|Description|Value|Label|Criticality|ID|Target|Data|\$Type|Action|TargetProperties)$/.test(token)) {
+        return <span key={idx} className="text-amber-300 font-medium">{token}</span>;
+      }
+      if (/^<\/?[\w\.:]+/.test(token)) {
+        return <span key={idx} className="text-sky-400 font-bold">{token}</span>;
+      }
+      if (/^[\w\-]+=(?=["'])/.test(token)) {
+        return <span key={idx} className="text-amber-300">{token}</span>;
+      }
+      if (/^[()\[\]{},;:]$/.test(token)) {
+        return <span key={idx} className="text-zinc-500">{token}</span>;
+      }
+      return <span key={idx} className="text-zinc-200">{token}</span>;
+    });
+  };
+
+  return (
+    <div className="my-5 rounded-xl border border-zinc-200 dark:border-white/10 bg-[#0d1117] shadow-lg overflow-hidden font-mono text-[12.5px]">
+      {/* Code Header Bar */}
+      <div className="px-4 py-2.5 bg-[#161b22] border-b border-zinc-200/10 dark:border-white/10 flex items-center justify-between">
+        <div className="flex items-center gap-2 text-zinc-300">
+          <FileCode className="w-4 h-4 text-sky-400 shrink-0" />
+          <span className="font-semibold text-xs text-zinc-200 tracking-wide">
+            {filename || (language ? `${language.toUpperCase()} Snippet` : 'Source Code')}
+          </span>
+          {language && (
+            <span className="px-1.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-white/10 text-zinc-300 border border-white/10">
+              {language}
+            </span>
+          )}
+        </div>
+        <button
+          onClick={handleCopy}
+          type="button"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all cursor-pointer"
+          title="Copy code to clipboard"
+        >
+          {copied ? (
+            <>
+              <Check className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="text-emerald-400 text-[11px] font-sans font-medium">Copied!</span>
+            </>
+          ) : (
+            <>
+              <Copy className="w-3.5 h-3.5" />
+              <span className="text-[11px] font-sans font-medium">Copy</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Code Content */}
+      <div className="p-4 overflow-x-auto leading-relaxed">
+        <pre className="text-zinc-200">
+          <code>
+            {lines.map((line, lIdx) => (
+              <div key={lIdx} className="table-row">
+                <span className="table-cell select-none pr-4 text-right text-zinc-600 text-[11px] w-8">
+                  {lIdx + 1}
+                </span>
+                <span className="table-cell whitespace-pre">
+                  {renderLine(line)}
+                </span>
+              </div>
+            ))}
+          </code>
+        </pre>
+      </div>
+    </div>
+  );
 };
 
 export const BlogPage: React.FC = () => {
@@ -293,13 +395,42 @@ export const BlogPage: React.FC = () => {
 
                 {/* Source References Banner */}
                 {activePost.sources && activePost.sources.length > 0 && (
-                  <div className="p-4 rounded-xl bg-zinc-100/80 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 space-y-2">
+                  <div className="p-4 rounded-xl bg-zinc-100/80 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 space-y-3">
                     <div className="flex items-center gap-2 text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">
                       <BookOpen className="w-3.5 h-3.5 text-crimson" />
-                      <span>Official References & Learning Missions</span>
+                      <span>Official Curriculum & Enterprise References</span>
                     </div>
+
+                    {/* Featured Official Learning Course */}
+                    {activePost.sources.filter(s => s.badge.toLowerCase().includes('course')).map((course, cIdx) => (
+                      <a
+                        key={cIdx}
+                        href={course.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between gap-3 p-3 rounded-lg bg-white dark:bg-black/60 border border-crimson/30 hover:border-crimson hover:shadow-sm text-zinc-900 dark:text-white transition-all group"
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <GraduationCap className="w-5 h-5 text-crimson shrink-0" />
+                          <div className="min-w-0 flex flex-wrap items-center gap-2">
+                            <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-crimson/10 text-crimson border border-crimson/25 shrink-0">
+                              [{course.badge}]
+                            </span>
+                            <span className="text-xs sm:text-sm font-bold text-zinc-950 dark:text-white group-hover:text-crimson transition-colors leading-snug">
+                              {course.title}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-1 text-xs font-mono text-crimson shrink-0 font-medium">
+                          <span className="hidden sm:inline">Open Course</span>
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </div>
+                      </a>
+                    ))}
+
+                    {/* Other Documentation & Design References */}
                     <div className="flex flex-col sm:flex-row flex-wrap gap-2 pt-1">
-                      {activePost.sources.map((src, sIdx) => (
+                      {activePost.sources.filter(s => !s.badge.toLowerCase().includes('course')).map((src, sIdx) => (
                         <a
                           key={sIdx}
                           href={src.url}
@@ -308,7 +439,7 @@ export const BlogPage: React.FC = () => {
                           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono bg-white dark:bg-black/50 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 hover:border-crimson hover:text-crimson transition-colors"
                         >
                           <span className="text-crimson font-bold">[{src.badge}]</span>
-                          <span className="truncate max-w-[280px] sm:max-w-[340px]">{src.title}</span>
+                          <span className="leading-snug">{src.title}</span>
                           <ExternalLink className="w-3 h-3 text-zinc-400 shrink-0" />
                         </a>
                       ))}
@@ -404,6 +535,53 @@ export const BlogPage: React.FC = () => {
                                     {renderFormattedText(p)}
                                   </p>
                                 ))}
+
+                                {/* Beautiful FPM Building Blocks Showcase */}
+                                {sec.buildingBlocks && sec.buildingBlocks.length > 0 && (
+                                  <div className="my-6 space-y-3">
+                                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">
+                                      <Boxes className="w-3.5 h-3.5 text-crimson" />
+                                      <span>Reusable UI5 Building Blocks (sap.fe.macros)</span>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                                      {sec.buildingBlocks.map((bb: BlogBuildingBlock, bIdx: number) => {
+                                        const isFifth = bIdx === 4 && sec.buildingBlocks?.length === 5;
+                                        const Icon = bb.tag.includes('Table') ? Table :
+                                                     bb.tag.includes('FilterBar') ? Filter :
+                                                     bb.tag.includes('Form') ? FileText :
+                                                     bb.tag.includes('Chart') ? BarChart3 : SlidersHorizontal;
+
+                                        return (
+                                          <div
+                                            key={bIdx}
+                                            className={`p-4 rounded-xl border border-zinc-200/90 dark:border-white/10 bg-white dark:bg-[#111116] hover:border-crimson/40 hover:shadow-sm transition-all group flex flex-col justify-between ${
+                                              isFifth ? 'md:col-span-2' : ''
+                                            }`}
+                                          >
+                                            <div>
+                                              <div className="flex items-center justify-between gap-2 mb-2.5">
+                                                <div className="flex items-center gap-2">
+                                                  <div className="p-1.5 rounded-lg bg-sky-500/10 text-sky-500 border border-sky-500/20">
+                                                    <Icon className="w-4 h-4" />
+                                                  </div>
+                                                  <code className="text-xs font-mono font-bold text-sky-600 dark:text-sky-400">
+                                                    {bb.tag}
+                                                  </code>
+                                                </div>
+                                                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-pink-500/10 text-pink-600 dark:text-pink-400 border border-pink-500/20 font-medium">
+                                                  {bb.annotation}
+                                                </span>
+                                              </div>
+                                              <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed font-normal">
+                                                {bb.description}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+                                  </div>
+                                )}
 
                                 {/*  Action Steps with Directly Embedded Images & Tables */}
                                 {sec.actionSteps && sec.actionSteps.length > 0 && (
@@ -605,12 +783,25 @@ export const BlogPage: React.FC = () => {
                                   </div>
                                 )}
 
-                                {sec.code && (
-                                  <div className="my-4 p-4 rounded-xl font-mono text-xs overflow-x-auto bg-zinc-900 text-zinc-100 border border-zinc-800 shadow-sm leading-relaxed">
-                                    <pre>
-                                      <code>{sec.code}</code>
-                                    </pre>
+                                {sec.codeBlocks && sec.codeBlocks.length > 0 && (
+                                  <div className="space-y-4 my-4">
+                                    {sec.codeBlocks.map((cb, cbIdx) => (
+                                      <CodeBlockView
+                                        key={cbIdx}
+                                        code={cb.code}
+                                        filename={cb.filename}
+                                        language={cb.language}
+                                      />
+                                    ))}
                                   </div>
+                                )}
+
+                                {!sec.codeBlocks && sec.code && (
+                                  <CodeBlockView
+                                    code={sec.code}
+                                    filename={sec.code.trim().startsWith('//') ? sec.code.trim().split('\n')[0].replace('//', '').trim() : undefined}
+                                    language={sec.code.includes('<mvc:View') ? 'xml' : 'cds'}
+                                  />
                                 )}
                               </section>
                             ))}
@@ -634,6 +825,52 @@ export const BlogPage: React.FC = () => {
                           {p}
                         </p>
                       ))}
+
+                      {sec.buildingBlocks && sec.buildingBlocks.length > 0 && (
+                        <div className="my-6 space-y-3">
+                          <div className="flex items-center gap-2 text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">
+                            <Boxes className="w-3.5 h-3.5 text-crimson" />
+                            <span>Reusable UI5 Building Blocks (sap.fe.macros)</span>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                            {sec.buildingBlocks.map((bb: BlogBuildingBlock, bIdx: number) => {
+                              const isFifth = bIdx === 4 && sec.buildingBlocks?.length === 5;
+                              const Icon = bb.tag.includes('Table') ? Table :
+                                           bb.tag.includes('FilterBar') ? Filter :
+                                           bb.tag.includes('Form') ? FileText :
+                                           bb.tag.includes('Chart') ? BarChart3 : SlidersHorizontal;
+
+                              return (
+                                <div
+                                  key={bIdx}
+                                  className={`p-4 rounded-xl border border-zinc-200/90 dark:border-white/10 bg-white dark:bg-[#111116] hover:border-crimson/40 hover:shadow-sm transition-all group flex flex-col justify-between ${
+                                    isFifth ? 'md:col-span-2' : ''
+                                  }`}
+                                >
+                                  <div>
+                                    <div className="flex items-center justify-between gap-2 mb-2.5">
+                                      <div className="flex items-center gap-2">
+                                        <div className="p-1.5 rounded-lg bg-sky-500/10 text-sky-500 border border-sky-500/20">
+                                          <Icon className="w-4 h-4" />
+                                        </div>
+                                        <code className="text-xs font-mono font-bold text-sky-600 dark:text-sky-400">
+                                          {bb.tag}
+                                        </code>
+                                      </div>
+                                      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-pink-500/10 text-pink-600 dark:text-pink-400 border border-pink-500/20 font-medium">
+                                        {bb.annotation}
+                                      </span>
+                                    </div>
+                                    <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed font-normal">
+                                      {bb.description}
+                                    </p>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
 
                       {sec.image && (
                         <div className="my-6 rounded-xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-950/5 dark:bg-black/50">
@@ -662,12 +899,25 @@ export const BlogPage: React.FC = () => {
                         </ul>
                       )}
 
-                      {sec.code && (
-                        <div className="my-4 p-4 rounded-xl font-mono text-xs overflow-x-auto bg-zinc-900 text-zinc-100 border border-zinc-800 shadow-sm leading-relaxed">
-                          <pre>
-                            <code>{sec.code}</code>
-                          </pre>
+                      {sec.codeBlocks && sec.codeBlocks.length > 0 && (
+                        <div className="space-y-4 my-4">
+                          {sec.codeBlocks.map((cb, cbIdx) => (
+                            <CodeBlockView
+                              key={cbIdx}
+                              code={cb.code}
+                              filename={cb.filename}
+                              language={cb.language}
+                            />
+                          ))}
                         </div>
+                      )}
+
+                      {!sec.codeBlocks && sec.code && (
+                        <CodeBlockView
+                          code={sec.code}
+                          filename={sec.code.trim().startsWith('//') ? sec.code.trim().split('\n')[0].replace('//', '').trim() : undefined}
+                          language={sec.code.includes('<mvc:View') ? 'xml' : 'cds'}
+                        />
                       )}
                     </section>
                   ))}

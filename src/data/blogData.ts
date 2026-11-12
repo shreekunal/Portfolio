@@ -2762,5 +2762,492 @@ export const BLOG_POSTS: BlogPost[] = [
         ]
       }
     ]
+  },
+  {
+    "id": "mastering-sap-fiori-elements-cap-odata-v4",
+    "slug": "mastering-sap-fiori-elements-cap-odata-v4",
+    "title": "Mastering SAP Fiori Elements: Metadata-Driven Development with CAP OData V4 and the Flexible Programming Model",
+    "subtitle": "A comprehensive engineering handbook for enterprise SAP developers: from architectural decision matrices and standard floorplans to advanced CAP OData V4 annotations, side effects, and FPM building blocks.",
+    "excerpt": "Learn when and how to leverage SAP Fiori Elements to cut development costs by up to 70%: covers List Report, Object Page, Analytical List Page, CAP CDS annotations, draft handling, side effects, and Flexible Programming Model building blocks.",
+    "date": "Nov 2026",
+    "readTime": "35 min read",
+    "category": "Fiori & UI5",
+    "tags": [
+      "SAP Fiori Elements",
+      "SAP CAP",
+      "OData V4",
+      "Flexible Programming Model",
+      "Building Blocks",
+      "CDS Annotations",
+      "SAPUI5",
+      "FPM Explorer"
+    ],
+    "sources": [
+      {
+        "title": "Learning.sap: Developing an SAP Fiori Elements App Based on a CAP OData V4 Service",
+        "url": "https://learning.sap.com/courses/developing-an-sap-fiori-elements-app-based-on-a-cap-odata-v4-service",
+        "badge": "Official Learning Course"
+      },
+      {
+        "title": "SAP Community: When to Use Fiori Elements to Reduce Development Time and Costs",
+        "url": "https://community.sap.com/t5/technology-blog-posts-by-sap/when-to-use-fiori-elements-to-reduce-development-time-and-costs/ba-p/13396528",
+        "badge": "SAP Community Guide"
+      },
+      {
+        "title": "SAP Design System: Frameworks & Smart Templates",
+        "url": "https://www.sap.com/design-system/fiori-design-web/v1-154/discover/frameworks/sap-fiori-elements",
+        "badge": "Design System Specification"
+      },
+      {
+        "title": "SAP UI5 Flexible Programming Model Explorer: Building Blocks",
+        "url": "https://ui5.sap.com/test-resources/sap/fe/core/fpmExplorer/index.html#/buildingBlocks/buildingBlocks",
+        "badge": "FPM Explorer Demo Kit"
+      }
+    ],
+    "groups": [
+      {
+        "id": "fiori-foundations",
+        "title": "Architectural Foundations & Decision Matrix",
+        "subtitle": "Why metadata-driven UI beats freestyle development for 80% of enterprise business use cases.",
+        "badge": "Architecture & ROI",
+        "sections": [
+          {
+            "heading": "The Enterprise UI Dilemma: Fiori Elements vs. Freestyle SAPUI5",
+            "paragraphs": [
+              "For years, enterprise development teams routinely built custom freestyle SAPUI5 applications for every business requirement. However, maintaining hundreds of bespoke XML views, custom controllers, and manual data bindings introduces massive technical debt, prolonged regression cycles during SAP upgrades, and skyrocketing Total Cost of Ownership (TCO).",
+              "This master engineering guide serves as an enterprise companion to the official course **[Official Learning Course] Learning.sap: Developing an SAP Fiori Elements App Based on a CAP OData V4 Service**, synthesizing curriculum units into production-ready implementation patterns for enterprise teams.",
+              "SAP Fiori elements completely shifts this paradigm from manual imperative coding to metadata-driven declarative design. The application UI is generated dynamically at runtime from OData annotations (OData V2 or V4). Developers no longer write repetitive XML layout code or JavaScript event handlers for standard enterprise features.",
+              "By decoupling the user interface from manual code, Fiori elements delivers out-of-the-box responsive design across mobile and desktop, built-in accessibility (screen reader compliance), unified internationalization (i18n), and automatic alignment with SAP latest design system updates."
+            ],
+            "keyPoints": [
+              "Reduces UI development time and implementation costs by 50% to 70%",
+              "Eliminates maintenance overhead: UI upgrades adapt automatically with UI5 framework releases",
+              "Enforces UX consistency out of the box across enterprise application suites",
+              "Enables developers to focus 100% on domain modeling and core business logic"
+            ],
+            "image": "/images/blogs/fiori/official/fe-vs-freestyle-userflow.png",
+            "imageCaption": "Official SAP Fiori Tools Architecture: Declarative Fiori Elements vs. Imperative Freestyle Development Flows"
+          },
+          {
+            "heading": "The Decision Framework: When to Choose Fiori Elements",
+            "paragraphs": [
+              "When advising clients or evaluating architecture for new enterprise projects, use this decision criteria to choose between Fiori Elements and Freestyle SAPUI5:",
+              "Choose SAP Fiori Elements when: your business data is served via OData protocols (V2/V4); your workflow fits standard patterns (list searches, item details, analytical dashboards); and you require standard CRUD, draft editing, or multi-field filtering.",
+              "Choose Freestyle SAPUI5 only when: your application requires non-standard custom layouts (e.g., interactive floorplan maps, visual warehouse slotting), highly custom touch gestures, or complete offline data storage (mobile offline store)."
+            ],
+            "tables": [
+              {
+                "caption": "Strategic Decision Matrix: Fiori Elements vs. Freestyle SAPUI5",
+                "headers": [
+                  "Evaluation Criterion",
+                  "SAP Fiori Elements",
+                  "Freestyle SAPUI5"
+                ],
+                "rows": [
+                  [
+                    "Development Effort",
+                    "Low (declarative OData annotations)",
+                    "High (manual XML, Controllers, CSS)"
+                  ],
+                  [
+                    "Maintenance & Upgrades",
+                    "Zero-effort runtime adaptation by SAP",
+                    "Manual regression testing & refactoring"
+                  ],
+                  [
+                    "UX Standard Compliance",
+                    "100% compliant by design",
+                    "Requires strict manual UX governance"
+                  ],
+                  [
+                    "Draft & Concurrency Handling",
+                    "Native out-of-the-box support",
+                    "Requires complex manual state code"
+                  ],
+                  [
+                    "Custom UI Flexibility",
+                    "Extensible via Flexible Programming Model",
+                    "Unlimited from scratch"
+                  ]
+                ]
+              }
+            ],
+            "image": "/images/blogs/fiori/official/fiorielements_freestyle.png",
+            "imageCaption": "Figure 1: Strategic Decision Matrix \u2014 SAP Fiori Elements vs. Freestyle SAPUI5 Evaluation (Effort, TCO, UX Governance, and Draft Concurrency)"
+          }
+        ]
+      },
+      {
+        "id": "fiori-floorplans",
+        "title": "Standard Smart Templates & Floorplans",
+        "subtitle": "Deep-dive into List Report, Object Page, Overview Page, and Analytical List Page.",
+        "badge": "Template Floorplans",
+        "sections": [
+          {
+            "heading": "1. List Report & Object Page (The Core Master-Detail Workhorse)",
+            "paragraphs": [
+              "The combination of a List Report and an Object Page represents the foundational backbone of enterprise software. It allows users to filter, sort, group, and trigger batch actions across large datasets, then drill down into detailed record views.",
+              "List Report: Hosts a smart filter bar (single-field or multi-field search) paired with a responsive, analytical, or grid table. Supports multi-views (tabbed segmentation by status or category) and toolbar actions.",
+              "Object Page: Displays comprehensive information for a single business entity. It features a rich header area (with KPI tags, micro-charts, and status badges), followed by collapsible sections, subsections, and embedded line-item child tables."
+            ],
+            "keyPoints": [
+              "Supports Single-Selection and Multi-Selection batch operations",
+              "Features dynamic table column personalization and export to Microsoft Excel natively",
+              "Object Page header supports micro-charts (Bullet, Harvester, Radial) driven by annotations"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/fiori/official/lr-floorplan.png",
+                "caption": "Official SAP Fiori Elements: List Report Floorplan with FilterBar and Responsive Table"
+              },
+              {
+                "url": "/images/blogs/fiori/official/op-floorplan.png",
+                "caption": "Official SAP Fiori Elements: Object Page Floorplan with Header Facets and Form Sections"
+              }
+            ]
+          },
+          {
+            "heading": "2. Analytical List Page (ALP) & Overview Page (OVP)",
+            "paragraphs": [
+              "For operational analytics and executive dashboards, SAP Fiori elements provides two purpose-built analytical floorplans:",
+              "Analytical List Page (ALP): Merges high-level chart visualizations with detailed transactional data. Users can interact with visual chart filters (bar charts, line graphs) to slice and dice table records dynamically without typing filter criteria.",
+              "Overview Page (OVP): A card-based dashboard layout organizing disparate data domains onto a single screen. Cards can be configured as Analytical Cards (KPIs and charts), List Cards, Table Cards, or QuickView Cards."
+            ],
+            "keyPoints": [
+              "ALP visual filters provide instant visual feedback on data distribution",
+              "OVP cards support role-based filtering from a global filter bar",
+              "Both floorplans support direct semantic navigation into operational Object Pages"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/fiori/official/alp-floorplan.png",
+                "caption": "Official SAP Fiori Elements: Analytical List Page (ALP) with Visual Filter Cards and Hybrid Chart-Table View"
+              },
+              {
+                "url": "/images/blogs/fiori/official/ovp-floorplan.png",
+                "caption": "Official SAP Fiori Elements: Overview Page (OVP) Multi-Card Dashboard with Analytical Donut/Bar Cards and Quick Links"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "fiori-cap-integration",
+        "title": "CAP CDS Modeling with OData V4 Annotations",
+        "subtitle": "Configuring CDS annotations, entity definitions, and UI layout tags in SAP Cloud Application Programming Model.",
+        "badge": "CAP CDS & OData V4",
+        "sections": [
+          {
+            "heading": "Separation of Concerns: The Clean Annotations Architecture",
+            "paragraphs": [
+              "In modern SAP CAP projects, enterprise architects enforce a strict separation of concerns: core domain logic lives in db/schema.cds, service exposure lives in srv/service.cds, and UI layout annotations live in a dedicated app/annotations.cds file.",
+              "This separation prevents presentation metadata from polluting core database definitions and keeps the architecture clean and modular.",
+              "Below is a production-grade CAP service definition with essential SAP Fiori elements annotations driving a complete List Report and Object Page flow:"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/fiori/official/editing-annotations.png",
+                "caption": "Official SAP Fiori Tools: Annotation Modeler in Business Application Studio and VS Code"
+              },
+              {
+                "url": "/images/blogs/fiori/official/fe-cap-guided-dev.png",
+                "caption": "Official SAP Developers: Guided Development for CAP CDS OData V4 UI Annotations"
+              }
+            ],
+            "codeBlocks": [
+              {
+                "filename": "srv/incident-service.cds",
+                "language": "cds",
+                "code": "using { sap.capire.incidents as my } from '../db/schema';\n\nservice IncidentService {\n  @odata.draft.enabled\n  entity Incidents as projection on my.Incidents actions {\n    @(\n      cds.odata.bindingparameter.name : '_it',\n      Common.SideEffects : {\n        TargetProperties : ['_it/status_code']\n      }\n    )\n    action closeIncident() returns Incidents;\n  };\n  \n  @readonly entity Customers as projection on my.Customers;\n}"
+              },
+              {
+                "filename": "app/annotations.cds",
+                "language": "cds",
+                "code": "annotate IncidentService.Incidents with @(\n  UI.HeaderInfo : {\n    TypeName : 'Incident',\n    TypeNamePlural : 'Incidents',\n    Title : { Value : title },\n    Description : { Value : customer.name }\n  },\n  UI.SelectionFields : [\n    status_code,\n    urgency_code,\n    customer_ID\n  ],\n  UI.LineItem : [\n    { Value : identifier, Label : 'Incident ID' },\n    { Value : title, Label : 'Subject' },\n    { Value : customer.name, Label : 'Customer' },\n    { \n      Value : urgency_code, \n      Label : 'Urgency',\n      Criticality : urgency.criticality\n    },\n    { \n      Value : status_code, \n      Label : 'Status',\n      Criticality : status.criticality\n    },\n    {\n      $Type : 'UI.DataFieldForAction',\n      Action : 'IncidentService.closeIncident',\n      Label : 'Close Incident'\n    }\n  ],\n  UI.Facets : [\n    {\n      $Type : 'UI.ReferenceFacet',\n      ID : 'GeneralInformationFacet',\n      Label : 'General Information',\n      Target : '@UI.FieldGroup#GeneralInformation'\n    },\n    {\n      $Type : 'UI.ReferenceFacet',\n      ID : 'LineItemsFacet',\n      Label : 'Conversation History',\n      Target : 'conversations/@UI.LineItem'\n    }\n  ],\n  UI.FieldGroup #GeneralInformation : {\n    Data : [\n      { Value : title, Label : 'Subject' },\n      { Value : urgency_code, Label : 'Urgency' },\n      { Value : status_code, Label : 'Status' },\n      { Value : customer_ID, Label : 'Customer ID' }\n    ]\n  }\n);"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "fiori-advanced-logic",
+        "title": "Drafts, Dynamic Field Control & Side Effects",
+        "subtitle": "Mastering state management, field validation, and responsive recalculation.",
+        "badge": "State & Interactions",
+        "sections": [
+          {
+            "heading": "1. Native Draft Handling (@odata.draft.enabled)",
+            "paragraphs": [
+              "In enterprise business applications, users frequently need to edit complex forms over extended periods without losing progress if their network drops or browser closes. Traditional freestyle applications required months of complex code to handle drafts, concurrency locks, and temporary tables.",
+              "In SAP CAP + Fiori Elements, enabling complete draft support requires literally one line of code: @odata.draft.enabled.",
+              "When active, the framework automatically generates draft tables in SAP HANA, stores partial unsaved edits transparently, provides optimistic concurrency locks, and adds standard Save, Cancel, and Discard Draft action buttons."
+            ],
+            "keyPoints": [
+              "Zero custom backend code required for draft storage and persistence",
+              "Automatic multi-user locking prevents conflicting concurrent edits",
+              "Users can continue edits seamlessly across multiple sessions or devices"
+            ],
+            "image": "/images/blogs/fiori/official/draft-feature-map.jpg",
+            "imageCaption": "Official SAP Documentation: Draft Handling Feature Map and Transactional State Model"
+          },
+          {
+            "heading": "2. Dynamic Field Control & Side Effects",
+            "paragraphs": [
+              "Enterprise requirements frequently demand dynamic field behaviors: fields that become read-only once a record is submitted, or discount percentages that automatically recalculate total prices without manual page reloads.",
+              "Dynamic Field Control: Using @Common.FieldControl annotations bound to a property or virtual status attribute, fields can transition between Hidden (0), Read-Only (1), Optional (3), and Mandatory (7) states dynamically.",
+              "Side Effects (@Common.SideEffects): Tells the Fiori elements runtime that when a specific property or entity is altered by the user, specific dependent target properties or child tables must be re-requested from the backend automatically."
+            ],
+            "code": "// Side Effect example: recalculating gross amount when discount changes\nannotate IncidentService.OrderItems with @(\n  Common.SideEffects #DiscountChanged : {\n    SourceProperties : [ discountPercentage ],\n    TargetProperties : [ netAmount, taxAmount, grossAmount ]\n  }\n);",
+            "image": "/images/blogs/fiori/official/draft-toggle.png",
+            "imageCaption": "Official SAP UI5: Runtime Display and Toggling between Saved Active Entity and Draft Entity"
+          }
+        ]
+      },
+      {
+        "id": "fiori-fpm-building-blocks",
+        "title": "Flexible Programming Model & Building Blocks",
+        "subtitle": "Bridging the gap between standard Fiori Elements and custom UI requirements using UI5 Building Blocks.",
+        "badge": "Flexible Programming Model",
+        "sections": [
+          {
+            "heading": "Breaking the Template Barrier with Building Blocks",
+            "paragraphs": [
+              "Historically, developers faced a painful binary choice: use 100% rigid Fiori elements, or build 100% freestyle SAPUI5. If a business user needed even one non-standard custom chart or customized visual layout, developers had to abandon Fiori elements entirely.",
+              "The Flexible Programming Model (FPM) completely eliminates this compromise. It allows developers to seamlessly embed high-level Building Blocks (reusable OData V4 XML controls) into custom XML views, custom sections, or completely custom pages within a Fiori elements app.",
+              "Building blocks provide the best of both worlds: they are driven entirely by OData metadata and annotations (handling draft states, side effects, sorting, and filtering automatically), while allowing full layout freedom inside standard UI5 XML views."
+            ],
+            "keyPoints": [
+              "Integrates custom XML views alongside standard List Reports and Object Pages",
+              "Building blocks inherit standard draft handling and batch operations natively",
+              "Explorable interactively via the official SAP UI5 FPM Explorer"
+            ],
+            "image": "/images/blogs/fiori/official/custom-section-building-block.png",
+            "imageCaption": "Official SAP Fiori Tools: Integrating UI5 Building Block <macros:Table> inside an Object Page Custom Section"
+          },
+          {
+            "heading": "Core Building Blocks Catalog & Usage",
+            "paragraphs": [
+              "The SAP Fiori elements Flexible Programming Model provides five core reusable building blocks accessible via the `sap.fe.core.buildingBlocks` (or `sap.fe.macros`) XML namespace. Each building block is metadata-driven, fully accessible, and easily embedded into custom XML views and extension sections:"
+            ],
+            "code": "<!-- Custom XML Section embedding FPM Building Blocks -->\n<mvc:View\n  xmlns:mvc=\"sap.ui.core.mvc\"\n  xmlns=\"sap.m\"\n  xmlns:macros=\"sap.fe.macros\"\n  controllerName=\"my.app.ext.controller.CustomSection\">\n\n  <VBox class=\"sapUiMediumMargin\">\n    <Title text=\"Custom Extension Section\" level=\"H4\" class=\"sapUiSmallMarginBottom\" />\n    \n    <!-- Intelligent Metadata-Driven Building Block -->\n    <macros:Table \n      id=\"customConversationTable\" \n      metaPath=\"conversations/@UI.LineItem\" \n      readOnly=\"false\" />\n  </VBox>\n</mvc:View>",
+            "image": "/images/blogs/fiori/official/fpm-chart-building-block.png",
+            "imageCaption": "Official SAP FPM Codejam: <macros:Chart> Building Block Embedded into a Custom Flexible Programming Model Page",
+            "buildingBlocks": [
+              {
+                "tag": "<macros:Table>",
+                "name": "Metadata-Driven Table",
+                "annotation": "@UI.LineItem",
+                "description": "A complete metadata-driven table component with built-in search, sorting, grouping, and personalization."
+              },
+              {
+                "tag": "<macros:FilterBar>",
+                "name": "Intelligent Filter Bar",
+                "annotation": "@UI.SelectionFields",
+                "description": "An intelligent filter bar generating input controls automatically from entity metadata."
+              },
+              {
+                "tag": "<macros:Form>",
+                "name": "Responsive Form Container",
+                "annotation": "@UI.FieldGroup",
+                "description": "A responsive form container rendering field groups and labels from @UI.FieldGroup annotations."
+              },
+              {
+                "tag": "<macros:Field>",
+                "name": "Smart Field Control",
+                "annotation": "@Common.Text & ValueList",
+                "description": "A smart field rendering formatted text, input validation, value-helps, and status badges."
+              },
+              {
+                "tag": "<macros:Chart>",
+                "name": "Visual Analytical Chart",
+                "annotation": "@UI.Chart",
+                "description": "A visual charting component rendering interactive analytical charts directly from @UI.Chart."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "fiori-best-practices",
+        "title": "Production Standards for Enterprise Consultants",
+        "subtitle": "Key architectural guidelines, performance optimizations, and pitfalls to avoid.",
+        "badge": "Consultant Best Practices",
+        "sections": [
+          {
+            "heading": "Architectural Guidelines for Scalable Enterprise Apps",
+            "paragraphs": [
+              "To ensure your Fiori elements applications remain high-performing, maintainable, and resilient across multi-year lifecycles, follow these proven enterprise standards:",
+              "1. Maintain Clean Core Separation: Never mix UI layout annotations into database schema files. Keep all UI layout definitions in app/annotations.cds so backend models remain presentation-agnostic.",
+              "2. Minimize Side Effects Scope: Overusing blanket side effects forces full page re-queries on every keystroke. Always define granular TargetProperties to minimize backend payload overhead.",
+              "3. Utilize Guided Development in SAP Fiori Tools: Leverage SAP Fiori tools in VS Code or Business Application Studio to generate annotation code snippets visually, reducing syntax errors and accelerating delivery."
+            ],
+            "keyPoints": [
+              "Always test apps with realistic data volumes using pagination and server-side filtering",
+              "Adopt the Flexible Programming Model before attempting to rewrite apps in freestyle",
+              "Ensure value-help entities use @Search.defaultSearchElement for fast client-side searching",
+              "Verify Draft Garbage Collection jobs are scheduled on your SAP HANA HDI container"
+            ]
+          }
+        ]
+      }
+    ],
+    "sections": [
+      {
+        "heading": "The Enterprise UI Dilemma: Fiori Elements vs. Freestyle SAPUI5",
+        "paragraphs": [
+          "For years, enterprise development teams routinely built custom freestyle SAPUI5 applications for every business requirement. However, maintaining hundreds of bespoke XML views, custom controllers, and manual data bindings introduces massive technical debt, prolonged regression cycles during SAP upgrades, and skyrocketing Total Cost of Ownership (TCO).",
+          "SAP Fiori elements completely shifts this paradigm from manual imperative coding to metadata-driven declarative design. The application UI is generated dynamically at runtime from OData annotations (OData V2 or V4). Developers no longer write repetitive XML layout code or JavaScript event handlers for standard enterprise features.",
+          "By decoupling the user interface from manual code, Fiori elements delivers out-of-the-box responsive design across mobile and desktop, built-in accessibility (screen reader compliance), unified internationalization (i18n), and automatic alignment with SAP latest design system updates."
+        ],
+        "keyPoints": [
+          "Reduces UI development time and implementation costs by 50% to 70%",
+          "Eliminates maintenance overhead: UI upgrades adapt automatically with UI5 framework releases",
+          "Enforces UX consistency out of the box across enterprise application suites",
+          "Enables developers to focus 100% on domain modeling and core business logic"
+        ]
+      },
+      {
+        "heading": "The Decision Framework: When to Choose Fiori Elements",
+        "paragraphs": [
+          "When advising clients or evaluating architecture for new enterprise projects, use this decision criteria to choose between Fiori Elements and Freestyle SAPUI5:",
+          "Choose SAP Fiori Elements when: your business data is served via OData protocols (V2/V4); your workflow fits standard patterns (list searches, item details, analytical dashboards); and you require standard CRUD, draft editing, or multi-field filtering.",
+          "Choose Freestyle SAPUI5 only when: your application requires non-standard custom layouts (e.g., interactive floorplan maps, visual warehouse slotting), highly custom touch gestures, or complete offline data storage (mobile offline store)."
+        ],
+        "tables": [
+          {
+            "caption": "Strategic Decision Matrix: Fiori Elements vs. Freestyle SAPUI5",
+            "headers": [
+              "Evaluation Criterion",
+              "SAP Fiori Elements",
+              "Freestyle SAPUI5"
+            ],
+            "rows": [
+              [
+                "Development Effort",
+                "Low (declarative OData annotations)",
+                "High (manual XML, Controllers, CSS)"
+              ],
+              [
+                "Maintenance & Upgrades",
+                "Zero-effort runtime adaptation by SAP",
+                "Manual regression testing & refactoring"
+              ],
+              [
+                "UX Standard Compliance",
+                "100% compliant by design",
+                "Requires strict manual UX governance"
+              ],
+              [
+                "Draft & Concurrency Handling",
+                "Native out-of-the-box support",
+                "Requires complex manual state code"
+              ],
+              [
+                "Custom UI Flexibility",
+                "Extensible via Flexible Programming Model",
+                "Unlimited from scratch"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "1. List Report & Object Page (The Core Master-Detail Workhorse)",
+        "paragraphs": [
+          "The combination of a List Report and an Object Page represents the foundational backbone of enterprise software. It allows users to filter, sort, group, and trigger batch actions across large datasets, then drill down into detailed record views.",
+          "List Report: Hosts a smart filter bar (single-field or multi-field search) paired with a responsive, analytical, or grid table. Supports multi-views (tabbed segmentation by status or category) and toolbar actions.",
+          "Object Page: Displays comprehensive information for a single business entity. It features a rich header area (with KPI tags, micro-charts, and status badges), followed by collapsible sections, subsections, and embedded line-item child tables."
+        ],
+        "keyPoints": [
+          "Supports Single-Selection and Multi-Selection batch operations",
+          "Features dynamic table column personalization and export to Microsoft Excel natively",
+          "Object Page header supports micro-charts (Bullet, Harvester, Radial) driven by annotations"
+        ]
+      },
+      {
+        "heading": "2. Analytical List Page (ALP) & Overview Page (OVP)",
+        "paragraphs": [
+          "For operational analytics and executive dashboards, SAP Fiori elements provides two purpose-built analytical floorplans:",
+          "Analytical List Page (ALP): Merges high-level chart visualizations with detailed transactional data. Users can interact with visual chart filters (bar charts, line graphs) to slice and dice table records dynamically without typing filter criteria.",
+          "Overview Page (OVP): A card-based dashboard layout organizing disparate data domains onto a single screen. Cards can be configured as Analytical Cards (KPIs and charts), List Cards, Table Cards, or QuickView Cards."
+        ],
+        "keyPoints": [
+          "ALP visual filters provide instant visual feedback on data distribution",
+          "OVP cards support role-based filtering from a global filter bar",
+          "Both floorplans support direct semantic navigation into operational Object Pages"
+        ]
+      },
+      {
+        "heading": "Separation of Concerns: The Clean Annotations Architecture",
+        "paragraphs": [
+          "In modern SAP CAP projects, enterprise architects enforce a strict separation of concerns: core domain logic lives in db/schema.cds, service exposure lives in srv/service.cds, and UI layout annotations live in a dedicated app/annotations.cds file.",
+          "This separation prevents presentation metadata from polluting core database definitions and keeps the architecture clean and modular.",
+          "Below is a production-grade CAP service definition with essential SAP Fiori elements annotations driving a complete List Report and Object Page flow:"
+        ],
+        "code": "// srv/incident-service.cds\nusing { sap.capire.incidents as my } from '../db/schema';\n\nservice IncidentService {\n  @odata.draft.enabled\n  entity Incidents as projection on my.Incidents actions {\n    @(\n      cds.odata.bindingparameter.name : '_it',\n      Common.SideEffects : {\n        TargetProperties : ['_it/status_code']\n      }\n    )\n    action closeIncident() returns Incidents;\n  };\n  \n  @readonly entity Customers as projection on my.Customers;\n}\n\n// app/annotations.cds\nannotate IncidentService.Incidents with @(\n  UI.HeaderInfo : {\n    TypeName : 'Incident',\n    TypeNamePlural : 'Incidents',\n    Title : { Value : title },\n    Description : { Value : customer.name }\n  },\n  UI.SelectionFields : [\n    status_code,\n    urgency_code,\n    customer_ID\n  ],\n  UI.LineItem : [\n    { Value : identifier, Label : 'Incident ID' },\n    { Value : title, Label : 'Subject' },\n    { Value : customer.name, Label : 'Customer' },\n    { \n      Value : urgency_code, \n      Label : 'Urgency',\n      Criticality : urgency.criticality\n    },\n    { \n      Value : status_code, \n      Label : 'Status',\n      Criticality : status.criticality\n    },\n    {\n      $Type : 'UI.DataFieldForAction',\n      Action : 'IncidentService.closeIncident',\n      Label : 'Close Incident'\n    }\n  ],\n  UI.Facets : [\n    {\n      $Type : 'UI.ReferenceFacet',\n      ID : 'GeneralInformationFacet',\n      Label : 'General Information',\n      Target : '@UI.FieldGroup#GeneralInformation'\n    },\n    {\n      $Type : 'UI.ReferenceFacet',\n      ID : 'LineItemsFacet',\n      Label : 'Conversation History',\n      Target : 'conversations/@UI.LineItem'\n    }\n  ],\n  UI.FieldGroup #GeneralInformation : {\n    Data : [\n      { Value : title, Label : 'Subject' },\n      { Value : urgency_code, Label : 'Urgency' },\n      { Value : status_code, Label : 'Status' },\n      { Value : customer_ID, Label : 'Customer ID' }\n    ]\n  }\n);"
+      },
+      {
+        "heading": "1. Native Draft Handling (@odata.draft.enabled)",
+        "paragraphs": [
+          "In enterprise business applications, users frequently need to edit complex forms over extended periods without losing progress if their network drops or browser closes. Traditional freestyle applications required months of complex code to handle drafts, concurrency locks, and temporary tables.",
+          "In SAP CAP + Fiori Elements, enabling complete draft support requires literally one line of code: @odata.draft.enabled.",
+          "When active, the framework automatically generates draft tables in SAP HANA, stores partial unsaved edits transparently, provides optimistic concurrency locks, and adds standard Save, Cancel, and Discard Draft action buttons."
+        ],
+        "keyPoints": [
+          "Zero custom backend code required for draft storage and persistence",
+          "Automatic multi-user locking prevents conflicting concurrent edits",
+          "Users can continue edits seamlessly across multiple sessions or devices"
+        ]
+      },
+      {
+        "heading": "2. Dynamic Field Control & Side Effects",
+        "paragraphs": [
+          "Enterprise requirements frequently demand dynamic field behaviors: fields that become read-only once a record is submitted, or discount percentages that automatically recalculate total prices without manual page reloads.",
+          "Dynamic Field Control: Using @Common.FieldControl annotations bound to a property or virtual status attribute, fields can transition between Hidden (0), Read-Only (1), Optional (3), and Mandatory (7) states dynamically.",
+          "Side Effects (@Common.SideEffects): Tells the Fiori elements runtime that when a specific property or entity is altered by the user, specific dependent target properties or child tables must be re-requested from the backend automatically."
+        ],
+        "code": "// Side Effect example: recalculating gross amount when discount changes\nannotate IncidentService.OrderItems with @(\n  Common.SideEffects #DiscountChanged : {\n    SourceProperties : [ discountPercentage ],\n    TargetProperties : [ netAmount, taxAmount, grossAmount ]\n  }\n);"
+      },
+      {
+        "heading": "Breaking the Template Barrier with Building Blocks",
+        "paragraphs": [
+          "Historically, developers faced a painful binary choice: use 100% rigid Fiori elements, or build 100% freestyle SAPUI5. If a business user needed even one non-standard custom chart or customized visual layout, developers had to abandon Fiori elements entirely.",
+          "The Flexible Programming Model (FPM) completely eliminates this compromise. It allows developers to seamlessly embed high-level Building Blocks (reusable OData V4 XML controls) into custom XML views, custom sections, or completely custom pages within a Fiori elements app.",
+          "Building blocks provide the best of both worlds: they are driven entirely by OData metadata and annotations (handling draft states, side effects, sorting, and filtering automatically), while allowing full layout freedom inside standard UI5 XML views."
+        ],
+        "keyPoints": [
+          "Integrates custom XML views alongside standard List Reports and Object Pages",
+          "Building blocks inherit standard draft handling and batch operations natively",
+          "Explorable interactively via the official SAP UI5 FPM Explorer"
+        ]
+      },
+      {
+        "heading": "Core Building Blocks Catalog & Usage",
+        "paragraphs": [
+          "The SAP Fiori elements framework provides five primary building blocks accessible via the sap.fe.core.buildingBlocks (or sap.fe.macros) XML namespace:",
+          "<macros:Table>: A complete metadata-driven table component with built-in search, sorting, grouping, and personalization.",
+          "<macros:FilterBar>: An intelligent filter bar generating input controls automatically from entity metadata.",
+          "<macros:Form>: A responsive form container rendering field groups and labels from @UI.FieldGroup annotations.",
+          "<macros:Field>: A smart field rendering formatted text, input validation, value-helps, and status badges.",
+          "<macros:Chart>: A visual charting component rendering interactive analytical charts directly from @UI.Chart."
+        ],
+        "code": "<!-- Custom XML Section embedding FPM Building Blocks -->\n<mvc:View\n  xmlns:mvc=\"sap.ui.core.mvc\"\n  xmlns=\"sap.m\"\n  xmlns:macros=\"sap.fe.macros\"\n  controllerName=\"my.app.ext.controller.CustomSection\">\n\n  <VBox class=\"sapUiMediumMargin\">\n    <Title text=\"Custom Extension Section\" level=\"H4\" class=\"sapUiSmallMarginBottom\" />\n    \n    <!-- Intelligent Metadata-Driven Building Block -->\n    <macros:Table \n      id=\"customConversationTable\" \n      metaPath=\"conversations/@UI.LineItem\" \n      readOnly=\"false\" />\n  </VBox>\n</mvc:View>"
+      },
+      {
+        "heading": "Architectural Guidelines for Scalable Enterprise Apps",
+        "paragraphs": [
+          "To ensure your Fiori elements applications remain high-performing, maintainable, and resilient across multi-year lifecycles, follow these proven enterprise standards:",
+          "1. Maintain Clean Core Separation: Never mix UI layout annotations into database schema files. Keep all UI layout definitions in app/annotations.cds so backend models remain presentation-agnostic.",
+          "2. Minimize Side Effects Scope: Overusing blanket side effects forces full page re-queries on every keystroke. Always define granular TargetProperties to minimize backend payload overhead.",
+          "3. Utilize Guided Development in SAP Fiori Tools: Leverage SAP Fiori tools in VS Code or Business Application Studio to generate annotation code snippets visually, reducing syntax errors and accelerating delivery."
+        ],
+        "keyPoints": [
+          "Always test apps with realistic data volumes using pagination and server-side filtering",
+          "Adopt the Flexible Programming Model before attempting to rewrite apps in freestyle",
+          "Ensure value-help entities use @Search.defaultSearchElement for fast client-side searching",
+          "Verify Draft Garbage Collection jobs are scheduled on your SAP HANA HDI container"
+        ]
+      }
+    ]
   }
 ];

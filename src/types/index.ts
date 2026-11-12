@@ -83,10 +83,25 @@ export interface BlogActionStep {
   note?: string;
 }
 
+export interface BlogCodeBlock {
+  filename?: string;
+  language?: string;
+  code: string;
+}
+
+export interface BlogBuildingBlock {
+  tag: string;
+  name: string;
+  annotation: string;
+  description: string;
+}
+
 export interface BlogArticleSection {
   heading: string;
   paragraphs: string[];
   code?: string;
+  codeBlocks?: BlogCodeBlock[];
+  buildingBlocks?: BlogBuildingBlock[];
   keyPoints?: string[];
   tables?: BlogTableData[];
   actionSteps?: BlogActionStep[];
