@@ -44,7 +44,15 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-crimson shadow-[0_0_8px_#e50914]" />
           </span>
           <span className="font-mono text-xs tracking-wide">
-            {PERSONAL_INFO.status}
+            Associate SAP BTP Consultant @{' '}
+            <a
+              href="https://www.raveninfotech.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-crimson underline-offset-2 hover:text-crimson transition-colors"
+            >
+              Raven Infotech
+            </a>
           </span>
         </div>
       </RevealOnScroll>
@@ -67,15 +75,9 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
           </h1>
         </RevealOnScroll>
 
-        {/* Sub-headline: Row 1 Static Title, Row 2 Dedicated Typewriter Line */}
+        {/* Sub-headline: Kinetic Typewriter Line with Crimson Underline */}
         <RevealOnScroll direction="up" delay={0.3}>
           <div className="max-w-3xl mx-auto mb-10 leading-relaxed">
-            {/* 1st Row: Clean High-Contrast Subtitle */}
-            <p className="mb-2 text-zinc-900 dark:text-zinc-100 font-bold text-lg sm:text-xl">
-              {PERSONAL_INFO.title}
-            </p>
-
-            {/* 2nd Row: Dedicated Kinetic Typewriter Line with Crimson Underline */}
             <p className="flex flex-wrap items-center justify-center gap-1.5 min-h-[2em] font-mono text-base sm:text-lg">
               <span className="text-zinc-800 dark:text-zinc-300 font-semibold">Specializing in</span>
               <span className="inline-block border-b-2 border-crimson pb-0.5 text-crimson font-black">
@@ -104,31 +106,21 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
             <GlassButton
               variant="primary"
               size="lg"
-              onClick={() => scrollTo('projects')}
-              data-cursor-text="VIEW"
-              icon={<Sparkles className="w-4 h-4 mr-1 text-white" />}
+              onClick={() => scrollTo('certifications')}
+              data-cursor-text="CERTS"
+              icon={<Award className="w-4 h-4 mr-1 text-white" />}
             >
-              Selected Works
+              SAP Certifications
             </GlassButton>
 
             <GlassButton
               variant="secondary"
               size="lg"
-              onClick={() => scrollTo('certifications')}
-              data-cursor-text="CERTS"
-              icon={<Award className="w-4 h-4 mr-1 text-crimson-dark dark:text-crimson" />}
-            >
-              Certifications
-            </GlassButton>
-
-            <GlassButton
-              variant="outline"
-              size="lg"
               onClick={() => scrollTo('skills')}
               data-cursor-text="SKILLS"
-              icon={<Cpu className="w-4 h-4 mr-1 text-zinc-700 dark:text-zinc-300" />}
+              icon={<Cpu className="w-4 h-4 mr-1 text-crimson-dark dark:text-crimson" />}
             >
-              Skills
+              Technical Skills
             </GlassButton>
 
             <GlassButton
@@ -160,10 +152,6 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
                 <div className="flex items-center justify-between mb-4">
                   <span className="p-2.5 rounded-xl bg-crimson text-white shadow-md shadow-crimson/30">
                     {getStatIcon(stat.icon)}
-                  </span>
-                  <span className="font-mono text-[10px] text-crimson-dark dark:text-crimson uppercase tracking-widest flex items-center gap-1.5 font-bold bg-crimson/10 px-2 py-0.5 rounded-md border border-crimson/30">
-                    <span className="w-1.5 h-1.5 rounded-full bg-crimson shadow-[0_0_6px_#e50914]" />
-                    SYS.0{idx + 1}
                   </span>
                 </div>
                 <div>

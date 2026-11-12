@@ -15,7 +15,7 @@ export const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
   children,
   direction = 'up',
   delay = 0,
-  duration = 0.5,
+  duration = 0.4,
   className = '',
   amount = 0.1,
   once = true,
@@ -23,17 +23,17 @@ export const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
   const getInitialVariants = () => {
     switch (direction) {
       case 'up':
-        return { opacity: 0, y: 28 };
+        return { opacity: 0, y: 16 };
       case 'down':
-        return { opacity: 0, y: -28 };
+        return { opacity: 0, y: -16 };
       case 'left':
-        return { opacity: 0, x: 32 };
+        return { opacity: 0, x: 16 };
       case 'right':
-        return { opacity: 0, x: -32 };
+        return { opacity: 0, x: -16 };
       case 'zoom':
-        return { opacity: 0, scale: 0.94 };
+        return { opacity: 0, scale: 0.98 };
       default:
-        return { opacity: 0, y: 20 };
+        return { opacity: 0, y: 16 };
     }
   };
 
@@ -50,7 +50,7 @@ export const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
       transition={{
         duration,
         delay,
-        ease: [0.16, 1, 0.3, 1], // Apple/Linear smooth cubic bezier
+        ease: [0.16, 1, 0.3, 1],
       }}
       className={className}
     >

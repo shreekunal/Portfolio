@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Briefcase, Calendar, MapPin, CheckCircle } from 'lucide-react';
+import { Briefcase, Calendar, MapPin, CheckCircle, ExternalLink } from 'lucide-react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { EXPERIENCES } from '../../data/portfolioData';
 import { SpotlightCard } from '../ui/SpotlightCard';
@@ -96,9 +96,21 @@ export const Experience: React.FC<ExperienceProps> = ({ playHover }) => {
                         {exp.role}
                       </h3>
                       <div className="text-sm font-bold flex items-center gap-2 mt-1">
-                        <span className="text-crimson font-black tracking-wide text-base">
-                          {exp.company}
-                        </span>
+                        {exp.company === 'Raven Infotech' ? (
+                          <a
+                            href="https://www.raveninfotech.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-crimson font-black tracking-wide text-base hover:underline flex items-center gap-1 group/company"
+                          >
+                            <span>Raven Infotech</span>
+                            <ExternalLink className="w-3.5 h-3.5 text-crimson group-hover/company:translate-x-0.5 group-hover/company:-translate-y-0.5 transition-transform" />
+                          </a>
+                        ) : (
+                          <span className="text-crimson font-black tracking-wide text-base">
+                            {exp.company}
+                          </span>
+                        )}
                         <span className="text-zinc-500 dark:text-zinc-500 font-bold">•</span>
                         <span className="text-zinc-700 dark:text-zinc-300 flex items-center gap-1 text-xs font-mono font-semibold">
                           <MapPin className="w-3.5 h-3.5 text-crimson" />

@@ -63,3 +63,25 @@ export interface CertificationItem {
   skills: string[];
 }
 
+export interface BlogArticleSection {
+  heading: string;
+  paragraphs: string[];
+  code?: string;
+  keyPoints?: string[];
+}
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  category: string;
+  tags: string[];
+  sections: BlogArticleSection[];
+}
+
+
+

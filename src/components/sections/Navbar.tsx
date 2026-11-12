@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Github } from 'lucide-react';
+import { Volume2, VolumeX, Linkedin, BookOpen, ArrowUpRight } from 'lucide-react';
 import { PERSONAL_INFO } from '../../data/portfolioData';
 
 interface NavbarProps {
@@ -20,7 +20,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const navItems = [
     { id: 'hero', label: 'Home' },
-    { id: 'projects', label: 'Works' },
     { id: 'skills', label: 'Skills' },
     { id: 'certifications', label: 'Certifications' },
     { id: 'experience', label: 'Milestones' },
@@ -76,7 +75,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-crimson shadow-[0_0_8px_#e50914]" />
           </div>
           <span className="hidden sm:inline font-mono text-xs font-bold tracking-wider text-zinc-800 dark:text-zinc-300">
-            PORTFOLIO
+            आत्मपरिचयः
           </span>
         </button>
 
@@ -106,6 +105,23 @@ export const Navbar: React.FC<NavbarProps> = ({
           })}
         </div>
 
+        {/* Distinct Separated Blog Action (Opens Separate Page) */}
+        <div className="pl-2 border-l border-zinc-300 dark:border-white/10 flex items-center">
+          <a
+            href="/blog"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={playClick}
+            onMouseEnter={playHover}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-crimson/10 text-crimson-dark dark:text-crimson border border-crimson/30 hover:bg-crimson hover:text-white transition-all shadow-sm group/blog"
+            title="Open Technical Blog in a separate page"
+          >
+            <BookOpen className="w-3 h-3 text-crimson group-hover/blog:text-white transition-colors" />
+            <span>Blog</span>
+            <ArrowUpRight className="w-3 h-3 text-crimson-dark dark:text-crimson group-hover/blog:text-white transition-colors" />
+          </a>
+        </div>
+
         {/* Sound & GitHub Links */}
         <div className="flex items-center gap-1.5 pl-2.5 border-l border-zinc-300 dark:border-white/10">
           <button
@@ -125,14 +141,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           <a
-            href={PERSONAL_INFO.github}
+            href={PERSONAL_INFO.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             onMouseEnter={playHover}
-            title="GitHub"
+            title="LinkedIn"
             className="p-2 rounded-full text-zinc-700 hover:text-crimson hover:bg-black/[0.05] dark:text-zinc-300 dark:hover:text-white dark:hover:bg-white/[0.05] transition-colors"
           >
-            <Github className="w-3.5 h-3.5" />
+            <Linkedin className="w-3.5 h-3.5" />
           </a>
         </div>
       </nav>

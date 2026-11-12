@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ParticleBackground } from './components/canvas/ParticleBackground';
 import { MouseFollowerGlow } from './components/canvas/MouseFollowerGlow';
 import { CustomCursor } from './components/ui/CustomCursor';
@@ -7,18 +7,33 @@ import { ScrollVelocityMarquee } from './components/ui/ScrollVelocityMarquee';
 import { ThemeToggle } from './components/ui/ThemeToggle';
 import { Navbar } from './components/sections/Navbar';
 import { Hero } from './components/sections/Hero';
-import { Projects } from './components/sections/Projects';
 import { Skills } from './components/sections/Skills';
 import { Certifications } from './components/sections/Certifications';
 import { Experience } from './components/sections/Experience';
 import { Contact } from './components/sections/Contact';
 import { Footer } from './components/sections/Footer';
+import { BlogPage } from './components/pages/BlogPage';
 import { useSoundEffects } from './hooks/useSoundEffects';
 import { ThemeProvider } from './context/ThemeContext';
 
 export const AppContent: React.FC = () => {
   const { isMuted, toggleSound, playHover, playClick, playSuccess } = useSoundEffects();
+  const [currentPath, setCurrentPath] = useState<string>(window.location.pathname);
 
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Standalone Minimal Blog Page Route
+  if (currentPath.startsWith('/blog')) {
+    return <BlogPage />;
+  }
+
+  // Main Portfolio Page
   return (
     <div className="relative min-h-screen bg-[#f8f9fb] bg-[radial-gradient(ellipse_80%_55%_at_50%_-10%,rgba(229,9,20,0.1),rgba(255,255,255,0)_100%)] text-zinc-900 dark:bg-black dark:text-zinc-100 overflow-x-hidden selection:bg-crimson/20 selection:text-crimson bg-noise transition-colors duration-300">
       {/* Top Scroll-Linked Piercing Crimson Laser Line */}
@@ -61,7 +76,7 @@ export const AppContent: React.FC = () => {
           baseVelocity={1.2}
         />
 
-        <Projects playHover={playHover} playClick={playClick} />
+        {/* Selected Works is hidden for now as requested */}
 
         <Skills playHover={playHover} playClick={playClick} />
 

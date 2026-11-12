@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="crimsonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff1e38"/>
+      <stop offset="100%" stop-color="#99000a"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="26" fill="#09090b"/>
+  <rect x="2" y="2" width="96" height="96" rx="24" fill="none" stroke="url(#crimsonGrad)" stroke-width="4" stroke-opacity="0.9"/>
+  <text x="50%" y="54%" dominant-baseline="central" text-anchor="middle" font-family="'JetBrains Mono', -apple-system, BlinkMacSystemFont, monospace" font-weight="900" font-size="44" fill="#ffffff" letter-spacing="-2">KS</text>
+  <circle cx="80" cy="20" r="7" fill="#e50914"/>
+</svg>
