@@ -86,9 +86,9 @@ export const Skills: React.FC<SkillsProps> = ({ playHover, playClick }) => {
                 className="h-full"
               >
                 <SpotlightCard className="p-4 sm:p-4.5 h-full flex items-center justify-between gap-3 border border-zinc-200 dark:border-white/10 group transition-all">
-                  <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-crimson shadow-[0_0_6px_#e50914] shrink-0" />
-                    <h3 className="font-semibold text-zinc-950 dark:text-zinc-100 text-sm sm:text-base group-hover:text-crimson transition-colors truncate">
+                    <h3 className="font-semibold text-zinc-950 dark:text-zinc-100 text-sm sm:text-base group-hover:text-crimson transition-colors leading-snug">
                       {skill.name}
                     </h3>
                   </div>

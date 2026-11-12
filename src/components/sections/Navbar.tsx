@@ -113,12 +113,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             rel="noopener noreferrer"
             onClick={playClick}
             onMouseEnter={playHover}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-crimson/10 text-crimson-dark dark:text-crimson border border-crimson/30 hover:bg-crimson hover:text-white transition-all shadow-sm group/blog"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-crimson/10 text-crimson-dark dark:text-crimson border border-crimson/30 hover:bg-crimson hover:text-white dark:hover:bg-crimson dark:hover:text-white transition-all shadow-sm group/blog"
             title="Open Technical Blog in a separate page"
           >
-            <BookOpen className="w-3 h-3 text-crimson group-hover/blog:text-white transition-colors" />
-            <span>Blog</span>
-            <ArrowUpRight className="w-3 h-3 text-crimson-dark dark:text-crimson group-hover/blog:text-white transition-colors" />
+            <BookOpen className="w-3 h-3 text-crimson group-hover/blog:text-white dark:group-hover/blog:text-white transition-colors" />
+            <span className="group-hover/blog:text-white dark:group-hover/blog:text-white transition-colors">Blog</span>
+            <ArrowUpRight className="w-3 h-3 text-crimson-dark dark:text-crimson group-hover/blog:text-white dark:group-hover/blog:text-white transition-colors" />
           </a>
         </div>
 
