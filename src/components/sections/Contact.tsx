@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Copy, Check, Sparkles, MessageSquare, MapPin, ArrowUpRight } from 'lucide-react';
+import { Mail, Copy, Check, Sparkles, MessageSquare, MapPin, ArrowUpRight, Github, Linkedin, Code2 } from 'lucide-react';
 import { PERSONAL_INFO, SOCIAL_LINKS } from '../../data/portfolioData';
 import { SpotlightCard } from '../ui/SpotlightCard';
 import { TiltCard } from '../ui/TiltCard';
@@ -27,6 +27,20 @@ export const Contact: React.FC<ContactProps> = ({
     navigator.clipboard.writeText(PERSONAL_INFO.email);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
+  };
+
+  const getSocialIcon = (name: string) => {
+    switch (name.toLowerCase()) {
+      case 'github':
+        return <Github className="w-6 h-6 text-crimson group-hover:text-white transition-colors" />;
+      case 'linkedin':
+        return <Linkedin className="w-6 h-6 text-crimson group-hover:text-white transition-colors" />;
+      case 'leetcode':
+        return <Code2 className="w-6 h-6 text-crimson group-hover:text-white transition-colors" />;
+      case 'email':
+      default:
+        return <Mail className="w-6 h-6 text-crimson group-hover:text-white transition-colors" />;
+    }
   };
 
   return (
@@ -124,7 +138,7 @@ export const Contact: React.FC<ContactProps> = ({
           </TiltCard>
         </RevealOnScroll>
 
-        {/* Social & External Channels Grid */}
+        {/* Social & External Channels Grid - Clean Logos with Theme Crimson Styling */}
         <RevealOnScroll direction="up" delay={0.2}>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {SOCIAL_LINKS.map((link, idx) => (
@@ -135,16 +149,16 @@ export const Contact: React.FC<ContactProps> = ({
                 rel="noopener noreferrer"
                 onMouseEnter={playHover}
                 onClick={playClick}
-                className="p-5 rounded-2xl border transition-all group bg-white border-zinc-300 hover:border-crimson hover:shadow-lg hover:shadow-crimson/15 dark:bg-[#0c0c10]/80 dark:border-white/10 dark:hover:border-crimson dark:hover:bg-[#14141c]"
+                className="p-6 rounded-2xl border transition-all duration-300 group flex flex-col items-center justify-center text-center bg-white border-zinc-300 hover:border-crimson hover:shadow-xl hover:shadow-crimson/15 dark:bg-[#0c0c10]/80 dark:border-white/10 dark:hover:border-crimson dark:hover:bg-[#14141c]"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-400 group-hover:text-crimson transition-colors">
-                    {link.name}
-                  </span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-crimson group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all dark:text-zinc-400" />
+                {/* Theme Crimson Logo Container */}
+                <div className="relative w-14 h-14 rounded-2xl bg-crimson/[0.08] dark:bg-crimson/[0.12] border border-crimson/30 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-crimson group-hover:shadow-[0_0_20px_rgba(229,9,20,0.5)] transition-all duration-300 shadow-sm">
+                  {getSocialIcon(link.name)}
                 </div>
-                <div className="text-sm font-black text-zinc-950 group-hover:text-crimson transition-colors dark:text-white truncate">
-                  {link.handle}
+
+                <div className="flex items-center gap-1.5 font-bold text-sm text-zinc-950 dark:text-white group-hover:text-crimson transition-colors">
+                  <span>{link.name}</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-crimson group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                 </div>
               </a>
             ))}

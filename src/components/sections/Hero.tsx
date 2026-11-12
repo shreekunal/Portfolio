@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Code2, Cpu, Zap, Globe } from 'lucide-react';
+import { Sparkles, Code2, Cpu, Zap, Globe, Award } from 'lucide-react';
 import { PERSONAL_INFO, QUICK_STATS } from '../../data/portfolioData';
 import { GlassButton } from '../ui/GlassButton';
 import { TiltCard } from '../ui/TiltCard';
@@ -81,11 +81,11 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
               <span className="inline-block border-b-2 border-crimson pb-0.5 text-crimson font-black">
                 <TypewriterText
                   words={[
-                    'full-stack web applications.',
-                    'Java & cloud-native systems.',
-                    'SAP BTP & CAP microservices.',
-                    'interactive canvas 3D experiences.',
-                    'algorithmic problem solving.',
+                    'enterprise SAP BTP extensions.',
+                    'Joule AI agents & Integration Suite.',
+                    'SAP CAP, SAPUI5 & Fiori Elements.',
+                    'React.js, Next.js & NestJS systems.',
+                    'scalable cloud architectures.',
                   ]}
                   className="text-crimson font-black"
                   typingSpeed={65}
@@ -114,11 +114,21 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
             <GlassButton
               variant="secondary"
               size="lg"
+              onClick={() => scrollTo('certifications')}
+              data-cursor-text="CERTS"
+              icon={<Award className="w-4 h-4 mr-1 text-crimson-dark dark:text-crimson" />}
+            >
+              Certifications
+            </GlassButton>
+
+            <GlassButton
+              variant="outline"
+              size="lg"
               onClick={() => scrollTo('skills')}
               data-cursor-text="SKILLS"
-              icon={<Cpu className="w-4 h-4 mr-1 text-crimson-dark dark:text-crimson" />}
+              icon={<Cpu className="w-4 h-4 mr-1 text-zinc-700 dark:text-zinc-300" />}
             >
-              Technical Mastery
+              Skills
             </GlassButton>
 
             <GlassButton

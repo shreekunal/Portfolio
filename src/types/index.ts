@@ -19,7 +19,7 @@ export interface SkillCategory {
   icon: string;
   skills: {
     name: string;
-    level: number; // 0-100
+    level?: number; // 0-100
     iconName?: string;
     tag?: string;
   }[];
@@ -49,3 +49,17 @@ export interface SocialLink {
   icon: string;
   handle: string;
 }
+
+export interface CertificationItem {
+  id: string;
+  name: string;
+  code: string;
+  issuer: string;
+  issueDate: string;
+  validThrough: string;
+  badge: string;
+  verificationUrl: string;
+  imageUrl?: string;
+  skills: string[];
+}
+
