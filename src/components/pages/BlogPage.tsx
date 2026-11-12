@@ -960,42 +960,44 @@ export const BlogPage: React.FC = () => {
               </p>
             </div>
 
-            {/* Boxed Articles List */}
-            <div className="space-y-4">
+            {/* 2-Column Responsive Blog Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
               {filteredPosts.length > 0 ? (
                 filteredPosts.map((post) => (
                   <article
                     key={post.id}
                     onClick={() => openArticle(post.slug)}
                     onMouseEnter={playHover}
-                    className="p-6 sm:p-7 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-[#0e0e12] hover:border-crimson/50 hover:shadow-lg hover:shadow-crimson/5 transition-all duration-200 group cursor-pointer block"
+                    className="p-6 sm:p-7 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-[#0e0e12] hover:border-crimson/50 hover:shadow-lg hover:shadow-crimson/5 transition-all duration-200 group cursor-pointer flex flex-col justify-between h-full"
                   >
-                    <div className="flex items-center justify-between gap-2 text-xs font-mono text-zinc-500 mb-2.5">
-                      <span className="px-2.5 py-0.5 rounded-full font-bold bg-crimson/10 border border-crimson/25 text-crimson-dark dark:text-crimson text-[11px]">
-                        {post.category}
-                      </span>
-                      <div className="flex items-center gap-2 text-zinc-400 text-xs">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3 text-zinc-400" />
-                          {post.date}
+                    <div>
+                      <div className="flex items-center justify-between gap-2 text-xs font-mono text-zinc-500 mb-3">
+                        <span className="px-2.5 py-0.5 rounded-full font-bold bg-crimson/10 border border-crimson/25 text-crimson-dark dark:text-crimson text-[11px]">
+                          {post.category}
                         </span>
-                        <span>•</span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3 text-zinc-400" />
-                          {post.readTime}
-                        </span>
+                        <div className="flex items-center gap-2 text-zinc-400 text-xs">
+                          <span className="flex items-center gap-1">
+                            <Calendar className="w-3 h-3 text-zinc-400" />
+                            {post.date}
+                          </span>
+                          <span>•</span>
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3 text-zinc-400" />
+                            {post.readTime}
+                          </span>
+                        </div>
                       </div>
+
+                      <h2 className="text-lg sm:text-xl font-bold text-zinc-950 dark:text-white group-hover:text-crimson transition-colors leading-snug mb-2.5">
+                        {post.title}
+                      </h2>
+
+                      <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed mb-5 line-clamp-3">
+                        {post.excerpt}
+                      </p>
                     </div>
 
-                    <h2 className="text-lg sm:text-xl font-bold text-zinc-950 dark:text-white group-hover:text-crimson transition-colors leading-snug mb-2">
-                      {post.title}
-                    </h2>
-
-                    <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed mb-4">
-                      {post.excerpt}
-                    </p>
-
-                    <div className="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-white/[0.06]">
+                    <div className="flex items-center justify-between pt-3.5 border-t border-zinc-100 dark:border-white/[0.06] mt-auto">
                       <div className="flex items-center gap-1.5 flex-wrap">
                         <Tag className="w-3 h-3 text-zinc-400" />
                         {post.tags.slice(0, 3).map((tag: string, tIdx: number) => (
@@ -1008,15 +1010,15 @@ export const BlogPage: React.FC = () => {
                         ))}
                       </div>
 
-                      <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-crimson group-hover:translate-x-1 transition-transform">
-                        <span>Read Article</span>
+                      <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-crimson group-hover:translate-x-1 transition-transform shrink-0">
+                        <span>Read</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </span>
                     </div>
                   </article>
                 ))
               ) : (
-                <div className="text-center py-16 px-4 rounded-2xl border border-dashed border-zinc-300 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
+                <div className="col-span-1 md:col-span-2 text-center py-16 px-4 rounded-2xl border border-dashed border-zinc-300 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
                   <p className="font-mono text-sm text-zinc-600 dark:text-zinc-400 mb-3">
                     No articles found matching "{searchQuery}"
                   </p>
