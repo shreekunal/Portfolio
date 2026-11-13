@@ -1433,7 +1433,7 @@ export const BLOG_POSTS: BlogPost[] = [
               "**Phase 1: Configure the API Trigger in SAP Build Lobby:**",
               "1. Open your process in SAP Build Process Automation and click the **Start Event** on the canvas.",
               "2. Switch the start trigger type to **API Trigger**.",
-              "3. Define the input parameters context schema (e.g., `id`, `orderno`, `amount`, `currency`, `status`).",
+              "3. Define the input parameters context schema (e.g., `orderId`, `orderno`, `amount`, `currency`, `status`).",
               "4. **Release and Deploy** the project to your subaccount runtime.",
               "5. Navigate to the **Monitoring** or **Control Tower** tab -> **Process and Workflow Definitions** and copy your deployed **Definition ID** (format: `<subaccount_subdomain>.<project_name>.<process_name>`, e.g., `us10.f0a22d8ftrial.orderapprovalworkflow.orderProcessing`).",
               "**Phase 2: Generate Service Key in BTP Cockpit:**",
@@ -1448,32 +1448,46 @@ export const BLOG_POSTS: BlogPost[] = [
               "SAP Community Guide Reference: https://community.sap.com/t5/technology-blog-posts-by-members/trigger-sap-build-process-automation-workflow-from-fiori-application/ba-p/14418167",
               "GitHub Backend Repo: https://github.com/shreekunal/SAPBackEndConcepts/tree/main/triggerWorkflow",
               "GitHub Frontend Repo: https://github.com/shreekunal/SAPBackEndConcepts/tree/main/ui5_trigger_bpa"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/bpa/community/bpa-dest-10-definition-id.jpg",
+                "caption": "SAP Build Control Tower: Deployed Workflow Definition ID ('myworkflow') in Public Environment"
+              },
+              {
+                "url": "/images/blogs/bpa/community/bpa-dest-1-service-instance.jpg",
+                "caption": "SAP BTP Cockpit: Service Instance for sap_processautomation (Standard Plan) in Cloud Foundry Space"
+              },
+              {
+                "url": "/images/blogs/bpa/community/bpa-dest-2-credentials-key.jpg",
+                "caption": "SAP BTP Cockpit: Service Key Credentials Dialog with endpoints.api, html5-apps-repo, and sap.cloud.service"
+              }
             ]
           },
           {
-            "heading": "Step-by-Step BTP Destination Configuration (spa_process_destination)",
+            "heading": "Step-by-Step BTP Destination Configuration (sap_build_process_automation)",
             "paragraphs": [
-              "Following the enterprise standard documented in the SAP Community tutorial, configure a BTP HTTP destination to route workflow creation requests. This shields frontend and middleware code from token negotiation, client secret exposure, and CORS restrictions.",
+              "Following the enterprise standard documented in the SAP Community tutorial, configure a BTP HTTP destination (e.g. 'sap_build_process_automation' or 'spa_process_destination') to route workflow creation requests. This shields frontend and middleware code from token negotiation, client secret exposure, and CORS restrictions.",
               "**Step-by-Step Destination Setup in BTP Cockpit:**",
-              "1. Go to **BTP Cockpit > Connectivity > Destinations > New Destination**.",
+              "1. Go to **BTP Cockpit > Connectivity > Destinations > New Destination** (choose **From Scratch**).",
               "2. Fill in the primary connection parameters as defined in the table below.",
               "3. Add the **Additional Properties** (mandatory for SAP Cloud SDK and Approuter discovery).",
-              "4. Save the destination and click **Check Connection**. BTP will test connectivity to the token service and return `200 OK: Connection to \"spa_process_destination\" established`."
+              "4. Save the destination and click **Check Connection**. BTP will test connectivity to the token service and return `200 OK: Connection established`."
             ],
             "tables": [
               {
-                "caption": "Primary BTP Destination Parameters (spa_process_destination)",
+                "caption": "Primary BTP Destination Parameters (sap_build_process_automation)",
                 "headers": ["Field Name", "Value / Syntax", "Description"],
                 "rows": [
-                  ["Name", "spa_process_destination", "Exact destination identifier referenced by CAP executeHttpRequest & xs-app.json"],
+                  ["Name", "sap_build_process_automation", "Exact destination identifier referenced by Approuter (xs-app.json) & CAP HTTP client"],
                   ["Type", "HTTP", "Standard HTTP connection protocol"],
                   ["Description", "Destination for triggering SAP Build Process Automation workflow", "Descriptive label for BTP administrators"],
-                  ["URL", "https://spa-api-gateway-bpi-us-prod.cfapps.<region>.hana.ondemand.com/workflow/rest/v1/workflow-instances", "BPA REST endpoint; or append /workflow/rest for base service URL"],
+                  ["URL", "https://spa-api-gateway-bpi-ap-prod.cfapps.<region>.hana.ondemand.com", "Base BPA API gateway endpoint extracted from endpoints.api"],
                   ["Proxy Type", "Internet", "Public SAP BTP SaaS endpoint"],
-                  ["Authentication", "OAuth2ClientCredentials", "Automated m2m token exchange without user interaction"],
+                  ["Authentication", "OAuth2JWTBearer / OAuth2ClientCredentials", "OAuth2 token exchange without manual user interaction"],
                   ["Client ID", "<credentials.uaa.clientid>", "Client ID extracted from the BPA Service Key"],
                   ["Client Secret", "<credentials.uaa.clientsecret>", "Client Secret extracted from the BPA Service Key"],
-                  ["Token Service URL", "<credentials.uaa.url>/oauth/token", "UAA OAuth2 token generation endpoint"]
+                  ["Token Service URL", "<credentials.uaa.url>/oauth/token", "UAA OAuth2 token generation endpoint ending with /oauth/token"]
                 ]
               },
               {
@@ -1483,7 +1497,8 @@ export const BLOG_POSTS: BlogPost[] = [
                   ["HTML5.DynamicDestination", "true", "Enables dynamic route dispatching in SAP BTP HTML5 Application Repository"],
                   ["WebIDEEnabled", "true", "Allows SAP Business Application Studio / Web IDE tooling discovery"],
                   ["WebIDEUsage", "odata_gen", "Allows service catalog generation and metadata modeling"],
-                  ["sap.cloud.service", "com.sap.spa.processautomation", "Binds the destination to the official SAP BPA cloud service identifier"]
+                  ["sap.cloud.service", "com.sap.spa.processautomation", "Binds the destination to the official SAP BPA cloud service identifier"],
+                  ["sap.cloud.service.alias", "spa", "Convenience alias for SAP Build Process Automation services"]
                 ]
               }
             ],
@@ -1491,6 +1506,20 @@ export const BLOG_POSTS: BlogPost[] = [
               "Ensure Token Service URL ends strictly with `/oauth/token`",
               "Verify the connection via Cockpit 'Check Connection' button prior to application deployment",
               "Refer to the SAP Community blueprint: https://community.sap.com/t5/technology-blog-posts-by-members/trigger-sap-build-process-automation-workflow-from-fiori-application/ba-p/14418167"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/bpa/community/bpa-dest-3-create-destination.jpg",
+                "caption": "SAP BTP Cockpit: Connectivity > Destinations > Create New Destination 'From Scratch'"
+              },
+              {
+                "url": "/images/blogs/bpa/community/bpa-dest-4-destination-details.jpg",
+                "caption": "SAP BTP Cockpit: Destination Configuration ('sap_build_process_automation') with OAuth2 and Token URL"
+              },
+              {
+                "url": "/images/blogs/bpa/community/bpa-dest-5-additional-properties.jpg",
+                "caption": "SAP BTP Cockpit: Destination Additional Properties (endpoints, html5-apps-repo, saasregistryenabled, sap.cloud.service)"
+              }
             ]
           },
           {
@@ -1551,12 +1580,17 @@ export const BLOG_POSTS: BlogPost[] = [
               {
                 "filename": "Pattern B: Direct App Router Route (xs-app.json)",
                 "language": "json",
-                "code": "{\n  \"welcomeFile\": \"/index.html\",\n  \"authenticationMethod\": \"route\",\n  \"routes\": [\n    {\n      \"source\": \"^/workflow-api/(.*)$\",\n      \"target\": \"/workflow/rest/$1\",\n      \"destination\": \"spa_process_destination\",\n      \"authenticationType\": \"xsuaa\",\n      \"csrfProtection\": false\n    },\n    {\n      \"source\": \"^/odata/(.*)$\",\n      \"target\": \"/odata/$1\",\n      \"destination\": \"triggerWorkflow\",\n      \"authenticationType\": \"xsuaa\",\n      \"csrfProtection\": false\n    },\n    {\n      \"source\": \"^(.*)$\",\n      \"target\": \"$1\",\n      \"service\": \"html5-apps-repo-rt\",\n      \"authenticationType\": \"xsuaa\"\n    }\n  ]\n}"
+                "code": "{\n  \"welcomeFile\": \"/index.html\",\n  \"authenticationMethod\": \"route\",\n  \"routes\": [\n    {\n      \"source\": \"^/workflow/(.*)$\",\n      \"target\": \"/public/workflow/rest/$1\",\n      \"service\": \"html5-apps-repo-rt\",\n      \"authenticationType\": \"xsuaa\"\n    },\n    {\n      \"source\": \"^/workflow/(.*)$\",\n      \"target\": \"/public/workflow/rest/$1\",\n      \"destination\": \"sap_build_process_automation\",\n      \"authenticationType\": \"xsuaa\",\n      \"csrfProtection\": false\n    },\n    {\n      \"source\": \"^(.*)$\",\n      \"target\": \"$1\",\n      \"service\": \"html5-apps-repo-rt\",\n      \"authenticationType\": \"xsuaa\"\n    }\n  ]\n}"
               },
               {
-                "filename": "Pattern B: Direct Fiori AJAX Trigger (SAP Community Approach)",
+                "filename": "Pattern B: Fiori XML View (webapp/view/View1.view.xml)",
+                "language": "xml",
+                "code": "<mvc:View controllerName=\"project2.controller.View1\"\n    xmlns:mvc=\"sap.ui.core.mvc\"\n    xmlns=\"sap.m\">\n    <Page id=\"page\" title=\"{i18n>title}\">\n        <content>\n            <Button text=\"Start WF\" press=\"onstartWF\" />\n        </content>\n    </Page>\n</mvc:View>"
+              },
+              {
+                "filename": "Pattern B: Fiori AJAX Controller (webapp/controller/View1.controller.js)",
                 "language": "javascript",
-                "code": "// Direct invocation from Fiori controller without CAP middleware\nonDirectTriggerBPA: function () {\n    var oPayload = {\n        definitionId: \"us10.f0a22d8ftrial.orderapprovalworkflow.orderProcessing\",\n        context: {\n            id: 1004,\n            orderno: \"OD-1001\",\n            amount: 1500,\n            currency: \"USD\",\n            status: \"\"\n        }\n    };\n\n    // Trigger workflow directly through App Router proxy route\n    $.ajax({\n        url: \"/workflow-api/v1/workflow-instances\",\n        type: \"POST\",\n        contentType: \"application/json\",\n        data: JSON.stringify(oPayload),\n        success: function (data) {\n            sap.m.MessageToast.show(\"Workflow Initiated! ID: \" + data.id);\n        },\n        error: function (err) {\n            sap.m.MessageToast.show(\"Error triggering BPA workflow\");\n            console.error(\"Workflow Trigger Error:\", err);\n        }\n    });\n}"
+                "code": "sap.ui.define([\n    \"sap/ui/core/mvc/Controller\",\n    \"sap/m/MessageToast\"\n], function (Controller, MessageToast) {\n    \"use strict\";\n\n    return Controller.extend(\"project2.controller.View1\", {\n        onInit: function () {\n        },\n\n        onstartWF: function () {\n            var startContext = {\n                \"name\": \"mahesh\"\n            };\n            var workflowArgs = {\n                definitionId: \"myworkflow\",\n                context: startContext\n            };\n            $.ajax({\n                url: this._getWorkflowRuntimeBaseURL() + \"/workflow-instances\",\n                method: \"POST\",\n                async: false,\n                contentType: \"application/json\",\n                headers: {\n                    \"X-CSRF-Token\": this._fetchToken()\n                },\n                data: JSON.stringify(workflowArgs),\n                success: function (result, status, xhr) {\n                    MessageToast.show(\"Workflow started successfully...\");\n                },\n                error: function (result, status, xhr) {\n                    MessageToast.show(\"Error starting workflow...\");\n                }\n            });\n        },\n\n        _getWorkflowRuntimeBaseURL: function () {\n            var appId = this.getOwnerComponent().getManifestEntry(\"/sap.app/id\");\n            var appPath = appId.replaceAll(\".\", \"/\");\n            var appModulePath = jQuery.sap.getModulePath(appPath);\n            return appModulePath + \"/workflow/rest/v1\";\n        },\n\n        _fetchToken: function () {\n            var token;\n            $.ajax({\n                url: this._getWorkflowRuntimeBaseURL() + \"/xsrf-token\",\n                method: \"GET\",\n                async: false,\n                headers: {\n                    \"X-CSRF-Token\": \"Fetch\"\n                },\n                success: function (result, xhr, data) {\n                    token = data.getResponseHeader(\"X-CSRF-Token\");\n                }\n            });\n            return token;\n        }\n    });\n});"
               }
             ],
             "keyPoints": [
@@ -1564,6 +1598,32 @@ export const BLOG_POSTS: BlogPost[] = [
               "Exact CAPM GitHub Repo: https://github.com/shreekunal/SAPBackEndConcepts/tree/main/triggerWorkflow",
               "SAP Community Reference Post: https://community.sap.com/t5/technology-blog-posts-by-members/trigger-sap-build-process-automation-workflow-from-fiori-application/ba-p/14418167",
               "App Router proxies prevent Cross-Origin Resource Sharing (CORS) blocks in browser environments"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/bpa/community/bpa-dest-6-app-preview.jpg",
+                "caption": "SAP Business Application Studio: Local Preview of the Fiori Application on Port 8080"
+              },
+              {
+                "url": "/images/blogs/bpa/community/bpa-dest-7-xs-app-routing.jpg",
+                "caption": "App Router Configuration (xs-app.json): Route ^/workflow/(.*)$ dispatched to destination sap_build_process_automation"
+              },
+              {
+                "url": "/images/blogs/bpa/community/bpa-dest-8-view-xml.jpg",
+                "caption": "SAPUI5 View (webapp/view/View1.view.xml): Button triggering onstartWF event handler"
+              },
+              {
+                "url": "/images/blogs/bpa/community/bpa-dest-9-controller-js.jpg",
+                "caption": "SAPUI5 Controller (webapp/controller/View1.controller.js): AJAX POST with definitionId ('myworkflow') and context payload"
+              },
+              {
+                "url": "/images/blogs/bpa/community/bpa-dest-11-terminal-deploy.jpg",
+                "caption": "Cloud Foundry Terminal: Building MTA Archive (mbt build) and Deploying to BTP (cf deploy project2_0.0.1.mtar)"
+              },
+              {
+                "url": "/images/blogs/bpa/community/bpa-dest-12-workflow-triggered.jpg",
+                "caption": "Running SAP Fiori Application: 'Start WF' triggered with MessageToast confirmation"
+              }
             ]
           }
         ]
