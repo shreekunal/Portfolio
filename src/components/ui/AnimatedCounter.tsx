@@ -30,7 +30,6 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
     const suffix = match[2] || '';
     const isDecimal = match[1].includes('.');
 
-    let start = 0;
     const startTime = performance.now();
 
     const update = (now: number) => {
@@ -38,7 +37,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
       const progress = Math.min(elapsed / duration, 1);
       // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-      const current = start + (targetNumber - start) * eased;
+      const current = targetNumber * eased;
 
       setDisplayValue(
         isDecimal

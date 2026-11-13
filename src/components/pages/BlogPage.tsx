@@ -260,7 +260,13 @@ export const BlogPage: React.FC = () => {
           {/* About Me Button - Navigates back to main portfolio */}
           <a
             href="/"
-            onClick={playClick}
+            onClick={(e) => {
+              playClick();
+              // Smooth client-side SPA navigation back to portfolio
+              e.preventDefault();
+              window.history.pushState(null, '', '/');
+              window.dispatchEvent(new PopStateEvent('popstate'));
+            }}
             onMouseEnter={playHover}
             className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold border transition-all shrink-0 bg-zinc-100 hover:bg-crimson/10 border-zinc-300 hover:border-crimson text-zinc-900 hover:text-crimson dark:bg-white/[0.05] dark:border-white/10 dark:text-zinc-200 dark:hover:text-white"
           >
@@ -814,7 +820,7 @@ export const BlogPage: React.FC = () => {
               ) : (
                 /* Fallback flat sections if no groups defined */
                 <div className="space-y-10 text-zinc-800 dark:text-zinc-200">
-                  {activePost.sections.map((sec, idx) => (
+                  {activePost.sections?.map((sec, idx) => (
                     <section key={idx} className="space-y-4">
                       <h2 className="text-lg sm:text-xl font-bold tracking-tight text-zinc-950 dark:text-white">
                         {sec.heading}

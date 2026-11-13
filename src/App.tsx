@@ -69,7 +69,7 @@ export const AppContent: React.FC = () => {
             'DISTRIBUTED ARCHITECTURE',
             'HIGH-THROUGHPUT SYSTEMS',
             'SUB-50MS LATENCY',
-            'REACT 19 & NEXT.JS',
+            'REACT 18 & NEXT.JS',
             'PRECISION MOTION DYNAMICS',
             'ENTERPRISE STABILITY',
           ]}

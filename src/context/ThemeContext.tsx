@@ -19,8 +19,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setTheme(saved);
       applyTheme(saved);
     } else {
-      setTheme('light');
-      applyTheme('light');
+      // Respect the OS/browser colour-scheme preference when no saved choice exists
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const defaultTheme: Theme = prefersDark ? 'dark' : 'light';
+      setTheme(defaultTheme);
+      applyTheme(defaultTheme);
     }
   }, []);
 

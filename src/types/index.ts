@@ -136,7 +136,7 @@ export interface BlogPost {
   tags: string[];
   sources?: BlogPostSource[];
   groups?: BlogSectionGroup[];
-  sections: BlogArticleSection[];
+  sections?: BlogArticleSection[]; // optional — primary content lives in `groups`
 }
 
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 
 export const CustomCursor: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -8,6 +8,13 @@ export const CustomCursor: React.FC = () => {
 
   const dotRef = useRef<HTMLDivElement | null>(null);
   const ringRef = useRef<HTMLDivElement | null>(null);
+  // Use a ref for visibility so event handlers never go stale
+  const isVisibleRef = useRef(false);
+
+  const setVisible = useCallback((v: boolean) => {
+    isVisibleRef.current = v;
+    setIsVisible(v);
+  }, []);
 
   useEffect(() => {
     if (window.matchMedia('(pointer: coarse)').matches) {
@@ -25,7 +32,8 @@ export const CustomCursor: React.FC = () => {
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      if (!isVisible) setIsVisible(true);
+      // Use the ref so this never triggers a re-run of the effect
+      if (!isVisibleRef.current) setVisible(true);
 
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
@@ -47,8 +55,8 @@ export const CustomCursor: React.FC = () => {
 
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
-    const handleMouseLeave = () => setIsVisible(false);
-    const handleMouseEnter = () => setIsVisible(true);
+    const handleMouseLeave = () => setVisible(false);
+    const handleMouseEnter = () => setVisible(true);
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mousedown', handleMouseDown);
@@ -78,7 +86,9 @@ export const CustomCursor: React.FC = () => {
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, [isVisible]);
+  // Run once on mount only — visibility is tracked via ref to avoid stale closures
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!isVisible) return null;
 

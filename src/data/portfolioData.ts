@@ -10,7 +10,7 @@ export const PERSONAL_INFO = {
   email: "shrii.kunal@gmail.com",
   github: "https://github.com/shreekunal",
   linkedin: "https://linkedin.com/in/shreekunal",
-  twitter: "https://leetcode.com/u/shreekunal",
+  twitter: "https://leetcode.com/u/shreekunal", // kept for backwards compat — same as SOCIAL_LINKS LeetCode entry
   status: "Associate SAP BTP Consultant @ Raven Infotech",
   yearsExperience: "1.5+",
   projectsCompleted: "20+",
@@ -23,25 +23,25 @@ export const QUICK_STATS: QuickStat[] = [
     label: "Industry Experience",
     value: "1.5+ Yrs",
     description: "1 yr 5 mos progressive career @ Raven Infotech",
-    icon: "Rocket",
+    icon: "Rocket",  // → renders Zap icon in Hero
   },
   {
     label: "SAP Certifications",
     value: "3x Certified",
     description: "Fiori Developer, CAP Backend & Joule Studio (Nov '26 - '27)",
-    icon: "Zap",
+    icon: "Zap",    // → renders Code2 icon in Hero
   },
   {
     label: "Academic Foundation",
     value: "MCA '26",
     description: "MCA @ KIET & Bachelor's @ Gurukula Kangri",
-    icon: "Clock",
+    icon: "Clock",  // → renders Cpu icon in Hero
   },
   {
     label: "Core Specialization",
     value: "SAP BTP + Web",
     description: "CAP, Joule Agents, Integration Suite, Next.js & NestJS",
-    icon: "Globe",
+    icon: "Globe",  // → renders Globe icon in Hero ✓
   },
 ];
 

@@ -23,11 +23,11 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
 
   const getStatIcon = (iconName: string) => {
     switch (iconName) {
-      case 'Clock': return <Cpu className="w-5 h-5 text-white" />;
-      case 'Rocket': return <Zap className="w-5 h-5 text-white" />;
-      case 'Zap': return <Code2 className="w-5 h-5 text-white" />;
-      case 'Globe': return <Globe className="w-5 h-5 text-white" />;
-      default: return <Sparkles className="w-5 h-5 text-white" />;
+      case 'Rocket': return <Zap className="w-5 h-5 text-white" />;   // Industry Experience
+      case 'Zap':    return <Code2 className="w-5 h-5 text-white" />; // SAP Certifications
+      case 'Clock':  return <Cpu className="w-5 h-5 text-white" />;   // Academic Foundation
+      case 'Globe':  return <Globe className="w-5 h-5 text-white" />; // Core Specialization
+      default:       return <Sparkles className="w-5 h-5 text-white" />;
     }
   };
 

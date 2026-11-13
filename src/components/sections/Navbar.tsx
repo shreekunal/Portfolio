@@ -9,6 +9,14 @@ interface NavbarProps {
   playClick: () => void;
 }
 
+const NAV_ITEMS = [
+  { id: 'hero', label: 'Home' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'certifications', label: 'Certifications' },
+  { id: 'experience', label: 'Milestones' },
+  { id: 'contact', label: 'Contact' },
+];
+
 export const Navbar: React.FC<NavbarProps> = ({
   isMuted,
   toggleSound,
@@ -18,25 +26,16 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [activeSection, setActiveSection] = useState('hero');
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const navItems = [
-    { id: 'hero', label: 'Home' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'certifications', label: 'Certifications' },
-    { id: 'experience', label: 'Milestones' },
-    { id: 'contact', label: 'Contact' },
-  ];
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 30);
 
-      const sections = navItems.map((item) => document.getElementById(item.id));
       const scrollPosition = window.scrollY + 250;
 
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
+      for (let i = NAV_ITEMS.length - 1; i >= 0; i--) {
+        const section = document.getElementById(NAV_ITEMS[i].id);
         if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(navItems[i].id);
+          setActiveSection(NAV_ITEMS[i].id);
           break;
         }
       }
@@ -81,7 +80,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Section Links */}
         <div className="flex items-center gap-1">
-          {navItems.map((item) => {
+          {NAV_ITEMS.map((item) => {
             const isActive = activeSection === item.id;
             return (
               <button
