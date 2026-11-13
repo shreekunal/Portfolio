@@ -133,6 +133,14 @@ const CodeBlockView: React.FC<BlogCodeBlock> = ({ code, filename, language }) =>
   );
 };
 
+const resolveAssetUrl = (url?: string) => {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) return url;
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const cleanUrl = url.startsWith('/') ? url : `/${url}`;
+  return `${base}${cleanUrl}`;
+};
+
 interface BlogImageViewProps {
   src: string;
   alt: string;
@@ -152,6 +160,8 @@ const BlogImageView: React.FC<BlogImageViewProps> = ({
   onOpenLightbox,
   playHover,
 }) => {
+  const resolvedSrc = resolveAssetUrl(src);
+
   return (
     <div
       onClick={() => onOpenLightbox(src, caption || alt)}
@@ -161,7 +171,7 @@ const BlogImageView: React.FC<BlogImageViewProps> = ({
     >
       <div className="relative overflow-hidden bg-white dark:bg-zinc-900">
         <img
-          src={src}
+          src={resolvedSrc}
           alt={alt}
           className={`w-full h-auto object-contain ${maxHeight} transition-transform duration-200 group-hover:scale-[1.01]`}
           loading="lazy"
@@ -280,13 +290,19 @@ export const BlogPage: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activePost]);
 
-  // Sync with URL path (e.g. /blog/build-workzone)
+  // Base URLs supporting both root '/' and subpaths like '/Portfolio/'
+  const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const homeUrl = import.meta.env.BASE_URL;
+  const blogUrl = `${basePrefix}/blog`;
+
+  // Sync with URL path (e.g. /blog/build-workzone or /Portfolio/blog/build-workzone)
   useEffect(() => {
     const parseSlugFromPath = () => {
       const path = window.location.pathname;
       const parts = path.split('/').filter(Boolean);
-      if (parts.length >= 2 && parts[0] === 'blog') {
-        setActiveSlug(parts[1]);
+      const blogIdx = parts.indexOf('blog');
+      if (blogIdx !== -1 && parts[blogIdx + 1]) {
+        setActiveSlug(parts[blogIdx + 1]);
       } else {
         setActiveSlug(null);
       }
@@ -300,14 +316,14 @@ export const BlogPage: React.FC = () => {
   const openArticle = (slug: string) => {
     playClick();
     setActiveSlug(slug);
-    window.history.pushState(null, '', `/blog/${slug}`);
+    window.history.pushState(null, '', `${basePrefix}/blog/${slug}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const closeArticle = () => {
     playClick();
     setActiveSlug(null);
-    window.history.pushState(null, '', '/blog');
+    window.history.pushState(null, '', blogUrl);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -334,12 +350,12 @@ export const BlogPage: React.FC = () => {
         <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-4">
           {/* About Me Button - Navigates back to main portfolio */}
           <a
-            href="/"
+            href={homeUrl}
             onClick={(e) => {
               playClick();
               // Smooth client-side SPA navigation back to portfolio
               e.preventDefault();
-              window.history.pushState(null, '', '/');
+              window.history.pushState(null, '', homeUrl);
               window.dispatchEvent(new PopStateEvent('popstate'));
             }}
             onMouseEnter={playHover}
@@ -359,7 +375,7 @@ export const BlogPage: React.FC = () => {
                 setSearchQuery(e.target.value);
                 if (activeSlug) {
                   setActiveSlug(null);
-                  window.history.pushState(null, '', '/blog');
+                  window.history.pushState(null, '', blogUrl);
                 }
               }}
               placeholder="Search articles..."
@@ -1106,7 +1122,7 @@ export const BlogPage: React.FC = () => {
             {/* Minimal Footer */}
             <div className="pt-10 mt-10 border-t border-zinc-200 dark:border-white/10 text-xs font-mono text-zinc-500 flex items-center justify-between">
               <span>© {new Date().getFullYear()} {PERSONAL_INFO.name}</span>
-              <a href="/" className="hover:text-crimson transition-colors">
+              <a href={homeUrl} className="hover:text-crimson transition-colors">
                 ← Back to About me
               </a>
             </div>
@@ -1151,7 +1167,7 @@ export const BlogPage: React.FC = () => {
             className="relative max-w-full max-h-[86vh] flex items-center justify-center overflow-auto rounded-2xl border border-white/15 bg-black/70 shadow-2xl p-2 sm:p-3"
           >
             <img
-              src={lightboxImage.url}
+              src={resolveAssetUrl(lightboxImage.url)}
               alt={lightboxImage.caption || 'Full view'}
               className="max-w-[96vw] max-h-[82vh] w-auto h-auto object-contain select-none rounded-lg"
             />

@@ -28,8 +28,8 @@ export const AppContent: React.FC = () => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Standalone Minimal Blog Page Route
-  if (currentPath.startsWith('/blog')) {
+  // Standalone Minimal Blog Page Route (supports root '/' and subpath like '/Portfolio/blog')
+  if (currentPath.includes('/blog')) {
     return <BlogPage />;
   }
 

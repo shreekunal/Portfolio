@@ -107,7 +107,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Distinct Separated Blog Action (Opens Separate Page) */}
         <div className="pl-2 border-l border-zinc-300 dark:border-white/10 flex items-center">
           <a
-            href="/blog"
+            href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/blog`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={playClick}
