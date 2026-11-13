@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Clock, Calendar, Tag, CheckCircle2, ArrowRight, Search, X, ExternalLink, BookOpen, ChevronDown, ChevronRight, Layers, Copy, Check, FileCode, GraduationCap, Table, Filter, FileText, BarChart3, Boxes, SlidersHorizontal } from 'lucide-react';
+import { ArrowLeft, Clock, Calendar, Tag, CheckCircle2, ArrowRight, Search, X, ExternalLink, BookOpen, ChevronDown, ChevronRight, Layers, Copy, Check, FileCode, GraduationCap, Table, Filter, FileText, BarChart3, Boxes, SlidersHorizontal, Maximize2, ZoomIn } from 'lucide-react';
 import { BLOG_POSTS, PERSONAL_INFO } from '../../data/portfolioData';
 import { BlogPost, BlogArticleSection, BlogSectionGroup, BlogCodeBlock, BlogBuildingBlock } from '../../types';
 import { ThemeToggle } from '../ui/ThemeToggle';
@@ -20,7 +20,7 @@ const renderFormattedText = (text: string) => {
       return (
         <code
           key={index}
-          className="px-1.5 py-0.5 rounded text-[11px] font-mono bg-zinc-100 dark:bg-white/[0.08] text-crimson-dark dark:text-crimson border border-zinc-200 dark:border-white/10"
+          className="px-1.5 py-0.5 rounded text-[11px] font-mono bg-zinc-100 dark:bg-white/[0.08] text-rose-700 dark:text-rose-300 border border-zinc-200 dark:border-white/10"
         >
           {part.slice(1, -1)}
         </code>
@@ -39,7 +39,8 @@ const CodeBlockView: React.FC<BlogCodeBlock> = ({ code, filename, language }) =>
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const lines = code.split('\n');
+  const normalizedCode = code.includes('\n') ? code : code.replace(/\\n/g, '\n');
+  const lines = normalizedCode.split('\n');
 
   const renderLine = (line: string) => {
     const trimmed = line.trim();
@@ -113,15 +114,15 @@ const CodeBlockView: React.FC<BlogCodeBlock> = ({ code, filename, language }) =>
 
       {/* Code Content */}
       <div className="p-4 overflow-x-auto leading-relaxed">
-        <pre className="text-zinc-200">
-          <code>
+        <pre className="text-zinc-200 m-0 p-0 font-mono">
+          <code className="block min-w-full">
             {lines.map((line, lIdx) => (
-              <div key={lIdx} className="table-row">
-                <span className="table-cell select-none pr-4 text-right text-zinc-600 text-[11px] w-8">
+              <div key={lIdx} className="flex min-w-fit hover:bg-white/[0.03] transition-colors">
+                <span className="select-none pr-4 text-right text-zinc-600 text-[11px] w-10 shrink-0 font-mono">
                   {lIdx + 1}
                 </span>
-                <span className="table-cell whitespace-pre">
-                  {renderLine(line)}
+                <span className="whitespace-pre font-mono">
+                  {renderLine(line) || '\u00A0'}
                 </span>
               </div>
             ))}
@@ -132,15 +133,89 @@ const CodeBlockView: React.FC<BlogCodeBlock> = ({ code, filename, language }) =>
   );
 };
 
+interface BlogImageViewProps {
+  src: string;
+  alt: string;
+  caption?: string;
+  className?: string;
+  maxHeight?: string;
+  onOpenLightbox: (src: string, caption?: string) => void;
+  playHover?: () => void;
+}
+
+const BlogImageView: React.FC<BlogImageViewProps> = ({
+  src,
+  alt,
+  caption,
+  className = '',
+  maxHeight = 'max-h-[520px]',
+  onOpenLightbox,
+  playHover,
+}) => {
+  return (
+    <div
+      onClick={() => onOpenLightbox(src, caption || alt)}
+      onMouseEnter={playHover}
+      className={`group relative rounded-xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-white dark:bg-black/50 shadow-sm cursor-zoom-in transition-all hover:border-crimson/50 hover:shadow-md ${className}`}
+      title="Click to view full screen"
+    >
+      <div className="relative overflow-hidden bg-white dark:bg-zinc-900">
+        <img
+          src={src}
+          alt={alt}
+          className={`w-full h-auto object-contain ${maxHeight} transition-transform duration-200 group-hover:scale-[1.01]`}
+          loading="lazy"
+        />
+        {/* Fullscreen indicator badge on hover */}
+        <div className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 hover:bg-black text-white px-2.5 py-1 rounded-full text-[11px] font-mono flex items-center gap-1.5 backdrop-blur-md shadow-lg pointer-events-none border border-white/10">
+          <Maximize2 className="w-3 h-3 text-crimson" />
+          <span>Full Screen</span>
+        </div>
+      </div>
+      {caption && (
+        <div className="px-4 py-2.5 text-xs font-mono text-zinc-600 dark:text-zinc-300 bg-zinc-50 dark:bg-white/[0.02] border-t border-zinc-200 dark:border-white/10 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-crimson shrink-0" />
+            <span className="truncate">{caption}</span>
+          </div>
+          <span className="text-[10px] text-zinc-400 font-sans uppercase shrink-0 flex items-center gap-1">
+            <ZoomIn className="w-3 h-3" /> Max view
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const BlogPage: React.FC = () => {
   const { playHover, playClick } = useSoundEffects();
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [lightboxImage, setLightboxImage] = useState<{ url: string; caption?: string } | null>(null);
   const [openGroups, setOpenGroups] = useState<{ [groupId: string]: boolean }>({
     'group-overview': true,
     'group-spa-subscribe-booster': true
   });
   const [activeGroupId, setActiveGroupId] = useState<string>('group-overview');
+
+  // Prevent background scroll and support ESC key to close image lightbox
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setLightboxImage(null);
+      }
+    };
+    if (lightboxImage) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [lightboxImage]);
 
   const scrollToGroup = (groupId: string) => {
     playClick();
@@ -256,7 +331,7 @@ export const BlogPage: React.FC = () => {
 
       {/* Top Navbar: ONLY Search Bar & About Me Button */}
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/90 dark:bg-black/90 border-b border-zinc-200 dark:border-white/10 px-4 md:px-8 py-3 transition-colors">
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+        <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-4">
           {/* About Me Button - Navigates back to main portfolio */}
           <a
             href="/"
@@ -304,7 +379,7 @@ export const BlogPage: React.FC = () => {
       </header>
 
       {/* Main Container with Sticky Left Index Navigator */}
-      <main className="max-w-6xl mx-auto px-4 md:px-6 py-10 md:py-14">
+      <main className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {activePost ? (
           /* ==================================================== */
           /* ARTICLE READING VIEW WITH DEV NAVIGATOR              */
@@ -619,20 +694,18 @@ export const BlogPage: React.FC = () => {
 
                                         {/* Direct  Step Image */}
                                         {ast.image && (
-                                          <div className="ml-0 sm:ml-9 rounded-xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-black/50 shadow-sm">
-                                            <img
-                                              src={ast.image}
-                                              alt={ast.imageCaption || `Step ${ast.stepNumber || ''}`}
-                                              className="w-full h-auto object-contain max-h-[520px] bg-white dark:bg-zinc-900"
-                                              loading="lazy"
-                                            />
-                                            {ast.imageCaption && (
-                                              <div className="px-4 py-2 text-xs font-mono text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-white/[0.02] border-t border-zinc-200 dark:border-white/10 flex items-center gap-2">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-crimson shrink-0" />
-                                                <span>{ast.imageCaption}</span>
-                                              </div>
-                                            )}
-                                          </div>
+                                          <BlogImageView
+                                            src={ast.image}
+                                            alt={ast.imageCaption || `Step ${ast.stepNumber || ''}`}
+                                            caption={ast.imageCaption}
+                                            className="ml-0 sm:ml-9"
+                                            maxHeight="max-h-[520px]"
+                                            onOpenLightbox={(url, cap) => {
+                                              playClick();
+                                              setLightboxImage({ url, caption: cap });
+                                            }}
+                                            playHover={playHover}
+                                          />
                                         )}
 
                                         {/* Direct  Step Table */}
@@ -682,43 +755,36 @@ export const BlogPage: React.FC = () => {
                                 {sec.figures && sec.figures.length > 0 && (
                                   <div className="space-y-6 my-6">
                                     {sec.figures.map((fig, fIdx) => (
-                                      <div
+                                      <BlogImageView
                                         key={fIdx}
-                                        className="rounded-xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-white dark:bg-black/50 shadow-sm"
-                                      >
-                                        <img
-                                          src={fig.url}
-                                          alt={fig.caption}
-                                          className="w-full h-auto object-contain max-h-[460px] bg-white dark:bg-zinc-900"
-                                          loading="lazy"
-                                        />
-                                        {fig.caption && (
-                                          <div className="px-4 py-2.5 text-xs font-mono text-zinc-600 dark:text-zinc-300 bg-zinc-50 dark:bg-white/[0.02] border-t border-zinc-200 dark:border-white/10 flex items-center gap-2">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-crimson shrink-0" />
-                                            <span>{fig.caption}</span>
-                                          </div>
-                                        )}
-                                      </div>
+                                        src={fig.url}
+                                        alt={fig.caption}
+                                        caption={fig.caption}
+                                        maxHeight="max-h-[500px]"
+                                        onOpenLightbox={(url, cap) => {
+                                          playClick();
+                                          setLightboxImage({ url, caption: cap });
+                                        }}
+                                        playHover={playHover}
+                                      />
                                     ))}
                                   </div>
                                 )}
 
                                 {/* Single Fallback Image */}
                                 {!sec.figures && sec.image && (
-                                  <div className="my-6 rounded-xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-white dark:bg-black/50 shadow-sm">
-                                    <img
-                                      src={sec.image}
-                                      alt={sec.imageCaption || sec.heading}
-                                      className="w-full h-auto object-contain max-h-[460px] bg-white dark:bg-zinc-900"
-                                      loading="lazy"
-                                    />
-                                    {sec.imageCaption && (
-                                      <div className="px-4 py-2.5 text-xs font-mono text-zinc-600 dark:text-zinc-300 bg-zinc-50 dark:bg-white/[0.02] border-t border-zinc-200 dark:border-white/10 flex items-center gap-2">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-crimson shrink-0" />
-                                        <span>{sec.imageCaption}</span>
-                                      </div>
-                                    )}
-                                  </div>
+                                  <BlogImageView
+                                    src={sec.image}
+                                    alt={sec.imageCaption || sec.heading}
+                                    caption={sec.imageCaption}
+                                    className="my-6"
+                                    maxHeight="max-h-[500px]"
+                                    onOpenLightbox={(url, cap) => {
+                                      playClick();
+                                      setLightboxImage({ url, caption: cap });
+                                    }}
+                                    playHover={playHover}
+                                  />
                                 )}
 
                                 {/* Clean Formatted Data Tables */}
@@ -879,19 +945,18 @@ export const BlogPage: React.FC = () => {
                       )}
 
                       {sec.image && (
-                        <div className="my-6 rounded-xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-950/5 dark:bg-black/50">
-                          <img
-                            src={sec.image}
-                            alt={sec.imageCaption || sec.heading}
-                            className="w-full h-auto object-contain max-h-[480px] bg-white dark:bg-zinc-900"
-                            loading="lazy"
-                          />
-                          {sec.imageCaption && (
-                            <div className="px-4 py-2 text-xs font-mono text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-white/[0.02] border-t border-zinc-200 dark:border-white/10">
-                              {sec.imageCaption}
-                            </div>
-                          )}
-                        </div>
+                        <BlogImageView
+                          src={sec.image}
+                          alt={sec.imageCaption || sec.heading}
+                          caption={sec.imageCaption}
+                          className="my-6"
+                          maxHeight="max-h-[500px]"
+                          onOpenLightbox={(url, cap) => {
+                            playClick();
+                            setLightboxImage({ url, caption: cap });
+                          }}
+                          playHover={playHover}
+                        />
                       )}
 
                       {sec.keyPoints && (
@@ -1048,6 +1113,51 @@ export const BlogPage: React.FC = () => {
           </div>
         )}
       </main>
+
+      {/* Fullscreen Image Lightbox Modal */}
+      {lightboxImage && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setLightboxImage(null)}
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center p-3 sm:p-6 bg-black/95 backdrop-blur-md animate-in fade-in duration-200"
+        >
+          {/* Top Bar with Caption & Close Button */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-7xl flex items-center justify-between gap-4 pb-3 text-white"
+          >
+            <div className="flex items-center gap-2 min-w-0 text-xs sm:text-sm font-mono text-zinc-200">
+              <span className="w-2 h-2 rounded-full bg-crimson shrink-0" />
+              <span className="truncate">{lightboxImage.caption || 'Image Preview'}</span>
+            </div>
+            <button
+              onClick={() => {
+                playClick();
+                setLightboxImage(null);
+              }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-white/10 hover:bg-crimson text-white border border-white/20 transition-all cursor-pointer shrink-0"
+              title="Close (ESC)"
+            >
+              <span>Close</span>
+              <kbd className="px-1.5 py-0.5 rounded text-[10px] bg-black/50 border border-white/20">ESC</kbd>
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Full Screen Image Frame */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-full max-h-[86vh] flex items-center justify-center overflow-auto rounded-2xl border border-white/15 bg-black/70 shadow-2xl p-2 sm:p-3"
+          >
+            <img
+              src={lightboxImage.url}
+              alt={lightboxImage.caption || 'Full view'}
+              className="max-w-[96vw] max-h-[82vh] w-auto h-auto object-contain select-none rounded-lg"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

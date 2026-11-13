@@ -168,80 +168,9 @@ export const BLOG_POSTS: BlogPost[] = [
               },
               {
                 "stepNumber": 14,
-                "instruction": "Navigate to **Instances and Subscriptions** and choose the **Go to Application** icon.\n\n    \n\n    This will launch your SAP Build Process Automation application.\n\n    You have successfully subscribed to SAP Build Process Automation.\n\n\n\n]",
+                "instruction": "Navigate to **Instances and Subscriptions** and choose the **Go to Application** icon.\n\nThis will launch your SAP Build Process Automation application.\n\nYou have successfully subscribed to SAP Build Process Automation.",
                 "image": "/images/blogs/bpa/all/spa-subscribe-booster_008.png",
-                "imageCaption": "Step 14: Trial",
-                "note": "Complete [Get an Account on SAP BTP to Try Out Free Tier Service Plans](btp-free-tier-account)."
-              },
-              {
-                "stepNumber": 1,
-                "instruction": "After successful creation of SAP BTP account using Free Tier, navigate to Boosters and search for **SAP Build Process Automation** to find the SAP Build Process Automation booster. Once the tile is shown, select the tile.",
-                "image": "/images/blogs/bpa/all/spa-subscribe-booster_1.png",
-                "imageCaption": "Step 1: 1.PNG",
-                "note": "Booster is a guided set of automatic instructions to achieve a specific goal. SAP Build Process Automation automates the onboarding of SAP Build Process Automation service in your account without the need of any manual configurations. It will configure entitlement, enable SAP Build Process Automation subscription, and will assign all the relevant role collections to the given users for administrator or developer personas."
-              },
-              {
-                "stepNumber": 2,
-                "instruction": "You will be navigated to the overview page of the booster. Choose **Start**.",
-                "image": "/images/blogs/bpa/all/spa-subscribe-booster_2.png",
-                "imageCaption": "Step 2: 2.PNG"
-              },
-              {
-                "stepNumber": 3,
-                "instruction": "The booster tests the prerequisites for the service and your credentials. Once the **Prerequisites** are marked as **DONE** in green, it indicates that the tests have passed successfully. Choose **Next**.",
-                "image": "/images/blogs/bpa/all/spa-subscribe-booster_3.png",
-                "imageCaption": "Step 3: 3.PNG"
-              },
-              {
-                "stepNumber": 4,
-                "instruction": "In this step you can create a new sub-account or use an existing one. Here, you will create a new sub-account scenario and choose **Next**.",
-                "image": "/images/blogs/bpa/all/spa-subscribe-booster_4.png",
-                "imageCaption": "Step 4: 4.PNG",
-                "note": "You cannot have SAP Build Process Automation and SAP Intelligent RPA in the same sub-account."
-              },
-              {
-                "stepNumber": 5,
-                "instruction": "System shows you all generated IDs which can be changed or accepted. The most important point here is that you can see the correct service and plan in the box then choose **Next**.",
-                "image": "/images/blogs/bpa/all/spa-subscribe-booster_5.png",
-                "imageCaption": "Step 5: 5.PNG"
-              },
-              {
-                "stepNumber": 6,
-                "instruction": "Maintain users that would be added to the SAP Build Process Automation service. The users can be added later too. Choose **Next**.",
-                "image": "/images/blogs/bpa/all/spa-subscribe-booster_6.png",
-                "imageCaption": "Step 6: 6.PNG"
-              },
-              {
-                "stepNumber": 7,
-                "instruction": "Summary of the booster is shown in the last page for review. After the review, choose **Finish**.",
-                "image": "/images/blogs/bpa/all/spa-subscribe-booster_7.png",
-                "imageCaption": "Step 7: 7.PNG"
-              },
-              {
-                "stepNumber": 8,
-                "instruction": "The booster starts the deployment which can take up to five minutes to get the service ready.",
-                "image": "/images/blogs/bpa/all/spa-subscribe-booster_8.png",
-                "imageCaption": "Step 8: 8.PNG",
-                "note": "A pop-up will inform you that the Booster was successfully executed."
-              },
-              {
-                "stepNumber": 9,
-                "instruction": "Choose **Navigate to Subaccount**.",
-                "image": "/images/blogs/bpa/all/spa-subscribe-booster_9.png",
-                "imageCaption": "Step 9: 9.PNG"
-              },
-              {
-                "stepNumber": 10,
-                "instruction": "Then choose **Instances and Subscriptions** in the menu.\n\n    You now get an overview on the activated services and you can move directly to the **SAP Build Process Automation** application by selecting the icon.",
-                "image": "/images/blogs/bpa/all/spa-subscribe-booster_10.png",
-                "imageCaption": "Step 10: 10.PNG",
-                "note": "SAP Build Process Automation Application Development workbench which will be your one-stop studio to develop, test, deploy and monitor your processes with different skills like decision, automation, forms etc."
-              },
-              {
-                "stepNumber": 11,
-                "instruction": "You will have access to SAP Build which is a no-code environment from where you can start your development of the business processes.\n\n    \n\n    You are now ready to use SAP Build Process Automation in SAP BTP Free Tier.\n\n\n\n\n---",
-                "image": "/images/blogs/bpa/all/spa-subscribe-booster_11.png",
-                "imageCaption": "Step 11: Studio"
+                "imageCaption": "Step 14: Trial"
               }
             ]
           }
@@ -1534,22 +1463,169 @@ export const BLOG_POSTS: BlogPost[] = [
               {
                 "filename": "srv/cat-service.cds",
                 "language": "cds",
-                "code": "using {my.orders} from '../db/schema';\n\n@odata\nservice CatalogService {\n\n  // Expose Orders table (BPA will update status here)\n  entity Orders as projection on orders.Orders;\n\n  // Triggers a SAP Build Process Automation workflow for order processing\n  action triggerWorkflow(orderId: Integer, orderNo: String, amount: Integer, currency: String) returns String;\n\n  // Called by SAP BPA Service Task after approval\n  action updateOrderStatus(orderId: Integer)                                                  returns String;\n\n}"
+                "code": `using {my.orders} from '../db/schema';
+
+@odata
+service CatalogService {
+
+  // Expose Orders table (BPA will update status here)
+  entity Orders as projection on orders.Orders;
+
+  // Triggers a SAP Build Process Automation workflow for order processing
+  action triggerWorkflow(orderId: Integer, orderNo: String, amount: Integer, currency: String) returns String;
+
+  // Called by SAP BPA Service Task after approval
+  action updateOrderStatus(orderId: Integer)                                                  returns String;
+
+}`
               },
               {
                 "filename": "srv/cat-service.js",
                 "language": "javascript",
-                "code": "const cds = require('@sap/cds')\nconst { executeHttpRequest } = require('@sap-cloud-sdk/http-client')\n\nmodule.exports = class CatalogService extends cds.ApplicationService {\n  async init() {\n\n    // =======================\n    // TRIGGER BPA WORKFLOW\n    // =======================\n    this.on('triggerWorkflow', async (req) => {\n      const { orderId, orderNo, amount, currency } = req.data\n\n      if (!orderId && orderId !== 0) {\n        return req.error(400, 'orderId is required')\n      }\n\n      // Save order to DB with PENDING status before triggering BPA\n      const { Orders } = cds.entities('CatalogService')\n      const db = await cds.connect.to('db')\n      await db.run(\n        UPSERT.into(Orders).entries({\n          ID: orderId,\n          OrderNo: orderNo || '',\n          Amount: amount || 0,\n          Currency: currency || 'USD',\n          Status: 'PENDING'\n        })\n      )\n      console.log(`Order ${orderId} saved to DB with status PENDING`)\n\n      const oPayload = {\n        definitionId: 'us10.f0a22d8ftrial.orderapprovalworkflow.orderProcessing',\n        context: {\n          id: orderId,\n          orderno: orderNo || '',\n          amount: amount || 0,\n          currency: currency || '',\n          status: ''\n        }\n      }\n\n      console.log('Triggering BPA Workflow with payload:', JSON.stringify(oPayload, null, 2))\n\n      try {\n        const response = await executeHttpRequest(\n          { destinationName: 'spa_process_destination' },\n          {\n            method: 'POST',\n            url: '/',\n            data: oPayload,\n            headers: { 'Content-Type': 'application/json' },\n            fetchCsrfToken: false\n          }\n        )\n\n        console.log('Workflow triggered successfully. Instance ID:', response.data?.id)\n        return response.data?.id\n      } catch (error) {\n        console.error('Error triggering workflow:', error.response?.data || error.message)\n        return req.error(500, `Failed to trigger workflow: ${error.message}`)\n      }\n    })\n\n    // =======================\n    // UPDATE ORDER STATUS\n    // Called by SAP BPA Service Task after Approve decision\n    // POST /odata/v4/catalog/updateOrderStatus\n    // Body: { \"orderId\": <integer> }\n    // =======================\n    this.on('updateOrderStatus', async (req) => {\n      console.log('req.data    :', JSON.stringify(req.data))\n      console.log('req.params  :', JSON.stringify(req.params))\n\n      const orderId = req.data?.orderId ?? req.data?.id ?? req.params?.[0]?.orderId\n\n      if (!orderId && orderId !== 0) {\n        console.warn('No orderId found in the request')\n        return 'No orderId received'\n      }\n\n      console.log(`Updating Order ${orderId} → status: APPROVED`)\n\n      const { Orders } = cds.entities('CatalogService')\n      const db = await cds.connect.to('db')\n\n      const updated = await db.run(\n        UPDATE(Orders)\n          .set({ Status: 'APPROVED' })\n          .where({ ID: orderId })\n      )\n\n      if (!updated) {\n        return req.error(404, `Order ${orderId} not found`)\n      }\n\n      console.log(`Order ${orderId} status updated to APPROVED`)\n      return `Order ${orderId} status updated to APPROVED`\n    })\n\n    return super.init()\n  }\n}"
+                "code": `const cds = require('@sap/cds');
+const { executeHttpRequest } = require('@sap-cloud-sdk/http-client');
+
+module.exports = class CatalogService extends cds.ApplicationService {
+  async init() {
+
+    // =======================
+    // TRIGGER BPA WORKFLOW
+    // =======================
+    this.on('triggerWorkflow', async (req) => {
+      const { orderId, orderNo, amount, currency } = req.data;
+
+      if (!orderId && orderId !== 0) {
+        return req.error(400, 'orderId is required');
+      }
+
+      // Save order to DB with PENDING status before triggering BPA
+      const { Orders } = cds.entities('CatalogService');
+      const db = await cds.connect.to('db');
+      await db.run(
+        UPSERT.into(Orders).entries({
+          ID: orderId,
+          OrderNo: orderNo || '',
+          Amount: amount || 0,
+          Currency: currency || 'USD',
+          Status: 'PENDING'
+        })
+      );
+      console.log(\`Order \${orderId} saved to DB with status PENDING\`);
+
+      const oPayload = {
+        definitionId: 'us10.f0a22d8ftrial.orderapprovalworkflow.orderProcessing',
+        context: {
+          id: orderId,
+          orderno: orderNo || '',
+          amount: amount || 0,
+          currency: currency || '',
+          status: ''
+        }
+      };
+
+      console.log('Triggering BPA Workflow with payload:', JSON.stringify(oPayload, null, 2));
+
+      try {
+        const response = await executeHttpRequest(
+          { destinationName: 'spa_process_destination' },
+          {
+            method: 'POST',
+            url: '/',
+            data: oPayload,
+            headers: { 'Content-Type': 'application/json' },
+            fetchCsrfToken: false
+          }
+        );
+
+        console.log('Workflow triggered successfully. Instance ID:', response.data?.id);
+        return response.data?.id;
+      } catch (error) {
+        console.error('Error triggering workflow:', error.response?.data || error.message);
+        return req.error(500, \`Failed to trigger workflow: \${error.message}\`);
+      }
+    });
+
+    // =======================
+    // UPDATE ORDER STATUS
+    // Called by SAP BPA Service Task after Approve decision
+    // POST /odata/v4/catalog/updateOrderStatus
+    // Body: { "orderId": <integer> }
+    // =======================
+    this.on('updateOrderStatus', async (req) => {
+      console.log('req.data    :', JSON.stringify(req.data));
+      console.log('req.params  :', JSON.stringify(req.params));
+
+      const orderId = req.data?.orderId ?? req.data?.id ?? req.params?.[0]?.orderId;
+
+      if (!orderId && orderId !== 0) {
+        console.warn('No orderId found in the request');
+        return 'No orderId received';
+      }
+
+      console.log(\`Updating Order \${orderId} → status: APPROVED\`);
+
+      const { Orders } = cds.entities('CatalogService');
+      const db = await cds.connect.to('db');
+
+      const updated = await db.run(
+        UPDATE(Orders)
+          .set({ Status: 'APPROVED' })
+          .where({ ID: orderId })
+      );
+
+      if (!updated) {
+        return req.error(404, \`Order \${orderId} not found\`);
+      }
+
+      console.log(\`Order \${orderId} status updated to APPROVED\`);
+      return \`Order \${orderId} status updated to APPROVED\`;
+    });
+
+    return super.init();
+  }
+}`
               },
               {
                 "filename": "db/schema.cds",
                 "language": "cds",
-                "code": "namespace my.orders;\n\nentity Orders {\n  key ID       : Integer;\n      OrderNo  : String(50);\n      Amount   : Integer;\n      Currency : String(5);\n      Status   : String(20); // PENDING, APPROVED, REJECTED\n}"
+                "code": `namespace my.orders;
+
+entity Orders {
+  key ID       : Integer;
+      OrderNo  : String(50);
+      Amount   : Integer;
+      Currency : String(5);
+      Status   : String(20); // PENDING, APPROVED, REJECTED
+}`
               },
               {
                 "filename": "mta.yaml (Binding Destination & Auth Services)",
                 "language": "yaml",
-                "code": "modules:\n  - name: triggerWorkflow-srv\n    type: nodejs\n    path: gen/srv\n    provides:\n      - name: srv-api\n        properties:\n          srv-url: ${default-url}\n    requires:\n      - name: triggerWorkflow-db\n      - name: triggerWorkflow-auth\n      - name: triggerWorkflow-destination\n\nresources:\n  - name: triggerWorkflow-destination\n    type: org.cloudfoundry.managed-service\n    parameters:\n      service: destination\n      service-plan: lite\n  - name: triggerWorkflow-auth\n    type: org.cloudfoundry.managed-service\n    parameters:\n      service: xsuaa\n      service-plan: application\n      path: ./xs-security.json"
+                "code": `modules:
+  - name: triggerWorkflow-srv
+    type: nodejs
+    path: gen/srv
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: \${default-url}
+    requires:
+      - name: triggerWorkflow-db
+      - name: triggerWorkflow-auth
+      - name: triggerWorkflow-destination
+
+resources:
+  - name: triggerWorkflow-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+  - name: triggerWorkflow-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json`
               }
             ],
             "keyPoints": [
@@ -1570,27 +1646,204 @@ export const BLOG_POSTS: BlogPost[] = [
               {
                 "filename": "Pattern A: webapp/controller/View1.controller.js (CAP OData V4 Action)",
                 "language": "javascript",
-                "code": "sap.ui.define([\n    \"sap/ui/core/mvc/Controller\",\n    \"sap/m/MessageToast\"\n], (Controller, MessageToast) => {\n    \"use strict\";\n\n    return Controller.extend(\"ui5triggerbpa.controller.View1\", {\n\n        onInit() {\n        },\n\n        onTriggerBPA: function () {\n            var oView = this.getView();\n            var oModel = oView.getModel(); // default OData V4 model → /odata/v4/catalog/\n            var oResultText = oView.byId(\"bpaResultText\");\n\n            var sOrderId = oView.byId(\"orderIdInput\").getValue();\n            var sOrderNo = oView.byId(\"orderNoInput\").getValue();\n            var sAmount = oView.byId(\"amountInput\").getValue();\n            var sCurrency = oView.byId(\"currencyInput\").getValue();\n\n            if (!sOrderId) {\n                MessageToast.show(\"Please enter an Order ID\");\n                return;\n            }\n\n            var iOrderId = parseInt(sOrderId, 10);\n            if (isNaN(iOrderId)) {\n                MessageToast.show(\"Please enter a valid numeric Order ID\");\n                return;\n            }\n\n            oResultText.setText(\"Triggering workflow...\");\n\n            // Bind to OData V4 Action: /triggerWorkflow(...)\n            var oActionBinding = oModel.bindContext(\"/triggerWorkflow(...)\");\n            oActionBinding.setParameter(\"orderId\", iOrderId);\n            oActionBinding.setParameter(\"orderNo\", sOrderNo);\n            oActionBinding.setParameter(\"amount\", parseInt(sAmount, 10) || 0);\n            oActionBinding.setParameter(\"currency\", sCurrency || \"USD\");\n\n            oActionBinding.execute()\n                .then(function () {\n                    var oContext = oActionBinding.getBoundContext();\n                    var oResult = oContext.getObject();\n                    oResultText.setText(\"Workflow Instance ID: \" + oResult.value);\n                    MessageToast.show(\"Workflow Initiated!\");\n                })\n                .catch(function (oError) {\n                    oResultText.setText(\"Error triggering workflow\");\n                    MessageToast.show(\"Error triggering BPA\");\n                    console.error(oError);\n                });\n        }\n\n    });\n});"
+                "code": `sap.ui.define([
+    "sap/ui/core/mvc/Controller",
+    "sap/m/MessageToast"
+], (Controller, MessageToast) => {
+    "use strict";
+
+    return Controller.extend("ui5triggerbpa.controller.View1", {
+
+        onInit() {
+        },
+
+        onTriggerBPA: function () {
+            var oView = this.getView();
+            var oModel = oView.getModel(); // default OData V4 model → /odata/v4/catalog/
+            var oResultText = oView.byId("bpaResultText");
+
+            var sOrderId = oView.byId("orderIdInput").getValue();
+            var sOrderNo = oView.byId("orderNoInput").getValue();
+            var sAmount = oView.byId("amountInput").getValue();
+            var sCurrency = oView.byId("currencyInput").getValue();
+
+            if (!sOrderId) {
+                MessageToast.show("Please enter an Order ID");
+                return;
+            }
+
+            var iOrderId = parseInt(sOrderId, 10);
+            if (isNaN(iOrderId)) {
+                MessageToast.show("Please enter a valid numeric Order ID");
+                return;
+            }
+
+            oResultText.setText("Triggering workflow...");
+
+            // Bind to OData V4 Action: /triggerWorkflow(...)
+            var oActionBinding = oModel.bindContext("/triggerWorkflow(...)");
+            oActionBinding.setParameter("orderId", iOrderId);
+            oActionBinding.setParameter("orderNo", sOrderNo);
+            oActionBinding.setParameter("amount", parseInt(sAmount, 10) || 0);
+            oActionBinding.setParameter("currency", sCurrency || "USD");
+
+            oActionBinding.execute()
+                .then(function () {
+                    var oContext = oActionBinding.getBoundContext();
+                    var oResult = oContext.getObject();
+                    oResultText.setText("Workflow Instance ID: " + oResult.value);
+                    MessageToast.show("Workflow Initiated!");
+                })
+                .catch(function (oError) {
+                    oResultText.setText("Error triggering workflow");
+                    MessageToast.show("Error triggering BPA");
+                    console.error(oError);
+                });
+        }
+
+    });
+});`
               },
               {
                 "filename": "Pattern A: webapp/view/View1.view.xml (Responsive Input Form)",
                 "language": "xml",
-                "code": "<mvc:View controllerName=\"ui5triggerbpa.controller.View1\"\n    xmlns:mvc=\"sap.ui.core.mvc\"\n    xmlns=\"sap.m\"\n    xmlns:l=\"sap.ui.layout\">\n    <Page id=\"page\" title=\"{i18n>title}\">\n        <content>\n            <VBox id=\"bpaBox\" class=\"sapUiSmallMargin\">\n                <Title id=\"bpaTitle\" text=\"Trigger BPA Workflow\" level=\"H2\" />\n\n                <Label id=\"lblOrderId\" text=\"Order ID\" class=\"sapUiSmallMarginTop\" />\n                <Input id=\"orderIdInput\" placeholder=\"e.g. 1004\" width=\"300px\" />\n\n                <Label id=\"lblOrderNo\" text=\"Order No\" class=\"sapUiSmallMarginTop\" />\n                <Input id=\"orderNoInput\" placeholder=\"e.g. OD-1001\" width=\"300px\" />\n\n                <Label id=\"lblAmount\" text=\"Amount\" class=\"sapUiSmallMarginTop\" />\n                <Input id=\"amountInput\" placeholder=\"e.g. 1500\" width=\"300px\" type=\"Number\" />\n\n                <Label id=\"lblCurrency\" text=\"Currency\" class=\"sapUiSmallMarginTop\" />\n                <Input id=\"currencyInput\" placeholder=\"e.g. USD\" value=\"USD\" width=\"300px\" />\n\n                <HBox id=\"bpaButtonBox\" class=\"sapUiSmallMarginTop\">\n                    <Button id=\"btnTriggerBPA\" text=\"Trigger Workflow\" type=\"Emphasized\"\n                        icon=\"sap-icon://initiative\" press=\".onTriggerBPA\" />\n                </HBox>\n\n                <Text id=\"bpaResultText\" text=\"\" class=\"sapUiSmallMarginTop\" />\n            </VBox>\n        </content>\n    </Page>\n</mvc:View>"
+                "code": `<mvc:View controllerName="ui5triggerbpa.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <VBox id="bpaBox" class="sapUiSmallMargin">
+                <Title id="bpaTitle" text="Trigger BPA Workflow" level="H2" />
+
+                <Label id="lblOrderId" text="Order ID" class="sapUiSmallMarginTop" />
+                <Input id="orderIdInput" placeholder="e.g. 1004" width="300px" />
+
+                <Label id="lblOrderNo" text="Order No" class="sapUiSmallMarginTop" />
+                <Input id="orderNoInput" placeholder="e.g. OD-1001" width="300px" />
+
+                <Label id="lblAmount" text="Amount" class="sapUiSmallMarginTop" />
+                <Input id="amountInput" placeholder="e.g. 1500" width="300px" type="Number" />
+
+                <Label id="lblCurrency" text="Currency" class="sapUiSmallMarginTop" />
+                <Input id="currencyInput" placeholder="e.g. USD" value="USD" width="300px" />
+
+                <HBox id="bpaButtonBox" class="sapUiSmallMarginTop">
+                    <Button id="btnTriggerBPA" text="Trigger Workflow" type="Emphasized"
+                        icon="sap-icon://initiative" press=".onTriggerBPA" />
+                </HBox>
+
+                <Text id="bpaResultText" text="" class="sapUiSmallMarginTop" />
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>`
               },
               {
                 "filename": "Pattern B: Direct App Router Route (xs-app.json)",
                 "language": "json",
-                "code": "{\n  \"welcomeFile\": \"/index.html\",\n  \"authenticationMethod\": \"route\",\n  \"routes\": [\n    {\n      \"source\": \"^/workflow/(.*)$\",\n      \"target\": \"/public/workflow/rest/$1\",\n      \"service\": \"html5-apps-repo-rt\",\n      \"authenticationType\": \"xsuaa\"\n    },\n    {\n      \"source\": \"^/workflow/(.*)$\",\n      \"target\": \"/public/workflow/rest/$1\",\n      \"destination\": \"sap_build_process_automation\",\n      \"authenticationType\": \"xsuaa\",\n      \"csrfProtection\": false\n    },\n    {\n      \"source\": \"^(.*)$\",\n      \"target\": \"$1\",\n      \"service\": \"html5-apps-repo-rt\",\n      \"authenticationType\": \"xsuaa\"\n    }\n  ]\n}"
+                "code": `{
+  "welcomeFile": "/index.html",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/workflow/(.*)$",
+      "target": "/public/workflow/rest/$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
+    },
+    {
+      "source": "^/workflow/(.*)$",
+      "target": "/public/workflow/rest/$1",
+      "destination": "sap_build_process_automation",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
+    }
+  ]
+}`
               },
               {
                 "filename": "Pattern B: Fiori XML View (webapp/view/View1.view.xml)",
                 "language": "xml",
-                "code": "<mvc:View controllerName=\"project2.controller.View1\"\n    xmlns:mvc=\"sap.ui.core.mvc\"\n    xmlns=\"sap.m\">\n    <Page id=\"page\" title=\"{i18n>title}\">\n        <content>\n            <Button text=\"Start WF\" press=\"onstartWF\" />\n        </content>\n    </Page>\n</mvc:View>"
+                "code": `<mvc:View controllerName="project2.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <Button text="Start WF" press="onstartWF" />
+        </content>
+    </Page>
+</mvc:View>`
               },
               {
                 "filename": "Pattern B: Fiori AJAX Controller (webapp/controller/View1.controller.js)",
                 "language": "javascript",
-                "code": "sap.ui.define([\n    \"sap/ui/core/mvc/Controller\",\n    \"sap/m/MessageToast\"\n], function (Controller, MessageToast) {\n    \"use strict\";\n\n    return Controller.extend(\"project2.controller.View1\", {\n        onInit: function () {\n        },\n\n        onstartWF: function () {\n            var startContext = {\n                \"name\": \"mahesh\"\n            };\n            var workflowArgs = {\n                definitionId: \"myworkflow\",\n                context: startContext\n            };\n            $.ajax({\n                url: this._getWorkflowRuntimeBaseURL() + \"/workflow-instances\",\n                method: \"POST\",\n                async: false,\n                contentType: \"application/json\",\n                headers: {\n                    \"X-CSRF-Token\": this._fetchToken()\n                },\n                data: JSON.stringify(workflowArgs),\n                success: function (result, status, xhr) {\n                    MessageToast.show(\"Workflow started successfully...\");\n                },\n                error: function (result, status, xhr) {\n                    MessageToast.show(\"Error starting workflow...\");\n                }\n            });\n        },\n\n        _getWorkflowRuntimeBaseURL: function () {\n            var appId = this.getOwnerComponent().getManifestEntry(\"/sap.app/id\");\n            var appPath = appId.replaceAll(\".\", \"/\");\n            var appModulePath = jQuery.sap.getModulePath(appPath);\n            return appModulePath + \"/workflow/rest/v1\";\n        },\n\n        _fetchToken: function () {\n            var token;\n            $.ajax({\n                url: this._getWorkflowRuntimeBaseURL() + \"/xsrf-token\",\n                method: \"GET\",\n                async: false,\n                headers: {\n                    \"X-CSRF-Token\": \"Fetch\"\n                },\n                success: function (result, xhr, data) {\n                    token = data.getResponseHeader(\"X-CSRF-Token\");\n                }\n            });\n            return token;\n        }\n    });\n});"
+                "code": `sap.ui.define([
+    "sap/ui/core/mvc/Controller",
+    "sap/m/MessageToast"
+], function (Controller, MessageToast) {
+    "use strict";
+
+    return Controller.extend("project2.controller.View1", {
+        onInit: function () {
+        },
+
+        onstartWF: function () {
+            var startContext = {
+                "name": "mahesh"
+            };
+            var workflowArgs = {
+                definitionId: "myworkflow",
+                context: startContext
+            };
+            $.ajax({
+                url: this._getWorkflowRuntimeBaseURL() + "/workflow-instances",
+                method: "POST",
+                async: false,
+                contentType: "application/json",
+                headers: {
+                    "X-CSRF-Token": this._fetchToken()
+                },
+                data: JSON.stringify(workflowArgs),
+                success: function (result, status, xhr) {
+                    MessageToast.show("Workflow started successfully...");
+                },
+                error: function (result, status, xhr) {
+                    MessageToast.show("Error starting workflow...");
+                }
+            });
+        },
+
+        _getWorkflowRuntimeBaseURL: function () {
+            var appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
+            var appPath = appId.replaceAll(".", "/");
+            var appModulePath = jQuery.sap.getModulePath(appPath);
+            return appModulePath + "/workflow/rest/v1";
+        },
+
+        _fetchToken: function () {
+            var token;
+            $.ajax({
+                url: this._getWorkflowRuntimeBaseURL() + "/xsrf-token",
+                method: "GET",
+                async: false,
+                headers: {
+                    "X-CSRF-Token": "Fetch"
+                },
+                success: function (result, xhr, data) {
+                    token = data.getResponseHeader("X-CSRF-Token");
+                }
+            });
+            return token;
+        }
+    });
+});`
               }
             ],
             "keyPoints": [
