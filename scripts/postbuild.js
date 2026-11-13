@@ -26,12 +26,22 @@ if (!fs.existsSync(blogDir)) {
 fs.writeFileSync(path.join(blogDir, 'index.html'), indexHtml, 'utf8');
 console.log('✓ Generated dist/blog/index.html');
 
-// 3. Generate static index.html for known blog slugs
-const slugs = [
-  'getting-started-with-sap-build-process-automation',
-  'sap-build-work-zone-standard-edition',
-  'sap-fiori-elements-flexible-programming-model'
-];
+// 3. Generate static index.html for all blog slugs
+const blogDataPath = path.resolve(__dirname, '../src/data/blogData.ts');
+let slugs = [];
+if (fs.existsSync(blogDataPath)) {
+  const content = fs.readFileSync(blogDataPath, 'utf8');
+  const matches = [...content.matchAll(/"slug":\s*"([^"]+)"/g)];
+  slugs = matches.map(m => m[1]);
+}
+if (slugs.length === 0) {
+  slugs = [
+    'getting-started-with-sap-build-process-automation',
+    'mastering-sap-fiori-elements-cap-odata-v4',
+    'deploying-sapui5-apps-to-sap-build-work-zone',
+    'sap-build-work-zone-standard-edition'
+  ];
+}
 
 slugs.forEach((slug) => {
   const slugDir = path.join(blogDir, slug);

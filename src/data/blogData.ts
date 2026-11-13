@@ -2234,5 +2234,428 @@ resources:
         ]
       }
     ]
+  },
+  {
+    "id": "deploying-sapui5-apps-to-sap-build-work-zone",
+    "slug": "deploying-sapui5-apps-to-sap-build-work-zone",
+    "title": "Deploying SAPUI5 Applications to SAP Build Work Zone: End-to-End Guide",
+    "subtitle": "A complete, production-tested masterclass on SAP BTP role assignments, Business Application Studio MTA build & deployment, HTML5 Application Repository channel sync, and custom Fiori Launchpad site exposure.",
+    "excerpt": "Master deploying custom SAPUI5/Fiori apps to SAP Build Work Zone standard edition on SAP BTP: from Launchpad_Admin role assignment, BAS mta.yaml building and CF deployment, to Channel Manager syncing, Content Explorer app addition, and Launchpad group publishing.",
+    "date": "Nov 2026",
+    "readTime": "25 min read",
+    "category": "SAP BTP & Work Zone",
+    "tags": [
+      "SAP Build Work Zone",
+      "SAPUI5",
+      "SAP BTP",
+      "Cloud Foundry",
+      "Business Application Studio",
+      "Launchpad Admin",
+      "HTML5 Apps Repo",
+      "MTA Build & Deploy",
+      "Fiori Launchpad",
+      "Content Manager"
+    ],
+    "sources": [
+      {
+        "title": "SAP Community: Deploying SAPUI5 Apps to SAP Build Work Zone",
+        "url": "https://community.sap.com/t5/technology-blog-posts-by-members/deploying-sapui5-apps-to-sap-build-work-zone/ba-p/14464858",
+        "badge": "SAP Community Blueprint"
+      },
+      {
+        "title": "SAP Help Portal: SAP Build Work Zone, standard edition",
+        "url": "https://help.sap.com/docs/build-work-zone-standard-edition",
+        "badge": "Official SAP Documentation"
+      }
+    ],
+    "groups": [
+      {
+        "id": "group-wz-security-prerequisites",
+        "title": "Phase 1: BTP Security Roles & Authorizations Setup",
+        "subtitle": "Assigning Launchpad_Admin and BuildApps role collections in the SAP BTP Cockpit.",
+        "badge": "Security & Entitlements",
+        "sections": [
+          {
+            "heading": "SAP BTP Role Collections: Authorizations & Administration Access",
+            "paragraphs": [
+              "SAP Build Work Zone (standard edition) acts as the central entry point and enterprise digital workplace for SAP BTP applications, business processes, and third-party solutions. Before creating digital launchpad sites or exposing applications, administrators must ensure their BTP subaccount user is properly authorized.",
+              "Without the appropriate platform role collections assigned, attempts to access Work Zone administrative tools (such as the **Site Directory**, **Content Manager**, and **Channel Manager**) will result in missing menus or HTTP 403 Forbidden errors.",
+              "**Mandatory Role Collections for Work Zone Administration:**",
+              "• **Launchpad_Admin:** The primary administrative role collection granting full rights to create and manage digital sites, configure content providers in the Channel Manager, build and edit launchpad groups and catalogs, and assign applications to business roles.",
+              "• **BuildApps_Administrator / BuildApps_Developer:** Role collections that authorize administrative and development access across the SAP Build visual development suite.",
+              "**Step-by-Step Assignment Procedure:**",
+              "1. Log in to the **SAP BTP Cockpit** and navigate to your subaccount (e.g. `trial` or enterprise subaccount).",
+              "2. In the left-hand navigation menu, expand **Security** and select **Users**.",
+              "3. Search for your user account (email address) and click the user row to expand the user details panel.",
+              "4. Select the **Role Collections** tab in the right-side detail pane and click **Assign Role Collection**.",
+              "5. In the dialog, search and check `Launchpad_Admin`, `BuildApps_Administrator`, and `BuildApps_Developer`.",
+              "6. Click **Assign Role Collection** to persist the changes. Log out and log back in to refresh your OAuth session token with the newly assigned scopes."
+            ],
+            "tables": [
+              {
+                "caption": "Essential SAP BTP Role Collections for SAP Build Work Zone",
+                "headers": ["Role Collection Name", "Description", "Required For"],
+                "rows": [
+                  ["Launchpad_Admin", "Launchpad Administrator role collection", "Full administrative access to Work Zone Site Directory, Content Manager, and Channel Manager"],
+                  ["BuildApps_Administrator", "BuildApps administrator role collection", "Managing SAP Build visual workspace settings, users, and deployment targets"],
+                  ["BuildApps_Developer", "BuildApps developer role collection", "Designing and testing applications within the SAP Build visual editor"]
+                ]
+              }
+            ],
+            "keyPoints": [
+              "Always assign Launchpad_Admin in the BTP Subaccount Security menu prior to launching Work Zone",
+              "Changes to BTP role collections require logging out and logging back in for new OAuth scopes to take effect",
+              "Community Blueprint Reference: https://community.sap.com/t5/technology-blog-posts-by-members/deploying-sapui5-apps-to-sap-build-work-zone/ba-p/14464858"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/workzone/deploy/wz-deploy-1-btp-users-roles.jpg",
+                "caption": "SAP BTP Cockpit: Security > Users — Accessing Subaccount User Role Assignment Panel"
+              },
+              {
+                "url": "/images/blogs/workzone/deploy/wz-deploy-2-assign-role-collections.jpg",
+                "caption": "SAP BTP Cockpit: Assigning Launchpad_Admin, BuildApps_Administrator, and BuildApps_Developer Role Collections"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "group-wz-site-creation",
+        "title": "Phase 2: Digital Workplace Site Creation in Site Directory",
+        "subtitle": "Creating and provisioning a digital workplace portal instance in SAP Build Work Zone.",
+        "badge": "Site Directory",
+        "sections": [
+          {
+            "heading": "Creating a Digital Workplace Site from the Site Directory",
+            "paragraphs": [
+              "In SAP Build Work Zone, a **Site** represents an independent, branded digital portal and Fiori Launchpad environment. A subaccount can host multiple sites tailored for distinct business departments (e.g., Procurement, Sales, HR) or external supplier portals.",
+              "Each site encapsulates its own navigation layout (Spaces & Pages or Classic Groups), visual theme, user profile settings, and content channels.",
+              "**Step-by-Step Site Creation:**",
+              "1. In your SAP BTP Subaccount, navigate to **Services > Instances and Subscriptions**.",
+              "2. Under **Subscriptions**, locate **SAP Build Work Zone, standard edition** and click the **Go to Application** icon.",
+              "3. In the Work Zone administration cockpit, select **Site Directory** from the left navigation menu.",
+              "4. Click the blue **Create Site** button at the top-right corner of the Site Directory canvas.",
+              "5. In the **Create Site** modal dialog, enter your desired **Site Name\*** (e.g., `demo_site`).",
+              "6. Click **Create**. The site is instantly provisioned and appears as an active site tile in the directory, complete with its unique launchpad URL, settings gear icon, and edit controls."
+            ],
+            "keyPoints": [
+              "A single BTP subaccount can host multiple isolated sites with customized branding and role access",
+              "The site acts as the runtime container that renders tiles, groups, and spaces configured in Content Manager",
+              "Each site is assigned a unique generated Site ID and URL ending with #Shell-home"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/workzone/deploy/wz-deploy-3-create-site.jpg",
+                "caption": "SAP Build Work Zone: Site Directory — Creating a New Digital Workplace Site ('demo_site')"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "group-wz-ui5-mta-deployment",
+        "title": "Phase 3: SAPUI5 Application Development & MTA Deployment",
+        "subtitle": "Developing in SAP Business Application Studio, packaging the Multi-Target Application archive, and deploying to Cloud Foundry.",
+        "badge": "BAS & Cloud Foundry",
+        "sections": [
+          {
+            "heading": "SAPUI5 Frontend Implementation & mta.yaml Configuration",
+            "paragraphs": [
+              "To deploy a custom SAPUI5 frontend application to SAP Build Work Zone, the project must be packaged as a **Multi-Target Application (MTA)**. The MTA descriptor (`mta.yaml`) defines how the application's static artifacts are bundled and pushed to the SAP BTP **HTML5 Application Repository** service (`html5-apps-repo`).",
+              "Below is the complete implementation of the sample application (`project1`) demonstrated in the tutorial, featuring a responsive view with a button and a controller handler displaying a confirmation `MessageToast` upon click.",
+              "Crucially, the `webapp/manifest.json` file must contain a `crossNavigation` inbound definition specifying a **Semantic Object** and **Action**. This allows the SAP Fiori Launchpad intent-based routing engine to discover and navigate to the application."
+            ],
+            "codeBlocks": [
+              {
+                "filename": "webapp/view/View1.view.xml",
+                "language": "xml",
+                "code": `<mvc:View controllerName="project1.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <Button text="Click Me" press="onPress" type="Emphasized" class="sapUiSmallMargin" />
+        </content>
+    </Page>
+</mvc:View>`
+              },
+              {
+                "filename": "webapp/controller/View1.controller.js",
+                "language": "javascript",
+                "code": `sap.ui.define([
+    "sap/ui/core/mvc/Controller",
+    "sap/m/MessageToast"
+], function (Controller, MessageToast) {
+    "use strict";
+
+    return Controller.extend("project1.controller.View1", {
+        onInit: function () {
+        },
+
+        onPress: function () {
+            MessageToast.show("Button Pressed");
+        }
+    });
+});`
+              },
+              {
+                "filename": "webapp/manifest.json (Cross-Navigation Inbound Intent)",
+                "language": "json",
+                "code": `{
+  "_version": "1.59.0",
+  "sap.app": {
+    "id": "project1",
+    "type": "application",
+    "title": "App Title",
+    "description": "An SAP Fiori application.",
+    "crossNavigation": {
+      "inbounds": {
+        "project1-display": {
+          "semanticObject": "project1",
+          "action": "display",
+          "title": "simple app1",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  }
+}`
+              },
+              {
+                "filename": "mta.yaml (HTML5 Application Deployer Module)",
+                "language": "yaml",
+                "code": `_schema-version: '3.2'
+ID: project1
+version: 0.0.1
+parameters:
+  enable-parallel-deployments: true
+
+modules:
+  - name: project1-app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: project1_html_repo_host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - project1.zip
+          name: project1
+          target-path: resources/
+
+  - name: project1
+    type: html5
+    path: .
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+      supported-platforms: []
+
+resources:
+  - name: project1_html_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-name: project1-html5-app-host-service
+      service-plan: app-host
+
+  - name: project1_destination_service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite`
+              }
+            ],
+            "keyPoints": [
+              "The manifest.json crossNavigation inbounds definition is mandatory for Fiori Launchpad intent resolution",
+              "The mta.yaml binds the application content module directly to the html5-apps-repo app-host service plan",
+              "Right-click mta.yaml in SAP Business Application Studio and choose Build MTA Project to trigger packaging"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/workzone/deploy/wz-deploy-4-bas-build-mta.jpg",
+                "caption": "SAP Business Application Studio: Context Menu — Right-Click mta.yaml and Select 'Build MTA Project'"
+              }
+            ]
+          },
+          {
+            "heading": "Deploying the MTA Archive to BTP Cloud Foundry Space",
+            "paragraphs": [
+              "Once the Cloud MTA Build Tool (`mbt`) completes packaging, a new archive folder named `mta_archives/` is generated in the workspace containing `project1_0.0.1.mtar`.",
+              "Deploying this archive pushes the static webapp bundle into the SAP BTP HTML5 Application Repository Host service instance and provisions the service bindings in your Cloud Foundry space.",
+              "**Deployment Procedure in BAS:**",
+              "1. In the BAS Project Explorer, expand the `mta_archives/` folder.",
+              "2. Right-click the generated archive: `project1_0.0.1.mtar`.",
+              "3. Select **Deploy MTA Archive** from the context menu.",
+              "4. BAS opens the integrated terminal and initiates the Cloud Foundry deployment process (`cf deploy mta_archives/project1_0.0.1.mtar`).",
+              "5. Once the process prints `Process finished. Application deployed successfully`, the application is hosted in the subaccount HTML5 repository and ready for Work Zone consumption."
+            ],
+            "keyPoints": [
+              "BAS handles Cloud Foundry authentication and target space routing automatically",
+              "The deployer pushes UI5 artifacts into the managed HTML5 application repository without requiring custom node server hosting",
+              "You can verify deployed applications anytime via the CF CLI command: cf html5-list"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/workzone/deploy/wz-deploy-5-bas-deploy-mtar.jpg",
+                "caption": "SAP Business Application Studio: Context Menu — Deploying project1_0.0.1.mtar to BTP Cloud Foundry Space"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "group-wz-content-exposure",
+        "title": "Phase 4: Content Channel Synchronization & App Addition",
+        "subtitle": "Syncing the HTML5 Application Repository channel and importing the application to My Content.",
+        "badge": "Content Manager",
+        "sections": [
+          {
+            "heading": "Synchronizing the HTML5 Apps Content Channel",
+            "paragraphs": [
+              "SAP Build Work Zone standard edition uses the **Common Data Model (CDM)** to federate and consume application content across different providers. Content providers are managed under the **Channel Manager**.",
+              "By default, every BTP subaccount includes an auto-configured channel named **HTML5 Apps** (ID: `saas_approuter`), which represents the subaccount's HTML5 Application Repository.",
+              "**Why Synchronization is Essential:** Newly deployed HTML5 applications do not automatically appear in the Work Zone Content Explorer until the HTML5 Apps channel is refreshed. Triggering synchronization causes Work Zone to query the repository service and catalog newly published apps.",
+              "**Channel Sync Procedure:**",
+              "1. In SAP Build Work Zone, click **Channel Manager** in the left-hand navigation menu.",
+              "2. In the **Content Channels** table, locate the channel titled **HTML5 Apps** (ID: `saas_approuter`).",
+              "3. In the **Actions** column on the far right, click the **Refresh / Sync Content** circular arrow icon.",
+              "4. Work Zone will synchronize with BTP. The **Status** column will display a green **Updated** badge, indicating that all newly deployed apps are now available for content authoring."
+            ],
+            "keyPoints": [
+              "The HTML5 Apps channel acts as the content bridge between BTP Cloud Foundry and Work Zone",
+              "Always click the Refresh / Sync icon in Channel Manager after every new application deployment or update",
+              "A green Updated status confirms successful discovery of newly deployed MTA content"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/workzone/deploy/wz-deploy-6-channel-manager-refresh.jpg",
+                "caption": "SAP Build Work Zone: Channel Manager — Refreshing and Syncing the 'HTML5 Apps' Content Channel"
+              }
+            ]
+          },
+          {
+            "heading": "Adding Deployed App from Content Explorer to My Content",
+            "paragraphs": [
+              "Once the channel is synchronized, the application exists in the Work Zone catalog but must be explicitly imported into **My Content** before it can be assigned to launchpad groups or business roles.",
+              "**Content Explorer Import Workflow:**",
+              "1. In the left navigation menu, select **Content Manager**.",
+              "2. At the top of the canvas, select the **Content Explorer** tab/button.",
+              "3. In the content provider selector dropdown, choose **HTML5 Apps**.",
+              "4. Locate your deployed application in the list: Title: `App Title`, Description: `An SAP Fiori application.`, ID: `project1`.",
+              "5. Check the selection checkbox on the left of the application row.",
+              "6. Click the blue **+ Add to My Content** button at the top-right of the table.",
+              "7. The button updates to **Remove**, confirming that the application has been added to your subaccount's active content repository."
+            ],
+            "keyPoints": [
+              "Content Explorer allows browsing all federated content across HTML5 Apps and remote SAP S/4HANA systems",
+              "Adding an application to My Content makes it available for group, catalog, and role bindings",
+              "The application maintains its original semantic object and inbound navigation intent configured in BAS"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/workzone/deploy/wz-deploy-7-content-explorer-add-app.jpg",
+                "caption": "SAP Build Work Zone: Content Explorer — Selecting Deployed 'project1' (App Title) and Adding to My Content"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "group-wz-roles-launchpad-verification",
+        "title": "Phase 5: Launchpad Grouping, Role Authorization & Live Verification",
+        "subtitle": "Assigning apps to launchpad groups and roles, launching the site, and validating the running application.",
+        "badge": "Live Launchpad",
+        "sections": [
+          {
+            "heading": "Creating and Assigning Apps to a Launchpad Group",
+            "paragraphs": [
+              "To render a tile on the user's Fiori Launchpad homepage, the application must be assigned to a **Group** (or a Page within the Spaces and Pages paradigm). A group organizes related applications under a common section header on the launchpad canvas.",
+              "**Step-by-Step Group Configuration:**",
+              "1. In **Content Manager**, select the **My Content** tab.",
+              "2. Click the **+ New** button in the header toolbar and select **Group**.",
+              "3. In the Group editor, fill in the **Group Title\***: `demo grp 1` and optional description.",
+              "4. In the tabs below the header, select **Apps**.",
+              "5. In the **All Apps** table, search for your application: `App Title` (ID: `project1`).",
+              "6. Under the **Assignment Status** column, toggle the switch to **ON** (checked).",
+              "7. Click **Save** in the top-right corner to persist the group definition."
+            ],
+            "keyPoints": [
+              "Groups provide semantic categorization of application tiles on classic Fiori Launchpad sites",
+              "The Assignment Status toggle instantly binds the app to the group without manual JSON configuration",
+              "Apps can belong to multiple groups simultaneously depending on user role workflows"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/workzone/deploy/wz-deploy-8-content-manager-group.jpg",
+                "caption": "SAP Build Work Zone: Content Manager — Assigning 'project1' to Launchpad Group 'demo grp 1'"
+              }
+            ]
+          },
+          {
+            "heading": "Granting User Visibility via Role Assignment (Everyone Role)",
+            "paragraphs": [
+              "In SAP Build Work Zone, assigning an app to a group only defines *where* the tile appears; assigning it to a **Role** defines *who* is authorized to see and execute it.",
+              "Every Work Zone site includes a default pre-delivered role named **Everyone**. Applications assigned to the `Everyone` role are visible to all authenticated users accessing the site without requiring custom user-to-role mappings.",
+              "**Role Assignment Procedure:**",
+              "1. In **Content Manager > My Content**, locate the **Everyone** role in the roles list.",
+              "2. Click the row to open the role editor, then click **Edit** in the top-right corner.",
+              "3. Select the **Apps** tab.",
+              "4. Locate `App Title` (ID: `project1`) and toggle the **Assignment Status** switch to **ON**.",
+              "5. Click **Save** to confirm role authorization."
+            ],
+            "keyPoints": [
+              "Without role assignment, applications will not appear on the launchpad even if assigned to a group",
+              "The Everyone role grants immediate site-wide visibility to all authenticated users",
+              "For restricted business scenarios, create custom roles and map them to dedicated BTP Role Collections"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/workzone/deploy/wz-deploy-9-content-manager-role.jpg",
+                "caption": "SAP Build Work Zone: Content Manager — Assigning 'project1' to the 'Everyone' Role for Universal Visibility"
+              }
+            ]
+          },
+          {
+            "heading": "Live Launchpad Verification & Running the Deployed SAPUI5 App",
+            "paragraphs": [
+              "With the site provisioned, the application deployed to Cloud Foundry, the channel synchronized, and the app assigned to both group and role, the deployment is fully operational.",
+              "**Verification & Execution Workflow:**",
+              "1. In SAP Build Work Zone, navigate back to **Site Directory** in the left-hand menu.",
+              "2. On your site tile (`demo_site`), click the **Go to site** icon (or click the URL directly).",
+              "3. The browser opens your live SAP Build Work Zone Launchpad in a new tab.",
+              "4. On the homepage canvas, you will observe the group header **demo grp 1** featuring the tile **simple app1** (mapped to `project1`).",
+              "5. Click the **simple app1** tile. The shell smoothly transitions into the running SAPUI5 application, rendering the header title **App Title** and the **Click Me** button.",
+              "6. Click the **Click Me** button to trigger the controller's `onPress` event handler. The standard UI5 `sap.m.MessageToast` appears in the lower-center of the screen reading **'Button Pressed'**, confirming flawless end-to-end integration!"
+            ],
+            "keyPoints": [
+              "The application runs embedded within the SAP Build Work Zone unified Fiori shell bar",
+              "Cross-navigation and intent-based routing preserve application state and back-navigation",
+              "End-to-end integration verified: BTP Role Collections -> BAS MTA Deploy -> Channel Manager Sync -> Group & Role Binding -> Live Launchpad Execution"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/workzone/deploy/wz-deploy-10-launchpad-tile-group.jpg",
+                "caption": "Live SAP Build Work Zone Launchpad: 'demo grp 1' Group Displaying the Deployed 'simple app1' Tile"
+              },
+              {
+                "url": "/images/blogs/workzone/deploy/wz-deploy-11-running-app-click-me.jpg",
+                "caption": "Running SAPUI5 Application in Work Zone Shell: Header Bar, Canvas, and 'Click Me' Button Interaction"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ];
