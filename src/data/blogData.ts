@@ -1911,12 +1911,16 @@ resources:
     "slug": "mastering-sap-fiori-elements-cap-odata-v4",
     "title": "Mastering SAP Fiori Elements: Metadata-Driven Development with CAP OData V4 and the Flexible Programming Model",
     "subtitle": "A comprehensive engineering handbook for enterprise SAP developers: from architectural decision matrices and standard floorplans to advanced CAP OData V4 annotations, side effects, and FPM building blocks.",
-    "excerpt": "Learn when and how to leverage SAP Fiori Elements to cut development costs by up to 70%: covers List Report, Object Page, Analytical List Page, CAP CDS annotations, draft handling, side effects, and Flexible Programming Model building blocks.",
+    "excerpt": "Learn when and how to leverage SAP Fiori Elements to cut development costs by up to 70%: covers List Report, Object Page, Analytical List Page, CAP CDS annotations, visual productivity with SAP Fiori Tools (Page Map, Page Editor, and Guided Development), draft handling, side effects, and Flexible Programming Model building blocks.",
     "date": "Nov 2026",
-    "readTime": "35 min read",
+    "readTime": "40 min read",
     "category": "Fiori & UI5",
     "tags": [
       "SAP Fiori Elements",
+      "SAP Fiori Tools",
+      "Page Map",
+      "Page Editor",
+      "Guided Development",
       "SAP CAP",
       "OData V4",
       "Flexible Programming Model",
@@ -1930,6 +1934,16 @@ resources:
         "title": "Learning.sap: Developing an SAP Fiori Elements App Based on a CAP OData V4 Service",
         "url": "https://learning.sap.com/courses/developing-an-sap-fiori-elements-app-based-on-a-cap-odata-v4-service",
         "badge": "Official Learning Course"
+      },
+      {
+        "title": "SAP Help Portal: SAP Fiori Tools (Page Map, Page Editor, Guided Development)",
+        "url": "https://help.sap.com/docs/SAP_FIORI_tools",
+        "badge": "Official Tooling Guide"
+      },
+      {
+        "title": "openSAP: Developing and Extending SAP Fiori Elements Apps with SAP Fiori Tools",
+        "url": "https://open.sap.com/courses/fiori-ea1",
+        "badge": "openSAP Certification"
       },
       {
         "title": "SAP Community: When to Use Fiori Elements to Reduce Development Time and Costs",
@@ -2107,6 +2121,103 @@ resources:
                 "filename": "app/annotations.cds",
                 "language": "cds",
                 "code": "annotate IncidentService.Incidents with @(\n  UI.HeaderInfo : {\n    TypeName : 'Incident',\n    TypeNamePlural : 'Incidents',\n    Title : { Value : title },\n    Description : { Value : customer.name }\n  },\n  UI.SelectionFields : [\n    status_code,\n    urgency_code,\n    customer_ID\n  ],\n  UI.LineItem : [\n    { Value : identifier, Label : 'Incident ID' },\n    { Value : title, Label : 'Subject' },\n    { Value : customer.name, Label : 'Customer' },\n    { \n      Value : urgency_code, \n      Label : 'Urgency',\n      Criticality : urgency.criticality\n    },\n    { \n      Value : status_code, \n      Label : 'Status',\n      Criticality : status.criticality\n    },\n    {\n      $Type : 'UI.DataFieldForAction',\n      Action : 'IncidentService.closeIncident',\n      Label : 'Close Incident'\n    }\n  ],\n  UI.Facets : [\n    {\n      $Type : 'UI.ReferenceFacet',\n      ID : 'GeneralInformationFacet',\n      Label : 'General Information',\n      Target : '@UI.FieldGroup#GeneralInformation'\n    },\n    {\n      $Type : 'UI.ReferenceFacet',\n      ID : 'LineItemsFacet',\n      Label : 'Conversation History',\n      Target : 'conversations/@UI.LineItem'\n    }\n  ],\n  UI.FieldGroup #GeneralInformation : {\n    Data : [\n      { Value : title, Label : 'Subject' },\n      { Value : urgency_code, Label : 'Urgency' },\n      { Value : status_code, Label : 'Status' },\n      { Value : customer_ID, Label : 'Customer ID' }\n    ]\n  }\n);"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "fiori-tools-accelerators",
+        "title": "SAP Fiori Tools: Visual Development Accelerators",
+        "subtitle": "Accelerate delivery and eliminate manual syntax errors with the Page Map, Page Editor, and Guided Development.",
+        "badge": "SAP Fiori Tools Suite",
+        "sections": [
+          {
+            "heading": "1. Page Map: Application Flow Blueprint & Global Layouts",
+            "paragraphs": [
+              "Historically, managing multi-page SAPUI5 navigation required manual routing declarations, targets, and manifest configuration entries. In complex enterprise applications with List Reports, multiple Object Pages, and sub-object detail views, handwritten routing easily leads to navigation breaks and invalid pattern syntax.",
+              "The SAP Fiori Tools Page Map serves as the visual control tower for your entire SAP Fiori elements application. Accessible by right-clicking the webapp folder or running 'Fiori: Show Page Map' in the Command Palette, it displays an intuitive graphical schematic showing every page in your application hierarchy and the navigation pathways connecting them.",
+              "From the Page Map, developers can visually add new pages by clicking '+ Add Page' to bind OData associations (such as child entities or sub-object detail views) without touching manifest routing arrays. Furthermore, the Page Map provides a centralized Global Page Settings panel to configure application-wide architectures, most notably the Flexible Column Layout (FCL).",
+              "By toggling the Flexible Column Layout (e.g., Mid-Expanded or End-Expanded), users can view the List Report and drill-down Object Page side-by-side simultaneously. When a user selects a different record in the list table, the object page on the right instantly reflects the selection without full page context switches. All layout updates and routing changes are written directly into manifest.json automatically."
+            ],
+            "keyPoints": [
+              "Visualizes the entire multi-level application hierarchy, routes, and OData entity bindings",
+              "Configures Flexible Column Layout (FCL) side-by-side master-detail views without manual code",
+              "Enables visual addition of new Object Pages and custom FPM pages via '+ Add Page'",
+              "Serves as the launchpad into individual page configuration via the Configure Page pencil icon"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/fiori/tools/fe-tools-open-pagemap.png",
+                "caption": "Official SAP Fiori Tools: Launching the Page Map from the Business Application Studio / VS Code Context Menu"
+              },
+              {
+                "url": "/images/blogs/fiori/tools/fe-tools-pagemap-fcl-settings.png",
+                "caption": "Official SAP Fiori Tools: Page Map Application Architecture Flow (List Report -> Object Page) with Flexible Column Layout (FCL) Settings"
+              }
+            ]
+          },
+          {
+            "heading": "2. Page Editor: Visual Layout Inspector & Control Customizer",
+            "paragraphs": [
+              "While the Page Map manages high-level application structure, the Page Editor focuses inward on an individual page. Clicking the pencil icon on any floorplan tile (List Report or Object Page) launches the Page Editor directly within SAP Business Application Studio or VS Code.",
+              "The Page Editor provides a synchronized dual-view experience: an interactive outline tree representing all UI components on the page, and a context-sensitive properties panel that updates dynamically when any element is selected. Developers can reorder table columns, configure filter fields, adjust variant management, and set selection behaviors without writing raw JSON or XML.",
+              "Crucial table and form configurations that previously required deep knowledge of manifest settings are now one-click toggles. For example, developers can toggle 'Initial Load' to Enabled (true), ensuring data loads automatically when the app launches instead of forcing the user to manually click the 'Go' button. Similarly, selection modes (Single, Multi, or None) and creation modes (Inline, Dialog, or Creation Row) can be configured visually.",
+              "For Object Pages, the Page Editor manages Header Facets, Sections, and Subsections. Developers can click '+ Add' on the Sections node to insert new standard form/table sections or embed Custom Sections bound to custom XML fragments (e.g., GeoMaps, KPI charts, or custom micro-applications) with zero risk of syntax corruption."
+            ],
+            "keyPoints": [
+              "Provides an intuitive outline tree of all configurable UI controls, filter bars, tables, and facets",
+              "Enables one-click configuration of Initial Load, Table Type (Responsive/Grid/Analytical), and Selection Modes",
+              "Manages Object Page sections, subsections, and field groups visually with live property inspection",
+              "Embeds custom XML fragments seamlessly via 'Add Custom Section' into standard Fiori elements pages",
+              "Includes 'Edit in source code' shortcuts that jump directly to corresponding annotations or manifest lines"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/fiori/tools/fe-tools-page-editor-outline.png",
+                "caption": "Official SAP Fiori Tools: Page Editor Outline View of List Report Controls (Filter Bar, Table, Columns, Actions)"
+              },
+              {
+                "url": "/images/blogs/fiori/tools/fe-tools-page-editor-properties.png",
+                "caption": "Official SAP Fiori Tools: Page Editor Property Panel — Visual Configuration of Initial Load (Enabled/True) and Table Behaviors"
+              },
+              {
+                "url": "/images/blogs/fiori/tools/fe-tools-page-editor-table-settings.png",
+                "caption": "Official SAP Fiori Tools: Page Editor Table Settings — Selection Mode (Single/Multi Select) and Presentation Variants"
+              },
+              {
+                "url": "/images/blogs/fiori/tools/fe-tools-page-editor-custom-section.png",
+                "caption": "Official SAP Fiori Tools: Object Page Section Management — Adding a Custom Section Bound to an XML Fragment"
+              }
+            ]
+          },
+          {
+            "heading": "3. Guided Development: In-IDE How-To Assistant & Code Generator",
+            "paragraphs": [
+              "OData V4 annotations provide incredible power, but enterprise vocabularies span hundreds of complex terms across UI, Common, Analytics, and Communication namespaces. For developers new to Fiori elements or working under tight delivery deadlines, hunting through documentation to find the exact annotation syntax for a custom action, value-help dialog, or analytical micro-chart is a major productivity drain.",
+              "SAP Fiori Tools Guided Development solves this by integrating a live, interactive knowledge base and code generator directly into the developer's workspace. Accessible via 'Fiori: Open Guided Development' from the Command Palette or context menu, it offers a searchable catalog of proven enterprise implementation recipes.",
+              "Developers simply search for the desired capability (e.g., 'table', 'columns', 'chart', 'action', or 'side effects'). Each guide provides conceptual background, explains the underlying annotation architecture, and presents an interactive configuration form. Because Guided Development introspects the project's OData metadata service, dropdowns are automatically populated with the actual entities, properties, and navigation paths available in the project.",
+              "As developers select properties in the guide, a live code preview updates in real time showing the exact CDS annotation or manifest snippet. Clicking 'Insert Snippet' automatically inserts the validated code directly into app/annotations.cds or manifest.json at the exact required location, guaranteeing schema compliance and zero syntax errors."
+            ],
+            "keyPoints": [
+              "Searchable guide catalog covering all standard floorplan enhancements, actions, and building blocks",
+              "Metadata-aware interactive forms: dropdowns populate directly from live OData service entities and properties",
+              "Real-time code generation preview showing exact CDS and XML annotation syntax before applying",
+              "One-click 'Insert Snippet' injects validated code directly into local annotation files and manifest.json",
+              "Eliminates syntax mistakes and accelerates developer onboarding across enterprise teams"
+            ],
+            "figures": [
+              {
+                "url": "/images/blogs/fiori/tools/fe-tools-guided-dev-search.png",
+                "caption": "Official SAP Fiori Tools: Guided Development Search Catalog — Filtering Step-by-Step Guides by Feature Keyword (e.g., 'table')"
+              },
+              {
+                "url": "/images/blogs/fiori/tools/fe-tools-guided-dev-insert-snippet.png",
+                "caption": "Official SAP Fiori Tools: Interactive Guide Wizard — Configuring Entity Properties with Real-Time Code Preview and Insert Snippet Action"
+              },
+              {
+                "url": "/images/blogs/fiori/tools/fe-tools-guided-dev-annotations-applied.png",
+                "caption": "Official SAP Fiori Tools: Live Code Injection — UI Annotations Inserted Directly into Local Annotation File"
               }
             ]
           }
