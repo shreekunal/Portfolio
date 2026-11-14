@@ -38,9 +38,16 @@ if (slugs.length === 0) {
   slugs = [
     'getting-started-with-sap-build-process-automation',
     'mastering-sap-fiori-elements-cap-odata-v4',
+    'setting-up-and-activating-sap-build-work-zone',
     'deploying-sapui5-apps-to-sap-build-work-zone',
     'sap-build-work-zone-standard-edition'
   ];
+} else {
+  // Ensure backward-compatible fallback routes exist
+  const legacySlugs = ['deploying-sapui5-apps-to-sap-build-work-zone'];
+  legacySlugs.forEach(s => {
+    if (!slugs.includes(s)) slugs.push(s);
+  });
 }
 
 slugs.forEach((slug) => {
