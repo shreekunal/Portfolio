@@ -80,14 +80,14 @@ const CodeBlockView: React.FC<BlogCodeBlock> = ({ code, filename, language }) =>
   return (
     <div className="my-5 rounded-xl border border-zinc-200 dark:border-white/10 bg-[#0d1117] shadow-lg overflow-hidden font-mono text-[12.5px]">
       {/* Code Header Bar */}
-      <div className="px-4 py-2.5 bg-[#161b22] border-b border-zinc-200/10 dark:border-white/10 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-zinc-300">
+      <div className="px-3 sm:px-4 py-2 sm:py-2.5 bg-[#161b22] border-b border-zinc-200/10 dark:border-white/10 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 text-zinc-300 min-w-0 flex-1">
           <FileCode className="w-4 h-4 text-sky-400 shrink-0" />
-          <span className="font-semibold text-xs text-zinc-200 tracking-wide">
+          <span className="font-semibold text-xs text-zinc-200 tracking-wide truncate">
             {filename || (language ? `${language.toUpperCase()} Snippet` : 'Source Code')}
           </span>
           {language && (
-            <span className="px-1.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-white/10 text-zinc-300 border border-white/10">
+            <span className="hidden sm:inline px-1.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-white/10 text-zinc-300 border border-white/10 shrink-0">
               {language}
             </span>
           )}
@@ -95,7 +95,7 @@ const CodeBlockView: React.FC<BlogCodeBlock> = ({ code, filename, language }) =>
         <button
           onClick={handleCopy}
           type="button"
-          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all cursor-pointer shrink-0"
           title="Copy code to clipboard"
         >
           {copied ? (
@@ -113,12 +113,12 @@ const CodeBlockView: React.FC<BlogCodeBlock> = ({ code, filename, language }) =>
       </div>
 
       {/* Code Content */}
-      <div className="p-4 overflow-x-auto leading-relaxed">
+      <div className="p-3 sm:p-4 overflow-x-auto leading-relaxed">
         <pre className="text-zinc-200 m-0 p-0 font-mono">
           <code className="block min-w-full">
             {lines.map((line, lIdx) => (
               <div key={lIdx} className="flex min-w-fit hover:bg-white/[0.03] transition-colors">
-                <span className="select-none pr-4 text-right text-zinc-600 text-[11px] w-10 shrink-0 font-mono">
+                <span className="select-none pr-2.5 sm:pr-4 text-right text-zinc-600 text-[10px] sm:text-[11px] w-8 sm:w-10 shrink-0 font-mono">
                   {lIdx + 1}
                 </span>
                 <span className="whitespace-pre font-mono">
@@ -346,8 +346,8 @@ export const BlogPage: React.FC = () => {
       <ThemeToggle playClick={playClick} playHover={playHover} />
 
       {/* Top Navbar: ONLY Search Bar & About Me Button */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/90 dark:bg-black/90 border-b border-zinc-200 dark:border-white/10 px-4 md:px-8 py-3 transition-colors">
-        <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/90 dark:bg-black/90 border-b border-zinc-200 dark:border-white/10 px-3 sm:px-6 md:px-8 py-2.5 sm:py-3 transition-colors">
+        <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-3 sm:gap-4">
           {/* About Me Button - Navigates back to main portfolio */}
           <a
             href={homeUrl}
@@ -359,14 +359,14 @@ export const BlogPage: React.FC = () => {
               window.dispatchEvent(new PopStateEvent('popstate'));
             }}
             onMouseEnter={playHover}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold border transition-all shrink-0 bg-zinc-100 hover:bg-crimson/10 border-zinc-300 hover:border-crimson text-zinc-900 hover:text-crimson dark:bg-white/[0.05] dark:border-white/10 dark:text-zinc-200 dark:hover:text-white"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono font-bold border transition-all shrink-0 bg-zinc-100 hover:bg-crimson/10 border-zinc-300 hover:border-crimson text-zinc-900 hover:text-crimson dark:bg-white/[0.05] dark:border-white/10 dark:text-zinc-200 dark:hover:text-white"
           >
             <ArrowLeft className="w-3.5 h-3.5 text-crimson" />
             <span>About me</span>
           </a>
 
           {/* Search Bar */}
-          <div className="relative flex-1 max-w-sm">
+          <div className="relative flex-1 max-w-xs sm:max-w-sm min-w-0">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" />
             <input
               type="text"
@@ -460,15 +460,39 @@ export const BlogPage: React.FC = () => {
               <button
                 onClick={closeArticle}
                 onMouseEnter={playHover}
-                className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-zinc-500 hover:text-crimson mb-8 transition-colors group"
+                className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-zinc-500 hover:text-crimson mb-6 sm:mb-8 transition-colors group"
               >
                 <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform text-crimson" />
                 <span>Back to all articles</span>
               </button>
 
+              {/* Mobile Mission Navigator (Swipeable Unit Quick-Jump Bar on Small Viewports) */}
+              {activePost.groups && activePost.groups.length > 0 && (
+                <div className="lg:hidden mb-6 -mx-4 px-4 overflow-x-auto no-scrollbar flex items-center gap-2 pb-1">
+                  {activePost.groups.map((grp, idx) => {
+                    const isActive = activeGroupId === grp.id;
+                    const cleanShortTitle = grp.badge || `Unit ${idx + 1}`;
+                    return (
+                      <button
+                        key={grp.id}
+                        onClick={() => scrollToGroup(grp.id)}
+                        onMouseEnter={playHover}
+                        className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-mono font-medium border transition-all ${
+                          isActive
+                            ? 'bg-crimson text-white border-crimson shadow-sm'
+                            : 'bg-white dark:bg-white/[0.05] text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/10'
+                        }`}
+                      >
+                        {cleanShortTitle}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
               {/* Article Header */}
-              <div className="mb-10 pb-8 border-b border-zinc-200 dark:border-white/10">
-                <div className="flex items-center gap-3 text-xs font-mono text-zinc-500 mb-3">
+              <div className="mb-8 sm:mb-10 pb-6 sm:pb-8 border-b border-zinc-200 dark:border-white/10">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono text-zinc-500 mb-3">
                   <span className="text-crimson font-bold">{activePost.category}</span>
                   <span>•</span>
                   <span className="flex items-center gap-1">
@@ -482,7 +506,7 @@ export const BlogPage: React.FC = () => {
                   </span>
                 </div>
 
-                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white leading-tight mb-3">
+                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white leading-tight mb-3 break-words">
                   {activePost.title}
                 </h1>
 
@@ -1141,7 +1165,7 @@ export const BlogPage: React.FC = () => {
           {/* Top Bar with Caption & Close Button */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-7xl flex items-center justify-between gap-4 pb-3 text-white"
+            className="w-full max-w-7xl flex items-center justify-between gap-3 sm:gap-4 pb-3 text-white"
           >
             <div className="flex items-center gap-2 min-w-0 text-xs sm:text-sm font-mono text-zinc-200">
               <span className="w-2 h-2 rounded-full bg-crimson shrink-0" />
@@ -1152,11 +1176,11 @@ export const BlogPage: React.FC = () => {
                 playClick();
                 setLightboxImage(null);
               }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-white/10 hover:bg-crimson text-white border border-white/20 transition-all cursor-pointer shrink-0"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-white/10 hover:bg-crimson text-white border border-white/20 transition-all cursor-pointer shrink-0"
               title="Close (ESC)"
             >
               <span>Close</span>
-              <kbd className="px-1.5 py-0.5 rounded text-[10px] bg-black/50 border border-white/20">ESC</kbd>
+              <kbd className="hidden sm:inline px-1.5 py-0.5 rounded text-[10px] bg-black/50 border border-white/20">ESC</kbd>
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -1164,7 +1188,7 @@ export const BlogPage: React.FC = () => {
           {/* Full Screen Image Frame */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-full max-h-[86vh] flex items-center justify-center overflow-auto rounded-2xl border border-white/15 bg-black/70 shadow-2xl p-2 sm:p-3"
+            className="relative max-w-full max-h-[86vh] flex items-center justify-center overflow-auto rounded-2xl border border-white/15 bg-black/70 shadow-2xl p-1.5 sm:p-3"
           >
             <img
               src={resolveAssetUrl(lightboxImage.url)}

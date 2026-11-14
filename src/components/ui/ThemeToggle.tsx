@@ -19,7 +19,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ playClick, playHover }
   const isLight = theme === 'light';
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 select-none">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 select-none">
       {/* Floating Animated Theme Button with Hover Tooltip */}
       <div className="relative group flex items-center justify-end">
         {/* Subtle Accessible Tooltip on Hover */}
@@ -36,7 +36,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ playClick, playHover }
           onMouseEnter={playHover}
           aria-label={`Switch to ${isLight ? 'Dark' : 'Light'} Mode`}
           title={`Switch to ${isLight ? 'Dark' : 'Light'} Mode`}
-          className="relative p-3.5 rounded-full backdrop-blur-2xl border-2 transition-all duration-300 shadow-xl active:scale-95 bg-white text-zinc-950 border-zinc-300 hover:border-crimson shadow-[0_8px_25px_rgba(229,9,20,0.18)] dark:bg-[#0e0e12] dark:text-white dark:border-white/20 dark:hover:border-crimson dark:shadow-[0_8px_30px_rgba(0,0,0,0.8)]"
+          className="relative p-2.5 sm:p-3.5 rounded-full backdrop-blur-2xl border-2 transition-all duration-300 shadow-xl active:scale-95 bg-white text-zinc-950 border-zinc-300 hover:border-crimson shadow-[0_8px_25px_rgba(229,9,20,0.18)] dark:bg-[#0e0e12] dark:text-white dark:border-white/20 dark:hover:border-crimson dark:shadow-[0_8px_30px_rgba(0,0,0,0.8)]"
         >
           {/* Subtle Crimson Radar Ring */}
           <span className="absolute -inset-1 rounded-full border border-crimson/40 animate-radar pointer-events-none" />

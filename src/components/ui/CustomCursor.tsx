@@ -97,7 +97,7 @@ export const CustomCursor: React.FC = () => {
       {/* Precision Vivid Crimson Center Dot - Piercingly clear on both white & black */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 w-3 h-3 -ml-1.5 -mt-1.5 rounded-full bg-crimson pointer-events-none z-[9999] transition-opacity duration-200 shadow-[0_0_12px_#e50914]"
+        className="hidden md:block fixed top-0 left-0 w-3 h-3 -ml-1.5 -mt-1.5 rounded-full bg-crimson pointer-events-none z-[9999] transition-opacity duration-200 shadow-[0_0_12px_#e50914]"
         style={{
           opacity: cursorText ? 0 : 1,
         }}
@@ -106,7 +106,7 @@ export const CustomCursor: React.FC = () => {
       {/* Sleek Crimson Halo Ring / Action Badge */}
       <div
         ref={ringRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9998] transition-all duration-150 ease-out flex items-center justify-center font-mono font-bold select-none ${
+        className={`hidden md:flex fixed top-0 left-0 pointer-events-none z-[9998] transition-all duration-150 ease-out items-center justify-center font-mono font-bold select-none ${
           cursorText
             ? 'w-24 h-24 -ml-12 -mt-12 rounded-full bg-zinc-950 text-white border-2 border-crimson text-[11px] tracking-widest shadow-[0_0_24px_rgba(229,9,20,0.6)] backdrop-blur-md'
             : isHovered

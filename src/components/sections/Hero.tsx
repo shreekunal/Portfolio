@@ -38,12 +38,12 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
 
       {/* Availability Status Badge with Crimson Radar Pulse */}
       <RevealOnScroll direction="down" delay={0.1}>
-        <div className="mb-6 inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full backdrop-blur-xl border transition-all bg-crimson/[0.08] border-crimson/30 text-crimson-dark dark:text-crimson font-bold shadow-[0_2px_12px_rgba(229,9,20,0.12)]">
-          <span className="relative flex h-2.5 w-2.5">
+        <div className="mb-6 inline-flex items-center justify-center flex-wrap gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 rounded-full backdrop-blur-xl border transition-all bg-crimson/[0.08] border-crimson/30 text-crimson-dark dark:text-crimson font-bold shadow-[0_2px_12px_rgba(229,9,20,0.12)] max-w-full text-center">
+          <span className="relative flex h-2.5 w-2.5 shrink-0">
             <span className="animate-radar absolute inline-flex h-full w-full rounded-full bg-crimson opacity-80" />
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-crimson shadow-[0_0_8px_#e50914]" />
           </span>
-          <span className="font-mono text-xs tracking-wide">
+          <span className="font-mono text-[11px] sm:text-xs tracking-wide">
             Associate SAP BTP Consultant @{' '}
             <a
               href="https://www.raveninfotech.com"
@@ -60,8 +60,8 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
       {/* Main Authoritative High-Contrast Headline with Vibrant Crimson Feature */}
       <div className="text-center max-w-5xl mx-auto">
         <RevealOnScroll direction="up" delay={0.2}>
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.08] mb-6 text-zinc-950 dark:text-white">
-            <span className="block text-zinc-800 dark:text-zinc-300 font-semibold text-xl sm:text-2xl md:text-3xl font-mono mb-3">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.08] mb-6 text-zinc-950 dark:text-white break-words">
+            <span className="block text-zinc-800 dark:text-zinc-300 font-semibold text-lg sm:text-2xl md:text-3xl font-mono mb-3">
               Hello, World. I am{' '}
               <span className="text-zinc-950 dark:text-white font-extrabold hover:text-crimson transition-colors">
                 <ScrambleText text={PERSONAL_INFO.name} />
@@ -77,8 +77,8 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
 
         {/* Sub-headline: Kinetic Typewriter Line with Crimson Underline */}
         <RevealOnScroll direction="up" delay={0.3}>
-          <div className="max-w-3xl mx-auto mb-10 leading-relaxed">
-            <p className="flex flex-wrap items-center justify-center gap-1.5 min-h-[2em] font-mono text-base sm:text-lg">
+          <div className="max-w-3xl mx-auto mb-10 leading-relaxed px-1">
+            <p className="flex flex-wrap items-center justify-center gap-1.5 min-h-[2em] font-mono text-sm sm:text-lg">
               <span className="text-zinc-800 dark:text-zinc-300 font-semibold">Specializing in</span>
               <span className="inline-block border-b-2 border-crimson pb-0.5 text-crimson font-black">
                 <TypewriterText
@@ -102,7 +102,7 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
 
         {/* Action Buttons */}
         <RevealOnScroll direction="up" delay={0.4}>
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-12 sm:mb-16">
             <GlassButton
               variant="primary"
               size="lg"
@@ -136,7 +136,7 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
       </div>
 
       {/* Quick Stats Grid with High-Contrast Adaptive Cards */}
-      <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-4">
+      <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mt-4">
         {QUICK_STATS.map((stat, idx) => (
           <RevealOnScroll key={idx} direction="up" delay={0.2 + idx * 0.1}>
             <TiltCard
@@ -147,21 +147,21 @@ export const Hero: React.FC<HeroProps> = ({ playHover, playClick }) => {
               className="h-full"
             >
               <SpotlightCard
-                className="p-6 h-full flex flex-col justify-between"
+                className="p-4 sm:p-6 h-full flex flex-col justify-between"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="p-2.5 rounded-xl bg-crimson text-white shadow-md shadow-crimson/30">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <span className="p-2 sm:p-2.5 rounded-xl bg-crimson text-white shadow-md shadow-crimson/30">
                     {getStatIcon(stat.icon)}
                   </span>
                 </div>
                 <div>
-                  <div className="text-3xl sm:text-4xl font-black font-mono text-zinc-950 dark:text-white mb-1 tracking-tight">
+                  <div className="text-2xl sm:text-4xl font-black font-mono text-zinc-950 dark:text-white mb-1 tracking-tight">
                     <AnimatedCounter value={stat.value} />
                   </div>
-                  <div className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-1">
+                  <div className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-0.5 sm:mb-1 leading-snug">
                     {stat.label}
                   </div>
-                  <div className="text-xs text-zinc-700 dark:text-zinc-400 font-medium">
+                  <div className="text-[11px] sm:text-xs text-zinc-700 dark:text-zinc-400 font-medium leading-relaxed">
                     {stat.description}
                   </div>
                 </div>

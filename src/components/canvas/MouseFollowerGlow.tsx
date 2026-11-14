@@ -6,6 +6,11 @@ export const MouseFollowerGlow: React.FC = () => {
   const { theme } = useTheme();
 
   useEffect(() => {
+    // Disable on mobile/touch screens to preserve GPU and battery performance
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      return;
+    }
+
     let currentX = window.innerWidth / 2;
     let currentY = window.innerHeight / 2;
     let targetX = currentX;
@@ -43,7 +48,7 @@ export const MouseFollowerGlow: React.FC = () => {
   return (
     <div
       ref={glowRef}
-      className={`fixed top-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none z-0 will-change-transform transition-opacity duration-500 ${
+      className={`hidden md:block fixed top-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none z-0 will-change-transform transition-opacity duration-500 ${
         isDark ? 'opacity-25 blur-[120px]' : 'opacity-40 blur-[90px] mix-blend-multiply'
       }`}
       style={{
