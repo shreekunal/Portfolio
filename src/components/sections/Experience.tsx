@@ -38,7 +38,7 @@ export const Experience: React.FC<ExperienceProps> = ({ playHover }) => {
             Career <span className="text-crimson">Milestones</span>
           </h2>
           <p className="text-zinc-800 dark:text-zinc-300 text-sm sm:text-base font-medium">
-            Software engineering journey, academic foundation, and technical project milestones.
+            Engineering journey, enterprise roles, and academic milestones.
           </p>
         </div>
       </RevealOnScroll>

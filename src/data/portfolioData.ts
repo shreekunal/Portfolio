@@ -10,7 +10,6 @@ export const PERSONAL_INFO = {
   email: "shrii.kunal@gmail.com",
   github: "https://github.com/shreekunal",
   linkedin: "https://linkedin.com/in/shreekunal",
-  twitter: "https://leetcode.com/u/shreekunal", // kept for backwards compat — same as SOCIAL_LINKS LeetCode entry
   status: "Associate SAP BTP Consultant @ Raven Infotech",
   yearsExperience: "1.5+",
   projectsCompleted: "20+",
@@ -239,12 +238,10 @@ export const EXPERIENCES: ExperienceItem[] = [
     location: "Delhi, India",
     current: true,
     description: [
-      "Architecting enterprise-scale SAP BTP extensions, Joule conversational AI agents, and SAP Integration Suite enterprise flows.",
-      "Developing end-to-end cloud business applications by coupling SAP Cloud Application Programming Model (CAP), SAPUI5, and Fiori Elements with NestJS, Node.js, and modern React/Next.js frameworks.",
-      "Leading technical delivery of secure multi-tenant cloud applications, configuring XSUAA role collections, BTP destination services, and HDI containers.",
-      "Mentoring engineers and guiding architecture reviews across enterprise full-stack development cycles.",
+      "Architecting enterprise SAP BTP extensions, Joule AI agents, and SAP Integration Suite flows.",
+      "Delivering secure cloud apps with SAP CAP, Fiori Elements, NestJS, and React/Next.js.",
     ],
-    technologies: ["SAP BTP", "SAP CAP", "SAP Integration Suite", "Joule Studio", "SAPUI5", "Fiori Elements", "NestJS", "Node.js", "React.js", "Team Leadership"],
+    technologies: ["SAP BTP", "SAP CAP", "SAP Integration Suite", "Joule Studio", "SAPUI5 / Fiori", "NestJS", "React / Next.js"],
   },
   {
     id: "exp-raven-intern",
@@ -254,11 +251,10 @@ export const EXPERIENCES: ExperienceItem[] = [
     location: "Delhi, India",
     current: false,
     description: [
-      "Built enterprise cloud microservices and temporal audit tracking tables using SAP CAP, Node.js, and SAP HANA Cloud.",
-      "Constructed responsive enterprise web applications using React.js, Next.js, and SAP Fiori design standards with OData v4 endpoints.",
-      "Engineered multi-target application (MTA) descriptors, database migration workflows, and automated deployment scripts.",
+      "Engineered SAP CAP microservices and temporal audit tables on SAP HANA Cloud.",
+      "Developed responsive enterprise web frontends using React, Next.js, and OData v4.",
     ],
-    technologies: ["SAP BTP", "SAP CAP", "CDS", "SAP HANA Cloud", "React.js", "Next.js", "Node.js", "OData v4"],
+    technologies: ["SAP CAP", "SAP HANA Cloud", "React.js", "Next.js", "Node.js", "OData v4", "MTA"],
   },
   {
     id: "exp-raven-trainee",
@@ -268,11 +264,10 @@ export const EXPERIENCES: ExperienceItem[] = [
     location: "Delhi, India",
     current: false,
     description: [
-      "Completed intensive enterprise training in SAP Cloud Application Programming Model (CAP), SAP Build Process Automation, and SAP Build Work Zone.",
-      "Built workflow prototypes for business process automation and designed personalized role-based launchpads in SAP Build Work Zone.",
-      "Honed clean enterprise JavaScript/TypeScript standards, API security, and collaborative enterprise development.",
+      "Trained in SAP CAP, Build Process Automation, and SAP Build Work Zone launchpads.",
+      "Built automated workflow prototypes and standardized TypeScript API development.",
     ],
-    technologies: ["SAP CAP", "SAP Build Process Automation", "SAP Build Work Zone", "JavaScript", "TypeScript"],
+    technologies: ["SAP CAP", "Build Process Automation", "Build Work Zone", "TypeScript", "JavaScript"],
   },
   {
     id: "exp-tac-services",
@@ -282,11 +277,10 @@ export const EXPERIENCES: ExperienceItem[] = [
     location: "Remote",
     current: false,
     description: [
-      "Engineered responsive web applications and interactive user interfaces using React.js, modern JavaScript, and CSS architecture.",
-      "Implemented mobile-first layouts, accessible UI patterns, and optimized component render pipelines for seamless browser performance.",
-      "Collaborated remotely within an agile development team, managing feature branches, issue resolution, and code reviews in Git.",
+      "Built responsive, accessible web interfaces and UI components using React.js.",
+      "Collaborated in an agile team on component optimization and UI performance.",
     ],
-    technologies: ["React.js", "JavaScript", "Web Design", "HTML5 / Canvas", "Tailwind CSS", "Git"],
+    technologies: ["React.js", "JavaScript", "Tailwind CSS", "HTML5", "Git"],
   },
   {
     id: "exp-kiet-mca",
@@ -296,11 +290,10 @@ export const EXPERIENCES: ExperienceItem[] = [
     location: "Ghaziabad, India",
     current: true,
     description: [
-      "Master's curriculum specializing in Cloud Computing, Distributed Systems, Enterprise Software Engineering, and Database Architecture.",
-      "Maintained an active competitive problem-solving track, solving 200+ complex algorithmic challenges in Java on LeetCode.",
-      "Collaborated on modern enterprise cloud prototypes and open-source developer tooling.",
+      "Specializing in Cloud Computing, Distributed Systems, and Database Architecture.",
+      "Engineered 200+ DSA algorithmic solutions in Java; developed cloud prototypes.",
     ],
-    technologies: ["Cloud Computing", "Enterprise Systems", "Distributed Architecture", "Java", "DSA"],
+    technologies: ["Cloud Computing", "Distributed Systems", "Java", "DSA"],
   },
   {
     id: "exp-gkv-bachelor",
@@ -310,18 +303,16 @@ export const EXPERIENCES: ExperienceItem[] = [
     location: "Haridwar, Uttarakhand, India",
     current: false,
     description: [
-      "Graduated with an 8.12 grade.",
-      "Established solid mathematical foundations, object-oriented design principles, database normalization, and operating system concepts.",
-      "Participated in student technical projects and web initiatives across computer science groups.",
+      "Graduated with an 8.12 CGPA in Computer Science.",
+      "Focused on core CS fundamentals: OOP, DBMS, OS, and software engineering.",
     ],
-    technologies: ["Computer Science", "Database Systems", "Software Engineering", "Mathematics", "Algorithms"],
+    technologies: ["Computer Science", "Database Systems", "OOP", "Software Engineering"],
   },
 ];
 
 export const SOCIAL_LINKS: SocialLink[] = [
   { name: "GitHub", url: "https://github.com/shreekunal", icon: "Github", handle: "@shreekunal" },
   { name: "LinkedIn", url: "https://linkedin.com/in/shreekunal", icon: "Linkedin", handle: "@shreekunal" },
-  { name: "LeetCode", url: "https://leetcode.com/u/shreekunal", icon: "Code", handle: "@shreekunal" },
   { name: "Email", url: "mailto:shrii.kunal@gmail.com", icon: "Mail", handle: "shrii.kunal@gmail.com" },
 ];
 
